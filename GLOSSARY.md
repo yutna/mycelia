@@ -11,6 +11,7 @@ used in a normative document.
 | **AI-BOM** | An AI bill of materials: the inventory of models, providers, MCP servers, plugins, skills, packages, actions, and base images, with versions, hashes, licenses, and owners. |
 | **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
 | **Approval fatigue** | The loss of attention when a human approves too many changes; it turns oversight into a rubber stamp. |
+| **Attestation** | A signed statement about how an artifact was built or how a decision was made. |
 | **Audit log** | The append-only record of decisions and approvals, separate from the detailed trace. |
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |

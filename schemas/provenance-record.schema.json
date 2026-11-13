@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/provenance-record.schema.json",
+  "title": "Mycelia Provenance Record",
+  "description": "The origin of an artifact: source, builder, environment, model, agent, parents, attestation, and variance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "ProvenanceRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^PRV-[0-9]+$",
+          "description": "Stable provenance identifier, for example PRV-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "artifactHash",
+        "source",
+        "builder",
+        "environment",
+        "timestamp",
+        "parents"
+      ],
+      "properties": {
+        "artifact": { "type": "string", "minLength": 1 },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit"],
+          "properties": {
+            "repository": { "type": "string", "minLength": 1 },
+            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+          }
+        },
+        "builder": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "version": { "type": "string" }
+          }
+        },
+        "environment": { "type": "string", "minLength": 1 },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "provider": { "type": "string" },
+            "id": { "type": "string" },
+            "version": { "type": "string" }
+          }
+        },
+        "agent": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "role": { "type": "string" },
+            "session": { "type": "string" },
+            "policyVersion": { "type": "string" }
+          }
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "parents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "attestation": { "type": "string" },
+        "variance": { "type": "string" }
+      }
+    }
+  }
+}
