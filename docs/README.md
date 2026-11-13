@@ -75,6 +75,7 @@ docs/
 - [evaluation-and-model-change.md](60-evolution/evaluation-and-model-change.md) — suite, baseline, canary, rollback
 - [rule-lifecycle.md](60-evolution/rule-lifecycle.md) — draft, active, deprecated, retired
 - [incident-response.md](60-evolution/incident-response.md) — severity, playbooks, postmortem
+- [economics.md](60-evolution/economics.md) — cost model, unit economics, ROI, capacity
 
 ## Context
 
