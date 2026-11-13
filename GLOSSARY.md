@@ -14,6 +14,7 @@ used in a normative document.
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
+| **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
@@ -28,6 +29,8 @@ used in a normative document.
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
+| **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
+| **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |
 | **Terminal state** | One of `accepted`, `rejected`, `blocked`, or `aborted`. Every work item ends in exactly one. |
 | **Trace** | An append-only event record of actions, tool calls, decisions, evidence, and cost. |
