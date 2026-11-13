@@ -89,6 +89,8 @@ docs/
 ## Interface
 
 - [cli-contract.md](80-interface/cli-contract.md) — commands, flags, exit codes, output
+- [file-formats.md](80-interface/file-formats.md) — layout, formats, committed artifacts
+- [schemas/README.md](../schemas/README.md) — schema index and validation
 
 ## Context
 
