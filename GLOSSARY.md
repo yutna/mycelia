@@ -18,6 +18,7 @@ used in a normative document.
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
+| **Brownfield** | An existing repository with legacy code, checks, and ownership that must be adopted incrementally. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
 | **Canary** | A limited release to a small audience or traffic share before a full rollout. |
 | **Capacity planning** | Sizing concurrency, review, and incident capacity to the expected demand. |
@@ -47,6 +48,7 @@ used in a normative document.
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
 | **Gap register** | The list of unmet controls with severity, finding, remediation, owner, and effort. |
 | **Golden path** | The supported sequence for adopting and operating the profile. |
+| **Greenfield** | A new repository that can start from the template with no legacy constraints. |
 | **Golden task** | A representative work item with a fixed input, expected outcome, and scoring method. |
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
