@@ -17,6 +17,7 @@ used in a normative document.
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
 | **Canary** | A limited release to a small audience or traffic share before a full rollout. |
+| **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
@@ -29,6 +30,7 @@ used in a normative document.
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
+| **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
@@ -49,6 +51,7 @@ used in a normative document.
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
 | **Reward hacking** | Satisfying a metric or check without satisfying its intent, for example weakening a test to make it pass. |
+| **Red teaming** | Adversarial testing that attempts to bypass policy, exfiltrate data, or abuse a tool. |
 | **Release gate** | The set of evidence, security, provenance, and rollback checks that must pass before a release. |
 | **Release record** | The auditable record of a release: version, commit, gates, rollback, decision, and timestamp. |
 | **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
