@@ -28,11 +28,11 @@ docs/
   80-interface/     CLI contract, file formats
 ```
 
-## Concern radar
+## Foundations
 
-The living catalog of industry concerns, with adopted, adapted, watch, and
-out-of-scope statuses, is in
-[00-foundations/concern-radar.md](00-foundations/concern-radar.md).
+- [principles.md](00-foundations/principles.md) — design principles
+- [threat-model.md](00-foundations/threat-model.md) — assets, boundaries, threats
+- [concern-radar.md](00-foundations/concern-radar.md) — adopted, adapted, watch, and out-of-scope concerns
 
 ## Status
 
