@@ -86,6 +86,10 @@ docs/
 - [worked-example.md](70-adoption/worked-example.md) — baseline, gaps, reassessment
 - [opencode-conformance.md](70-adoption/opencode-conformance.md) — runtime checklist
 
+## Interface
+
+- [cli-contract.md](80-interface/cli-contract.md) — commands, flags, exit codes, output
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose
