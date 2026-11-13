@@ -112,5 +112,6 @@ document exists, treat its section as planned, not normative.
 - [SCOPE](../SCOPE.md) — boundaries, claims, and limitations
 - [GLOSSARY](../GLOSSARY.md) — shared terminology
 - [AUDIT](../AUDIT.md) — audit method, findings, and limitations
+- [TRACEABILITY](../TRACEABILITY.md) — requirements, controls, schemas
 - [AGENTS](../AGENTS.md) — operating contract for agents
 - [CONTRIBUTING](../CONTRIBUTING.md) — human contribution guide
