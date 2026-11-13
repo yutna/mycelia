@@ -4,6 +4,10 @@ Mycelia is a specification for an evidence-governed AI software factory on
 OpenCode. This document defines what the project covers, what it does not, and
 what it claims.
 
+## Current release
+
+`v1.0.0`, the first stable specification release. This is not a certification.
+
 ## Purpose
 
 Give a repository a complete, auditable operating model for autonomous software
