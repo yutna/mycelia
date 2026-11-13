@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/review-record.schema.json",
+  "title": "Mycelia Review Record",
+  "description": "The independent review of a change: dimensions, findings, decision, and reviewer independence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "ReviewRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REV-[0-9]+$",
+          "description": "Stable review identifier, for example REV-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "reviewer",
+        "role",
+        "independence",
+        "dimensions",
+        "findings",
+        "decision"
+      ],
+      "properties": {
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "reviewer": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "independence": {
+          "enum": ["independent-context", "independent-model", "human"]
+        },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "correctness",
+            "scope",
+            "testQuality",
+            "security",
+            "readability",
+            "reversibility",
+            "evidence"
+          ],
+          "properties": {
+            "correctness": { "enum": ["pass", "fail", "not-applicable"] },
+            "scope": { "enum": ["pass", "fail", "not-applicable"] },
+            "testQuality": { "enum": ["pass", "fail", "not-applicable"] },
+            "security": { "enum": ["pass", "fail", "not-applicable"] },
+            "readability": { "enum": ["pass", "fail", "not-applicable"] },
+            "reversibility": { "enum": ["pass", "fail", "not-applicable"] },
+            "evidence": { "enum": ["pass", "fail", "not-applicable"] },
+            "performance": { "enum": ["pass", "fail", "not-applicable"] },
+            "observability": { "enum": ["pass", "fail", "not-applicable"] },
+            "docs": { "enum": ["pass", "fail", "not-applicable"] }
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["severity", "summary"],
+            "properties": {
+              "severity": { "enum": ["blocker", "major", "minor", "nit"] },
+              "summary": { "type": "string", "minLength": 1 },
+              "file": { "type": "string" },
+              "line": { "type": "integer", "minimum": 1 },
+              "evidence": { "type": "string" }
+            }
+          }
+        },
+        "decision": { "enum": ["approve", "request-changes", "reject"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
