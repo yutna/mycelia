@@ -1,0 +1,27 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  traceID: trace-001
+  spanID: span-001
+  runID: RUN-001
+  workItemID: MYC-123
+  eventType: tool
+  actor:
+    role: implementer
+    actor: bot-mycelia
+    session: ses_example
+    model: provider/model
+    policyVersion: "1.0.0"
+  action: shell
+  resource: mise run lint
+  inputHash: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  outputHash: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  costUSD: 0.01
+  result: ok
+  timestamp: 2026-11-13T09:00:01Z
+  attributes:
+    branch: docs/123-example
+    commit: 0123456789abcdef0123456789abcdef01234567

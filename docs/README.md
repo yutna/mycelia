@@ -64,6 +64,10 @@ docs/
 - [release-and-rollback.md](40-assurance/release-and-rollback.md) — release gates, canary, rollback
 - [adversarial-and-resilience.md](40-assurance/adversarial-and-resilience.md) — red team, chaos, game days
 
+## Observability
+
+- [trace-and-audit.md](50-observability/trace-and-audit.md) — events, correlation, retention, audit queries
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose
