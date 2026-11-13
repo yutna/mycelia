@@ -51,6 +51,7 @@ docs/
 
 - [autonomous-loop.md](30-execution/autonomous-loop.md) — state machine, checkpoints, resume
 - [failure-and-ambiguity.md](30-execution/failure-and-ambiguity.md) — failure classes, retries, escalation
+- [multi-agent-concurrency.md](30-execution/multi-agent-concurrency.md) — worktrees, merge queue, handoffs
 
 ## Context
 

@@ -31,6 +31,7 @@ used in a normative document.
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
+| **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
@@ -43,8 +44,10 @@ used in a normative document.
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
+| **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |
 | **Terminal state** | One of `accepted`, `rejected`, `blocked`, or `aborted`. Every work item ends in exactly one. |
 | **Trace** | An append-only event record of actions, tool calls, decisions, evidence, and cost. |
+| **WIP limit** | A cap on the number of concurrent work items or runs, used to bound queue time and review load. |
 | **Work item** | The unit of work: goal, acceptance criteria, non-goals, constraints, risk tier, and required evidence. |
 | **Worktree** | An isolated Git working tree used to run concurrent work without collisions. |

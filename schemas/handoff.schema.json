@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/handoff.schema.json",
+  "title": "Mycelia Handoff",
+  "description": "An artifact-mediated transfer of work between roles: artifacts, evidence, open questions, and a deadline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "Handoff" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^HND-[0-9]+$",
+          "description": "Stable handoff identifier, for example HND-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fromRole",
+        "toRole",
+        "taskID",
+        "artifacts",
+        "evidence",
+        "openQuestions"
+      ],
+      "properties": {
+        "fromRole": { "type": "string", "minLength": 1 },
+        "toRole": { "type": "string", "minLength": 1 },
+        "taskID": { "type": "string", "minLength": 1 },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "openQuestions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "deadline": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
