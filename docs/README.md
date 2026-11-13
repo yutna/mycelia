@@ -70,6 +70,10 @@ docs/
 - [provenance.md](50-observability/provenance.md) — source, builder, model, AI-BOM, SLSA
 - [metrics-and-health.md](50-observability/metrics-and-health.md) — DORA, SPACE, SLI/SLO, health
 
+## Evolution
+
+- [evaluation-and-model-change.md](60-evolution/evaluation-and-model-change.md) — suite, baseline, canary, rollback
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose

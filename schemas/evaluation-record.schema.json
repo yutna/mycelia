@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/evaluation-record.schema.json",
+  "title": "Mycelia Evaluation Record",
+  "description": "The evaluation of a model, prompt, policy, or agent change: suite, baseline, result, and decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "EvaluationRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EVA-[0-9]+$",
+          "description": "Stable evaluation identifier, for example EVA-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "suite",
+        "suiteVersion",
+        "subject",
+        "baseline",
+        "result",
+        "decision",
+        "timestamp"
+      ],
+      "properties": {
+        "suite": { "type": "string", "minLength": 1 },
+        "suiteVersion": { "type": "string", "minLength": 1 },
+        "subject": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "id"],
+          "properties": {
+            "type": { "enum": ["model", "prompt", "policy", "agent"] },
+            "id": { "type": "string", "minLength": 1 },
+            "version": { "type": "string" }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "score"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "score": { "type": "number" },
+            "costUSD": { "type": "number", "minimum": 0 }
+          }
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["score", "passRate", "costUSD"],
+          "properties": {
+            "score": { "type": "number" },
+            "passRate": { "type": "number", "minimum": 0, "maximum": 100 },
+            "costUSD": { "type": "number", "minimum": 0 },
+            "latencyMs": { "type": "number", "minimum": 0 },
+            "regressions": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "decision": { "enum": ["adopt", "canary", "reject", "rollback"] },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

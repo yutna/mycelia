@@ -1,0 +1,26 @@
+apiVersion: mycelia/v1
+kind: EvaluationRecord
+metadata:
+  id: EVA-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  suite: mycelia-golden
+  suiteVersion: "1.2.0"
+  subject:
+    type: model
+    id: provider/model
+    version: "2"
+  baseline:
+    id: provider/model@1
+    score: 0.78
+    costUSD: 1.40
+  result:
+    score: 0.84
+    passRate: 84.0
+    costUSD: 1.25
+    latencyMs: 42000
+    regressions:
+      - none
+  decision: canary
+  timestamp: 2026-11-13T09:30:00Z
+  notes: Safety and policy suites did not regress; canary on R0-R2 work.
