@@ -1,0 +1,123 @@
+apiVersion: mycelia/v1
+kind: ReadinessReport
+metadata:
+  id: RPT-001
+  repository: yutna/example
+  commit: 0123456789abcdef0123456789abcdef01234567
+  assessedAt: 2026-11-13T09:00:00Z
+  assessor: assessor
+spec:
+  profile: standard
+  recommendedLevel: L2
+  ceiling: L2
+  controls:
+    - id: CTL-01
+      domain: Repository legibility
+      score: 3
+      evidence: [README.md, mise.toml, clean-clone check]
+    - id: CTL-02
+      domain: Work intake
+      score: 3
+      evidence: [schemas/work-item.schema.json]
+    - id: CTL-03
+      domain: Ownership
+      score: 2
+      evidence: [CODEOWNERS]
+    - id: CTL-04
+      domain: Instructions
+      score: 3
+      evidence: [AGENTS.md, CONTRIBUTING.md]
+    - id: CTL-05
+      domain: References and skills
+      score: 2
+      evidence: [skills review]
+    - id: CTL-06
+      domain: Memory
+      score: 2
+      evidence: [opencode.json compaction]
+    - id: CTL-07
+      domain: Role contracts
+      score: 3
+      evidence: [role-contract.example.yaml]
+    - id: CTL-08
+      domain: Least privilege
+      score: 3
+      evidence: [opencode.json policies, negative test]
+    - id: CTL-09
+      domain: Identity and secrets
+      score: 2
+      evidence: [bot account, secret policy]
+    - id: CTL-10
+      domain: Policy red lines
+      score: 3
+      evidence: [opencode.json policies]
+    - id: CTL-11
+      domain: Evidence manifest
+      score: 3
+      evidence: [evidence-manifest.example.yaml]
+    - id: CTL-12
+      domain: Decision rights
+      score: 2
+      evidence: [decision-rights.md]
+    - id: CTL-13
+      domain: Durable loop
+      score: 2
+      evidence: [run-state.example.yaml]
+    - id: CTL-14
+      domain: Failure protocol
+      score: 2
+      evidence: [failure-and-ambiguity.md]
+    - id: CTL-15
+      domain: Budgets and stop
+      score: 2
+      evidence: [budgets-and-kill-switch.md]
+    - id: CTL-16
+      domain: Concurrency
+      score: 2
+      evidence: [worktree policy]
+    - id: CTL-17
+      domain: Merge queue
+      score: 2
+      evidence: [branch protection]
+    - id: CTL-18
+      domain: Rollback
+      score: 2
+      evidence: [release-and-rollback.md]
+    - id: CTL-19
+      domain: Verification stack
+      score: 3
+      evidence: [ci.yml]
+    - id: CTL-20
+      domain: Test integrity
+      score: 1
+      evidence: [no mutation gate]
+    - id: CTL-21
+      domain: Independent review
+      score: 2
+      evidence: [review-record.example.yaml]
+    - id: CTL-22
+      domain: Human acceptance
+      score: 2
+      evidence: [acceptance-record.example.yaml]
+    - id: CTL-23
+      domain: Trace and provenance
+      score: 2
+      evidence: [trace-event.example.yaml]
+    - id: CTL-24
+      domain: Metrics and evolution
+      score: 2
+      evidence: [metrics-and-health.md]
+  gaps:
+    - controlID: CTL-20
+      severity: major
+      finding: No mutation gate for changed lines.
+      remediation: Add mutation testing to the R2 evidence manifest and CI.
+      owner: maintainer
+      effort: one day
+    - controlID: CTL-22
+      severity: major
+      finding: Acceptance sampling is not yet measured.
+      remediation: Add a sample record and a false-acceptance metric.
+      owner: human-owner
+      effort: half a day
+  notes: The ceiling is L2. Fix the two major gaps before targeting L3.

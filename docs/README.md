@@ -78,6 +78,10 @@ docs/
 - [economics.md](60-evolution/economics.md) — cost model, unit economics, ROI, capacity
 - [template-and-adoption.md](60-evolution/template-and-adoption.md) — core, profile, local, upgrade
 
+## Adoption
+
+- [readiness-assessment.md](70-adoption/readiness-assessment.md) — 24 controls, gates, ceiling, gaps
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose

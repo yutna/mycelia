@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/readiness-report.schema.json",
+  "title": "Mycelia Readiness Report",
+  "description": "The evidence-based readiness assessment: control scores, recommended level, autonomy ceiling, and gap register.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "ReadinessReport" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "repository", "commit", "assessedAt", "assessor"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^RPT-[0-9]+$",
+          "description": "Stable report identifier, for example RPT-001."
+        },
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "assessedAt": { "type": "string", "format": "date-time" },
+        "assessor": { "type": "string", "minLength": 1 }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "recommendedLevel", "ceiling", "controls", "gaps"],
+      "properties": {
+        "profile": { "enum": ["minimal", "standard", "high-assurance"] },
+        "recommendedLevel": { "enum": ["L0", "L1", "L2", "L3", "L4"] },
+        "ceiling": { "enum": ["L0", "L1", "L2", "L3", "L4"] },
+        "controls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "domain", "score", "evidence"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^CTL-[0-9]{2}$" },
+              "domain": { "type": "string", "minLength": 1 },
+              "score": { "type": "integer", "minimum": 0, "maximum": 3 },
+              "evidence": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["controlID", "severity", "finding", "remediation"],
+            "properties": {
+              "controlID": { "type": "string", "minLength": 1 },
+              "severity": { "enum": ["blocker", "major", "minor"] },
+              "finding": { "type": "string", "minLength": 1 },
+              "remediation": { "type": "string", "minLength": 1 },
+              "owner": { "type": "string" },
+              "effort": { "type": "string" }
+            }
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
