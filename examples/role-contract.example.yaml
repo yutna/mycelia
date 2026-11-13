@@ -1,0 +1,30 @@
+apiVersion: mycelia/v1
+kind: RoleContract
+metadata:
+  id: reviewer
+  name: Reviewer
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  purpose: Review a change independently against the work item and the rubric.
+  kind: agent
+  mode: subagent
+  allowedActions:
+    - read
+    - glob
+    - grep
+  deniedActions:
+    - edit
+    - shell
+    - push
+    - merge
+    - subagent
+  tools:
+    - read
+    - glob
+    - grep
+  dataClasses:
+    - public
+    - internal
+  escalation: Report a blocking finding to the human owner; do not edit the change.
+  independence: independent-context
+  maxSteps: 10
