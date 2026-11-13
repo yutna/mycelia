@@ -22,4 +22,6 @@ run = [
   "pipx run check-jsonschema --schemafile schemas/work-item.schema.json examples/work-item.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/role-contract.schema.json examples/role-contract.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/policy-decision.schema.json examples/policy-decision.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/evidence-manifest.schema.json examples/evidence-manifest.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/evidence.schema.json examples/evidence.example.yaml",
 ]

@@ -1,0 +1,20 @@
+apiVersion: mycelia/v1
+kind: Evidence
+metadata:
+  id: EVD-LINT-001
+  createdAt: 2026-11-13T09:10:00Z
+spec:
+  manifestID: EM-001
+  requirementID: EV-LINT
+  type: lint
+  producer: implementer
+  verifier: verifier
+  commit: 0123456789abcdef0123456789abcdef01234567
+  command: mise run lint
+  environment: node 26.13.0; markdownlint-cli2 0.24.1; lychee 0.24.2
+  timestamp: 2026-11-13T09:09:00Z
+  hash: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  location: https://github.com/yutna/mycelia/actions/runs/43416808195
+  result: pass
+  verifiedAt: 2026-11-13T09:10:00Z
+  traceEvent: evt_01

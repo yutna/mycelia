@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/evidence-manifest.schema.json",
+  "title": "Mycelia Evidence Manifest",
+  "description": "The machine-readable definition of done: required evidence, producers, verifiers, thresholds, freshness, and gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "EvidenceManifest" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EM-[0-9]+$",
+          "description": "Stable manifest identifier, for example EM-001."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["appliesTo", "requirements", "gates"],
+      "properties": {
+        "appliesTo": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["R0", "R1", "R2", "R3", "R4"] }
+        },
+        "requirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "description",
+              "evidenceType",
+              "producer",
+              "verifier",
+              "required"
+            ],
+            "properties": {
+              "id": { "type": "string", "pattern": "^EV-[A-Z0-9-]+$" },
+              "description": { "type": "string", "minLength": 1 },
+              "evidenceType": { "type": "string", "minLength": 1 },
+              "producer": { "type": "string", "minLength": 1 },
+              "verifier": { "type": "string", "minLength": 1 },
+              "threshold": { "type": "string" },
+              "freshness": { "type": "string" },
+              "required": { "type": "boolean" },
+              "gate": { "enum": ["merge", "release", "promotion"] }
+            }
+          }
+        },
+        "gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "requirements"],
+            "properties": {
+              "name": { "enum": ["merge", "release", "promotion"] },
+              "requirements": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string" }
+              },
+              "onFailure": { "enum": ["block", "reject", "abort"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

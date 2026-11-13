@@ -75,6 +75,16 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/policy-decision.schema.json
           examples/policy-decision.example.yaml
+      - name: Validate evidence manifest example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/evidence-manifest.schema.json
+          examples/evidence-manifest.example.yaml
+      - name: Validate evidence example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/evidence.schema.json
+          examples/evidence.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
