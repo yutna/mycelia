@@ -27,6 +27,7 @@ used in a normative document.
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
 | **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
+| **CLI contract** | The commands, flags, exit codes, and output formats an implementation must provide. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
 | **Cost per accepted change** | Total cost divided by the number of accepted changes. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
@@ -40,6 +41,7 @@ used in a normative document.
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
+| **Exit code** | The numeric result of a command: 0 success, 1 policy, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance. |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
