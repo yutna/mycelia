@@ -111,5 +111,6 @@ document exists, treat its section as planned, not normative.
 - [README](../README.md) — project identity and map
 - [SCOPE](../SCOPE.md) — boundaries, claims, and limitations
 - [GLOSSARY](../GLOSSARY.md) — shared terminology
+- [AUDIT](../AUDIT.md) — audit method, findings, and limitations
 - [AGENTS](../AGENTS.md) — operating contract for agents
 - [CONTRIBUTING](../CONTRIBUTING.md) — human contribution guide
