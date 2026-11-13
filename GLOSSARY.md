@@ -13,6 +13,7 @@ used in a normative document.
 | **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
 | **Approval fatigue** | The loss of attention when a human approves too many changes; it turns oversight into a rubber stamp. |
 | **Attestation** | A signed statement about how an artifact was built or how a decision was made. |
+| **Assurance case** | A claim, the arguments that support it, and the evidence that backs the arguments. |
 | **Audit log** | The append-only record of decisions and approvals, separate from the detailed trace. |
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
@@ -25,11 +26,13 @@ used in a normative document.
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
+| **Claim** | A statement in an assurance case that must be supported by an argument and evidence. |
 | **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **CLI contract** | The commands, flags, exit codes, and output formats an implementation must provide. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
 | **Cost per accepted change** | Total cost divided by the number of accepted changes. |
+| **Crosswalk** | A mapping from a concern or framework to the document that owns it. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
@@ -50,6 +53,7 @@ used in a normative document.
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
 | **Gap register** | The list of unmet controls with severity, finding, remediation, owner, and effort. |
+| **GSN** | Goal Structuring Notation: a way to draw claims, arguments, and evidence for an assurance case. |
 | **Golden path** | The supported sequence for adopting and operating the profile. |
 | **Greenfield** | A new repository that can start from the template with no legacy constraints. |
 | **Golden task** | A representative work item with a fixed input, expected outcome, and scoring method. |
