@@ -1,2 +1,12 @@
 [tools]
 node = "26"
+"aqua:lycheeverse/lychee" = "0.24.2"
+"aqua:rhysd/actionlint" = "1.7.12"
+
+[tasks.lint]
+description = "Run markdownlint and local link checks"
+run = ["npm run lint:md", "npm run lint:links"]
+
+[tasks."lint:actions"]
+description = "Run actionlint"
+run = "actionlint -color"

@@ -23,10 +23,10 @@ Requires [mise](https://mise.jdx.dev/). Then:
 ```sh
 mise install
 npm ci
-npm run lint:md
+mise run lint
 ```
 
-Link checking runs in CI with `lychee --offline --include-fragments` so a
+`mise run lint` runs markdownlint and lychee. Link checking is offline, so a
 third-party outage cannot block a pull request.
 
 ## Contributing
