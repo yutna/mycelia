@@ -44,6 +44,7 @@ used in a normative document.
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
+| **Gap register** | The list of unmet controls with severity, finding, remediation, owner, and effort. |
 | **Golden path** | The supported sequence for adopting and operating the profile. |
 | **Golden task** | A representative work item with a fixed input, expected outcome, and scoring method. |
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
