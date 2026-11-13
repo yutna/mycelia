@@ -130,5 +130,5 @@ mycelia doctor
 - [readiness-assessment.md](../70-adoption/readiness-assessment.md) — assess
 - [opencode-conformance.md](../70-adoption/opencode-conformance.md) — doctor
 - [evidence-manifest.md](../20-control/evidence-manifest.md) — verify
-- [file-formats.md](file-formats.md) — formats (planned)
+- `file-formats.md` — formats (planned)
 - [docs/README.md](../README.md) — documentation map
