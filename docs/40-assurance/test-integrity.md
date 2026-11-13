@@ -179,5 +179,5 @@ Every test-integrity check records:
 - [autonomy-levels.md](../00-foundations/autonomy-levels.md) — risk tiers
 - [verification-stack.md](verification-stack.md) — checks
 - [evidence-manifest.md](../20-control/evidence-manifest.md) — evidence
-- [review-rubric.md](review-rubric.md) — review (planned)
+- `review-rubric.md` — review (planned)
 - [docs/README.md](../README.md) — documentation map
