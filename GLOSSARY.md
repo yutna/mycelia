@@ -20,11 +20,13 @@ used in a normative document.
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
+| **Determinism** | The property that a check produces the same result on the same inputs and environment. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
+| **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
@@ -52,6 +54,7 @@ used in a normative document.
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |
 | **Terminal state** | One of `accepted`, `rejected`, `blocked`, or `aborted`. Every work item ends in exactly one. |
 | **Trace** | An append-only event record of actions, tool calls, decisions, evidence, and cost. |
+| **Verification stack** | The layered checks (static, unit, integration, end-to-end, mutation, security, performance, migration, docs, schema) that produce evidence. |
 | **WIP limit** | A cap on the number of concurrent work items or runs, used to bound queue time and review load. |
 | **Work item** | The unit of work: goal, acceptance criteria, non-goals, constraints, risk tier, and required evidence. |
 | **Worktree** | An isolated Git working tree used to run concurrent work without collisions. |

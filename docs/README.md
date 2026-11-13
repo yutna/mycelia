@@ -55,6 +55,10 @@ docs/
 - [change-lifecycle.md](30-execution/change-lifecycle.md) — branch, draft PR, CI, merge, release
 - [opencode-runtime-contract.md](30-execution/opencode-runtime-contract.md) — capabilities, gaps, conformance
 
+## Assurance
+
+- [verification-stack.md](40-assurance/verification-stack.md) — layers, determinism, flake policy
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose
