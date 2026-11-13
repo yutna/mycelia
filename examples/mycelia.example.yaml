@@ -1,0 +1,43 @@
+apiVersion: mycelia/v1
+kind: MyceliaConfig
+metadata:
+  name: mycelia
+  repository: yutna/mycelia
+  createdAt: 2026-11-13T09:00:00Z
+  owner: yutna
+spec:
+  profile: standard
+  autonomy:
+    ceiling: L2
+    default: L1
+  runtime:
+    name: opencode
+    version: 2.2.6
+    config: opencode.json
+  riskTiers:
+    R0: Documentation, comments, formatting.
+    R1: Tests, internal tooling, non-production scripts.
+    R2: Normal feature or bug fix.
+    R3: Auth, payments, data schema, infrastructure, security configuration.
+    R4: Production credentials, destructive migrations, incident response.
+  evidenceManifest: examples/evidence-manifest.example.yaml
+  roles:
+    - planner
+    - implementer
+    - verifier
+    - reviewer
+    - integrator
+    - assessor
+  policies:
+    - opencode.json
+  budgets:
+    maxCostUSD: 20
+    maxTokens: 2000000
+    maxSteps: 30
+    maxConcurrency: 4
+  observability:
+    traceSink: trace/
+    retentionDays: 90
+  dataClasses:
+    - public
+    - internal

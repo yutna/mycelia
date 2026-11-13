@@ -7,6 +7,7 @@ used in a normative document.
 | --- | --- |
 | **Acceptance harness** | The structured flow in which a human accepts or rejects a change using an evidence packet, a risk tier, and a rollback plan. |
 | **Acceptance packet** | The summary a human receives to accept a change: work item, diff, evidence, review, risk, rollback, cost, and open questions. |
+| **Adoption boundary** | The line between the shared Mycelia core and the adopter's local configuration. |
 | **Agent** | An OpenCode agent configuration with a system prompt, model, step limit, and permission rules. Agents are either primary or subagent. |
 | **AI-BOM** | An AI bill of materials: the inventory of models, providers, MCP servers, plugins, skills, packages, actions, and base images, with versions, hashes, licenses, and owners. |
 | **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
@@ -43,6 +44,7 @@ used in a normative document.
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
+| **Golden path** | The supported sequence for adopting and operating the profile. |
 | **Golden task** | A representative work item with a fixed input, expected outcome, and scoring method. |
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
@@ -60,6 +62,7 @@ used in a normative document.
 | **OpenTelemetry (OTel)** | An open standard for traces, metrics, and logs; the optional export format for the Mycelia trace. |
 | **pass@k** | The probability that at least one of k attempts succeeds on a task. |
 | **Postmortem** | A blameless review of an incident: timeline, impact, causes, response, and actions. |
+| **Profile** | A named control set: minimal, standard, or high-assurance. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
@@ -90,6 +93,7 @@ used in a normative document.
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
 | **Tamper-evident** | A property of a log where any modification or gap can be detected, for example with a hash chain. |
 | **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
+| **Template** | The copyable Mycelia core: specs, schemas, profile, commands, and assessment. |
 | **Test integrity** | The property that tests still fail when the behavior is wrong; it is protected by a test-diff guard, mutation testing, and review. |
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |
 | **Terminal state** | One of `accepted`, `rejected`, `blocked`, or `aborted`. Every work item ends in exactly one. |
