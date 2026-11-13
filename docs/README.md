@@ -41,6 +41,7 @@ docs/
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose
 - [work-intake.md](10-context/work-intake.md) — work item contract and definition of ready
+- [context-engineering.md](10-context/context-engineering.md) — sources, memory, compaction, freshness
 
 ## Status
 
