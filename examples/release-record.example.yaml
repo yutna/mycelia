@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: ReleaseRecord
+metadata:
+  id: REL-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  version: v0.5.0
+  commit: 0123456789abcdef0123456789abcdef01234567
+  riskTier: R2
+  gates:
+    evidence: pass
+    security: pass
+    provenance: pass
+    rollback: pass
+  rollback:
+    plan: Revert the release commit and redeploy the previous artifact.
+    tested: true
+    window: one hour
+  decision: release
+  timestamp: 2026-11-13T09:10:00Z
+  notes: Canary at 5 percent passed the error-rate threshold.

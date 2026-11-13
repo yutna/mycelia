@@ -61,6 +61,7 @@ docs/
 - [test-integrity.md](40-assurance/test-integrity.md) — test-diff guard, mutation, reward hacking
 - [review-rubric.md](40-assurance/review-rubric.md) — independence, dimensions, severity, LLM-as-judge
 - [human-acceptance.md](40-assurance/human-acceptance.md) — packet, sampling, sign-off, rework
+- [release-and-rollback.md](40-assurance/release-and-rollback.md) — release gates, canary, rollback
 
 ## Context
 
