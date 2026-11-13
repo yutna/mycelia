@@ -68,6 +68,7 @@ docs/
 
 - [trace-and-audit.md](50-observability/trace-and-audit.md) — events, correlation, retention, audit queries
 - [provenance.md](50-observability/provenance.md) — source, builder, model, AI-BOM, SLSA
+- [metrics-and-health.md](50-observability/metrics-and-health.md) — DORA, SPACE, SLI/SLO, health
 
 ## Context
 
