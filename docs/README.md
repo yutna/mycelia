@@ -34,6 +34,7 @@ docs/
 - [threat-model.md](00-foundations/threat-model.md) — assets, boundaries, threats
 - [reference-architecture.md](00-foundations/reference-architecture.md) — layers and components
 - [system-context.md](00-foundations/system-context.md) — actors, systems, boundaries
+- [autonomy-levels.md](00-foundations/autonomy-levels.md) — L0-L4, R0-R4, ceiling, promotion
 - [concern-radar.md](00-foundations/concern-radar.md) — adopted, adapted, watch, and out-of-scope concerns
 
 ## Status
