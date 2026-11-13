@@ -66,6 +66,7 @@ a particular regulatory regime. See [SCOPE.md](SCOPE.md).
 - [GLOSSARY.md](GLOSSARY.md) — shared terminology
 - [AUDIT.md](AUDIT.md) — audit method, findings, and limitations
 - [TRACEABILITY.md](TRACEABILITY.md) — requirements, controls, schemas
+- [CONFORMANCE.md](CONFORMANCE.md) — v1.0.0 scope, claims, limitations
 - [AGENTS.md](AGENTS.md) — the operating contract for agents
 - [CONTRIBUTING.md](CONTRIBUTING.md) — the human version of the same process
 - [docs/README.md](docs/README.md) — reading paths and the section map
