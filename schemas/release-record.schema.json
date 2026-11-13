@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/release-record.schema.json",
+  "title": "Mycelia Release Record",
+  "description": "The release decision: version, commit, gates, rollback readiness, and outcome.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "ReleaseRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^REL-[0-9]+$",
+          "description": "Stable release identifier, for example REL-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "commit", "riskTier", "gates", "rollback", "decision", "timestamp"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "riskTier": { "enum": ["R0", "R1", "R2", "R3", "R4"] },
+        "gates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evidence", "security", "provenance", "rollback"],
+          "properties": {
+            "evidence": { "enum": ["pass", "fail", "blocked"] },
+            "security": { "enum": ["pass", "fail", "blocked"] },
+            "provenance": { "enum": ["pass", "fail", "blocked"] },
+            "rollback": { "enum": ["pass", "fail", "blocked"] }
+          }
+        },
+        "rollback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["plan", "tested", "window"],
+          "properties": {
+            "plan": { "type": "string", "minLength": 1 },
+            "tested": { "type": "boolean" },
+            "window": { "type": "string", "minLength": 1 }
+          }
+        },
+        "decision": { "enum": ["release", "hold", "rollback"] },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

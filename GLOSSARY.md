@@ -24,6 +24,7 @@ used in a normative document.
 | **Determinism** | The property that a check produces the same result on the same inputs and environment. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
+| **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
@@ -48,6 +49,8 @@ used in a normative document.
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
 | **Reward hacking** | Satisfying a metric or check without satisfying its intent, for example weakening a test to make it pass. |
+| **Release gate** | The set of evidence, security, provenance, and rollback checks that must pass before a release. |
+| **Release record** | The auditable record of a release: version, commit, gates, rollback, decision, and timestamp. |
 | **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
 | **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
 | **Runtime contract** | The capabilities Mycelia requires from OpenCode, how each maps to a primitive, and what must be built around it. |
