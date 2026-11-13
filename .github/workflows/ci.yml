@@ -20,11 +20,29 @@ jobs:
         run: |
           bash <(curl -sSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash) 1.7.12
           ./actionlint -color
-  # --- stack-specific jobs go here (lint / test / build) ---
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@v5
+      - run: npm ci
+      - run: npm run lint:md
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml .
+          lycheeVersion: v0.24.2
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
-    needs: [actionlint]
+    needs: [actionlint, markdownlint, links]
     runs-on: ubuntu-latest
     steps:
       - name: All required jobs passed
