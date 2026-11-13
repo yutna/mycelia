@@ -37,6 +37,10 @@ docs/
 - [autonomy-levels.md](00-foundations/autonomy-levels.md) — L0-L4, R0-R4, ceiling, promotion
 - [concern-radar.md](00-foundations/concern-radar.md) — adopted, adapted, watch, and out-of-scope concerns
 
+## Control
+
+- [roles-and-permissions.md](20-control/roles-and-permissions.md) — role catalog, permissions, identity
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose

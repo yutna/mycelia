@@ -20,4 +20,5 @@ description = "Validate JSON Schemas and examples"
 run = [
   "pipx run check-jsonschema --check-metaschema schemas/*.schema.json",
   "pipx run check-jsonschema --schemafile schemas/work-item.schema.json examples/work-item.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/role-contract.schema.json examples/role-contract.example.yaml",
 ]

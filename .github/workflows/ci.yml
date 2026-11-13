@@ -65,6 +65,11 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/work-item.schema.json
           examples/work-item.example.yaml
+      - name: Validate role contract example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/role-contract.schema.json
+          examples/role-contract.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
