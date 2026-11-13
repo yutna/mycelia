@@ -85,6 +85,11 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/evidence.schema.json
           examples/evidence.example.yaml
+      - name: Validate run state example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/run-state.schema.json
+          examples/run-state.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()

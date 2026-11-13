@@ -47,6 +47,10 @@ docs/
 - [supply-chain.md](20-control/supply-chain.md) — inventory, trust levels, AI-BOM, SLSA
 - [budgets-and-kill-switch.md](20-control/budgets-and-kill-switch.md) — limits, cost, stop
 
+## Execution
+
+- [autonomous-loop.md](30-execution/autonomous-loop.md) — state machine, checkpoints, resume
+
 ## Context
 
 - [repository-legibility.md](10-context/repository-legibility.md) — what a repository must expose

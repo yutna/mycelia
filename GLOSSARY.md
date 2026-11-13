@@ -14,8 +14,10 @@ used in a normative document.
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
+| **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
+| **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
@@ -24,6 +26,7 @@ used in a normative document.
 | **Human in command (HIC)** | A human owns policy, accountability, and incident command at every autonomy level. |
 | **Human in the loop (HITL)** | A human approves a specific action before it happens. |
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
+| **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
@@ -32,6 +35,7 @@ used in a normative document.
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
+| **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |

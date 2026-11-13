@@ -1,0 +1,39 @@
+apiVersion: mycelia/v1
+kind: RunState
+metadata:
+  id: RUN-001
+  createdAt: 2026-11-13T09:00:00Z
+  updatedAt: 2026-11-13T09:30:00Z
+spec:
+  workItemID: MYC-123
+  state: verifying
+  attempt: 1
+  commit: 0123456789abcdef0123456789abcdef01234567
+  branch: docs/123-example
+  role: implementer
+  model: provider/model
+  policyVersion: "1.0.0"
+  budget:
+    steps: 12
+    tokens: 145000
+    costUSD: 1.25
+  checkpoints:
+    - state: intake
+      at: 2026-11-13T09:00:00Z
+      commit: 0123456789abcdef0123456789abcdef01234567
+      note: Work item validated.
+    - state: planned
+      at: 2026-11-13T09:05:00Z
+      commit: 0123456789abcdef0123456789abcdef01234567
+      note: Plan approved.
+    - state: implementing
+      at: 2026-11-13T09:10:00Z
+      commit: 0123456789abcdef0123456789abcdef01234567
+      note: Change produced.
+    - state: verifying
+      at: 2026-11-13T09:30:00Z
+      commit: 0123456789abcdef0123456789abcdef01234567
+      note: Evidence manifest started.
+  evidenceRefs:
+    - EVD-LINT-001
+  traceRef: trace/run-001.jsonl
