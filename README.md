@@ -1,10 +1,10 @@
-# {{REPO}}
+# mycelia
 
-[![ci](https://github.com/{{OWNER}}/{{REPO}}/actions/workflows/ci.yml/badge.svg)](https://github.com/{{OWNER}}/{{REPO}}/actions/workflows/ci.yml)
-[![release](https://img.shields.io/github/v/release/{{OWNER}}/{{REPO}}?sort=semver)](https://github.com/{{OWNER}}/{{REPO}}/releases/latest)
+[![ci](https://github.com/yutna/mycelia/actions/workflows/ci.yml/badge.svg)](https://github.com/yutna/mycelia/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/yutna/mycelia?sort=semver)](https://github.com/yutna/mycelia/releases/latest)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-{{DESCRIPTION}}
+Specification for an evidence-governed AI software factory on OpenCode: roles, policy, autonomy loops, assurance, and readiness assessment for any repository.
 
 ## Features
 
