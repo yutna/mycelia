@@ -43,6 +43,7 @@ used in a normative document.
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
 | **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
 | **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
+| **Runtime contract** | The capabilities Mycelia requires from OpenCode, how each maps to a primitive, and what must be built around it. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
