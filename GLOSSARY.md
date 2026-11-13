@@ -43,6 +43,7 @@ used in a normative document.
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
 | **Exit code** | The numeric result of a command: 0 success, 1 policy, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance. |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
+| **File format** | The serialization and layout of an artifact: YAML, JSON, JSONL, Markdown, or Git. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
@@ -88,6 +89,7 @@ used in a normative document.
 | **Runtime contract** | The capabilities Mycelia requires from OpenCode, how each maps to a primitive, and what must be built around it. |
 | **Sampling** | Reviewing a random, risk-weighted subset of changes instead of every change. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
+| **Schema** | A JSON Schema 2020-12 data contract for a Mycelia record or configuration. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Severity** | The review classification of a finding: blocker, major, minor, or nit. |
 | **Sign-off** | The recorded human decision to accept a change, including what was reviewed and any conditions. |
