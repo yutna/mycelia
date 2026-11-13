@@ -8,7 +8,22 @@ Closes #
 
 ## How to test
 
-## Checklist
+## Evidence
 
+- [ ] `mise run lint` passes
+- [ ] `actionlint` passes when workflows changed
+- [ ] `git diff --check` passes
+
+## Scope check
+
+- [ ] One issue only
+- [ ] No product code: specification, schema, example, or configuration only
 - [ ] Linked issue is in the correct version milestone
-- [ ] Tests and docs updated where relevant
+
+## Audit notes
+
+- [ ] New requirements have IDs, evidence, verification, and failure modes
+- [ ] Cross-references and glossary terms are consistent
+- [ ] Schemas and examples validate when changed
+
+## Open questions

@@ -10,7 +10,8 @@
   },
   "scripts": {
     "lint:md": "markdownlint-cli2",
-    "lint:md:fix": "markdownlint-cli2 --fix"
+    "lint:md:fix": "markdownlint-cli2 --fix",
+    "lint:links": "lychee --config lychee.toml ."
   },
   "devDependencies": {
     "markdownlint-cli2": "0.24.1"

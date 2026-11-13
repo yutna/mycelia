@@ -27,6 +27,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: jdx/mise-action@v5
+        with:
+          install_args: node
       - run: npm ci
       - run: npm run lint:md
   links:
