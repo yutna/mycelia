@@ -1,0 +1,29 @@
+apiVersion: mycelia/v1
+kind: ReviewRecord
+metadata:
+  id: REV-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  commit: 0123456789abcdef0123456789abcdef01234567
+  reviewer: reviewer
+  role: reviewer
+  independence: independent-context
+  dimensions:
+    correctness: pass
+    scope: pass
+    testQuality: pass
+    security: pass
+    readability: pass
+    reversibility: pass
+    evidence: pass
+    performance: not-applicable
+    observability: not-applicable
+    docs: pass
+  findings:
+    - severity: minor
+      summary: The rollback plan could name the exact command.
+      file: docs/example.md
+      line: 42
+      evidence: Review note.
+  decision: approve
+  notes: No blocking findings.
