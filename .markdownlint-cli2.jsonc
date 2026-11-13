@@ -1,0 +1,21 @@
+{
+  // Lint every Markdown file in the repository. Keep the default rule set and
+  // change only what the documentation style requires.
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", ".git/**"],
+  "config": {
+    // Long prose is wrapped at 120 columns. Tables and code blocks keep their
+    // natural width, and badge lines are excluded with inline comments.
+    "MD013": {
+      "line_length": 120,
+      "tables": false,
+      "code_blocks": false
+    },
+    // Specs repeat headings such as "Requirements" under different parents.
+    "MD024": {
+      "siblings_only": true
+    },
+    // Specs use <details>, <br>, and explicit anchors.
+    "MD033": false
+  }
+}

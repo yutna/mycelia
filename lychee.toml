@@ -1,0 +1,5 @@
+# Check local links and anchors only. External links are checked by the
+# scheduled workflow so a third-party outage cannot block a pull request.
+offline = true
+include_fragments = "anchor-only"
+no_progress = true
