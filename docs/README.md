@@ -50,6 +50,7 @@ docs/
 ## Execution
 
 - [autonomous-loop.md](30-execution/autonomous-loop.md) — state machine, checkpoints, resume
+- [failure-and-ambiguity.md](30-execution/failure-and-ambiguity.md) — failure classes, retries, escalation
 
 ## Context
 

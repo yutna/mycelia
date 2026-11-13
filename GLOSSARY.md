@@ -8,6 +8,7 @@ used in a normative document.
 | **Acceptance harness** | The structured flow in which a human accepts or rejects a change using an evidence packet, a risk tier, and a rollback plan. |
 | **Agent** | An OpenCode agent configuration with a system prompt, model, step limit, and permission rules. Agents are either primary or subagent. |
 | **AI-BOM** | An AI bill of materials: the inventory of models, providers, MCP servers, plugins, skills, packages, actions, and base images, with versions, hashes, licenses, and owners. |
+| **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
 | **Approval fatigue** | The loss of attention when a human approves too many changes; it turns oversight into a rubber stamp. |
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
@@ -19,7 +20,9 @@ used in a normative document.
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
+| **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
+| **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
