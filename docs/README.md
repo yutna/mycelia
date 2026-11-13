@@ -67,6 +67,7 @@ docs/
 ## Observability
 
 - [trace-and-audit.md](50-observability/trace-and-audit.md) — events, correlation, retention, audit queries
+- [provenance.md](50-observability/provenance.md) — source, builder, model, AI-BOM, SLSA
 
 ## Context
 

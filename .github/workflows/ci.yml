@@ -120,6 +120,11 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/trace-event.schema.json
           examples/trace-event.example.yaml
+      - name: Validate provenance record example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/provenance-record.schema.json
+          examples/provenance-record.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
