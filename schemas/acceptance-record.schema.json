@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/acceptance-record.schema.json",
+  "title": "Mycelia Acceptance Record",
+  "description": "The human decision to accept, revise, or block a change, with the evidence reviewed and the rollback check.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "AcceptanceRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ACC-[0-9]+$",
+          "description": "Stable acceptance identifier, for example ACC-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "commit",
+        "riskTier",
+        "decision",
+        "acceptor",
+        "evidenceReviewed",
+        "rollbackReviewed",
+        "timestamp"
+      ],
+      "properties": {
+        "workItemID": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "riskTier": { "enum": ["R0", "R1", "R2", "R3", "R4"] },
+        "decision": { "enum": ["accept", "revise", "block"] },
+        "acceptor": { "type": "string", "minLength": 1 },
+        "role": { "type": "string" },
+        "evidenceReviewed": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "rollbackReviewed": { "type": "boolean" },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notes": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
