@@ -24,6 +24,7 @@ used in a normative document.
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
+| **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
 | **Cost per accepted change** | Total cost divided by the number of accepted changes. |
