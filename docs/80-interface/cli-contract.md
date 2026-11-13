@@ -37,7 +37,7 @@ that a Mycelia implementation must provide.
 | Flag | Meaning |
 | --- | --- |
 | `--config <path>` | Configuration file, default `mycelia.yaml` |
-| `--format json|yaml|markdown` | Output format, default `markdown` |
+| `--format <format>` | Output format: json, yaml, or markdown; default markdown |
 | `--out <path>` | Write the output to a file |
 | `--profile <name>` | Override the profile |
 | `--risk <R0-R4>` | Override the risk tier |
