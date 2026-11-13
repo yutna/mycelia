@@ -37,11 +37,12 @@ Schema, and examples. It does not contain product code.
 
 - `mise run lint` — markdownlint and lychee local links
 - `mise run lint:config` — validate `opencode.json`
+- `mise run lint:schemas` — validate schemas and examples
 - `mise run lint:actions` — actionlint, when workflows change
 - `git diff --check` — whitespace
 
-Run `mise run lint` before every pull request. Run the config and action
-checks when their files change.
+Run `mise run lint` before every pull request. Run the config, schema, and
+action checks when their files change.
 
 ## Markdown rules
 
@@ -56,7 +57,7 @@ checks when their files change.
 - In scope: normative specs, schemas, examples, OpenCode configuration,
   contracts, and audit records.
 - Out of scope: runtime code, plugins, CLI implementation, dashboards.
-- `opencode.jsonc` is the runtime configuration. `mycelia.yaml` is the
+- `opencode.json` is the runtime configuration. `mycelia.yaml` is the
   factory policy and evidence configuration. Do not mix them.
 
 ## OpenCode rules

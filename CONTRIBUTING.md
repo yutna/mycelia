@@ -45,6 +45,7 @@ Individual checks:
 ```sh
 mise run lint
 mise run lint:config
+mise run lint:schemas
 mise run lint:actions
 ```
 

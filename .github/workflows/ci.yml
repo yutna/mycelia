@@ -52,10 +52,23 @@ jobs:
           pipx run check-jsonschema
           --schemafile https://opencode.ai/config.json
           opencode.json
+  schemas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Validate schemas
+        run: pipx run check-jsonschema --check-metaschema schemas/*.schema.json
+      - name: Validate examples
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/work-item.schema.json
+          examples/work-item.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
-    needs: [actionlint, markdownlint, links, opencode-config]
+    needs: [actionlint, markdownlint, links, opencode-config, schemas]
     runs-on: ubuntu-latest
     steps:
       - name: All required jobs passed
