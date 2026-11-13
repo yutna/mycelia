@@ -25,8 +25,11 @@ used in a normative document.
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Determinism** | The property that a check produces the same result on the same inputs and environment. |
+| **Developer experience (DevEx)** | The feedback loops, cognitive load, and flow a developer experiences in the system. |
+| **DORA metrics** | Lead time, deployment frequency, change failure rate, and failed deployment recovery time. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
+| **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
@@ -65,6 +68,9 @@ used in a normative document.
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Severity** | The review classification of a finding: blocker, major, minor, or nit. |
 | **Sign-off** | The recorded human decision to accept a change, including what was reviewed and any conditions. |
+| **SLI** | A service level indicator: a measured signal such as success rate or latency. |
+| **SLO** | A service level objective: a target range for an SLI. |
+| **SPACE** | A developer productivity framework: satisfaction, performance, activity, communication, and efficiency. |
 | **Span** | A named interval in a trace, with a parent and correlation IDs. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
