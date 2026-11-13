@@ -1,0 +1,56 @@
+apiVersion: mycelia/v1
+kind: EvidenceManifest
+metadata:
+  id: EM-001
+  version: 1.0.0
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  appliesTo:
+    - R2
+  requirements:
+    - id: EV-LINT
+      description: Markdown lint and link checks pass.
+      evidenceType: lint
+      producer: implementer
+      verifier: verifier
+      required: true
+      gate: merge
+    - id: EV-UNIT
+      description: Unit tests pass.
+      evidenceType: unit-test
+      producer: implementer
+      verifier: verifier
+      required: true
+      gate: merge
+    - id: EV-COVERAGE
+      description: Changed-line coverage meets the threshold.
+      evidenceType: coverage
+      producer: implementer
+      verifier: verifier
+      threshold: ">= 80% changed lines"
+      required: true
+      gate: merge
+    - id: EV-MUTATION
+      description: Mutation score meets the threshold.
+      evidenceType: mutation
+      producer: verifier
+      verifier: reviewer
+      threshold: ">= 70% changed lines"
+      required: true
+      gate: merge
+    - id: EV-REVIEW
+      description: Independent review is complete.
+      evidenceType: review
+      producer: reviewer
+      verifier: human-owner
+      required: true
+      gate: merge
+  gates:
+    - name: merge
+      requirements:
+        - EV-LINT
+        - EV-UNIT
+        - EV-COVERAGE
+        - EV-MUTATION
+        - EV-REVIEW
+      onFailure: block

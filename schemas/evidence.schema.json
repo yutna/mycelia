@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/evidence.schema.json",
+  "title": "Mycelia Evidence",
+  "description": "A single evidence record: what was produced, by whom, for which commit, with which hash and verifier.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "Evidence" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EVD-[A-Z0-9-]+$",
+          "description": "Stable evidence identifier, for example EVD-LINT-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifestID",
+        "requirementID",
+        "type",
+        "producer",
+        "verifier",
+        "commit",
+        "command",
+        "environment",
+        "timestamp",
+        "hash",
+        "result",
+        "verifiedAt"
+      ],
+      "properties": {
+        "manifestID": { "type": "string", "minLength": 1 },
+        "requirementID": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "producer": { "type": "string", "minLength": 1 },
+        "verifier": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "command": { "type": "string", "minLength": 1 },
+        "environment": { "type": "string", "minLength": 1 },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "location": { "type": "string" },
+        "result": { "enum": ["pass", "fail", "blocked"] },
+        "verifiedAt": { "type": "string", "format": "date-time" },
+        "traceEvent": { "type": "string" }
+      }
+    }
+  }
+}
