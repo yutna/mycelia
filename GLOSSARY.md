@@ -19,10 +19,13 @@ used in a normative document.
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
 | **Canary** | A limited release to a small audience or traffic share before a full rollout. |
+| **Capacity planning** | Sizing concurrency, review, and incident capacity to the expected demand. |
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
+| **Chargeback** | Allocating cost to the team or work item that incurred it. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
+| **Cost per accepted change** | Total cost divided by the number of accepted changes. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
@@ -64,6 +67,7 @@ used in a normative document.
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
+| **ROI** | Return on investment: value delivered divided by total cost, including human time and incidents. |
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
 | **Reward hacking** | Satisfying a metric or check without satisfying its intent, for example weakening a test to make it pass. |
 | **Rule lifecycle** | The states of a rule (draft, active, deprecated, retired) and the process that moves it between them. |
@@ -90,6 +94,7 @@ used in a normative document.
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |
 | **Terminal state** | One of `accepted`, `rejected`, `blocked`, or `aborted`. Every work item ends in exactly one. |
 | **Trace** | An append-only event record of actions, tool calls, decisions, evidence, and cost. |
+| **Unit economics** | The cost and value of one unit of delivery, usually one accepted change. |
 | **Verification stack** | The layered checks (static, unit, integration, end-to-end, mutation, security, performance, migration, docs, schema) that produce evidence. |
 | **WIP limit** | A cap on the number of concurrent work items or runs, used to bound queue time and review load. |
 | **Work item** | The unit of work: goal, acceptance criteria, non-goals, constraints, risk tier, and required evidence. |
