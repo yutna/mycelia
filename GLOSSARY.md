@@ -15,6 +15,8 @@ used in a normative document.
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
+| **Canary** | A limited release to a small audience or traffic share before a full rollout. |
+| **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
@@ -39,6 +41,7 @@ used in a normative document.
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
+| **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
 | **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
