@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/test-integrity-report.schema.json",
+  "title": "Mycelia Test Integrity Report",
+  "description": "The evidence that tests still fail when the behavior is wrong: mutation, coverage, test-diff justification, and verdict.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "TestIntegrityReport" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^TIR-[0-9]+$",
+          "description": "Stable report identifier, for example TIR-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "mutation", "coverage", "testDiff", "verdict"],
+      "properties": {
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "mutation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["score", "killed", "survived"],
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "killed": { "type": "integer", "minimum": 0 },
+            "survived": { "type": "integer", "minimum": 0 },
+            "equivalent": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["changedLines"],
+          "properties": {
+            "changedLines": { "type": "number", "minimum": 0, "maximum": 100 },
+            "branches": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        },
+        "testDiff": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["modified", "justification"],
+          "properties": {
+            "modified": { "type": "boolean" },
+            "justification": { "type": "string" },
+            "approvedBy": { "type": "string" }
+          }
+        },
+        "verdict": { "enum": ["pass", "fail", "blocked"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

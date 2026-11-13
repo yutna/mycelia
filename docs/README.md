@@ -58,6 +58,7 @@ docs/
 ## Assurance
 
 - [verification-stack.md](40-assurance/verification-stack.md) — layers, determinism, flake policy
+- [test-integrity.md](40-assurance/test-integrity.md) — test-diff guard, mutation, reward hacking
 
 ## Context
 
