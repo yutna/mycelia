@@ -24,6 +24,7 @@ used in a normative document.
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
+| **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
 | **Determinism** | The property that a check produces the same result on the same inputs and environment. |
 | **Developer experience (DevEx)** | The feedback loops, cognitive load, and flow a developer experiences in the system. |
 | **DORA metrics** | Lead time, deployment frequency, change failure rate, and failed deployment recovery time. |
@@ -31,6 +32,7 @@ used in a normative document.
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
+| **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
@@ -61,6 +63,7 @@ used in a normative document.
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
 | **Reward hacking** | Satisfying a metric or check without satisfying its intent, for example weakening a test to make it pass. |
+| **Rule lifecycle** | The states of a rule (draft, active, deprecated, retired) and the process that moves it between them. |
 | **Red teaming** | Adversarial testing that attempts to bypass policy, exfiltrate data, or abuse a tool. |
 | **Release gate** | The set of evidence, security, provenance, and rollback checks that must pass before a release. |
 | **Release record** | The auditable record of a release: version, commit, gates, rollback, decision, and timestamp. |
