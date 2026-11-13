@@ -18,7 +18,7 @@ cadence, the safety rules, and the feedback loop.
 | Indirect injection on the web | A page contains instructions | Untrusted data; allowlist |
 | Injection through MCP | A tool description or resource contains instructions | Pinned server; untrusted data; review |
 | Destructive shell | `rm -rf`, `sudo`, force push | Policy deny |
-| Obfuscated shell | `base64 -d | sh`, chained commands, variable expansion | Scanner and policy deny |
+| Obfuscated shell | `base64 -d` piped to `sh`, chained commands, variable expansion | Scanner and policy deny |
 | Data exfiltration | `webfetch` to an attacker URL, image URL with a secret | Egress allowlist; no secrets |
 | Secret access | `.env`, environment, cloud metadata | Permission and policy deny |
 | Malicious plugin or skill | A plugin or skill from an untrusted source | Allowlist, pin, review, sandbox |
