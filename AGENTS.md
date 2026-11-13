@@ -35,12 +35,13 @@ Schema, and examples. It does not contain product code.
 
 ## Checks
 
-- `npm run lint:md` — markdownlint with the repository configuration
-- `npm run lint:links` — lychee local links and anchors
-- `actionlint` — when `.github/workflows/` changes
+- `mise run lint` — markdownlint and lychee local links
+- `mise run lint:config` — validate `opencode.json`
+- `mise run lint:actions` — actionlint, when workflows change
 - `git diff --check` — whitespace
 
-Run all local checks at once with `mise run lint`.
+Run `mise run lint` before every pull request. Run the config and action
+checks when their files change.
 
 ## Markdown rules
 

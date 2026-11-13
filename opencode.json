@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "planner",
+  "permissions": [
+    { "action": "*", "resource": "*", "effect": "deny" },
+    { "action": "read", "resource": "*", "effect": "allow" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "glob", "resource": "*", "effect": "allow" },
+    { "action": "grep", "resource": "*", "effect": "allow" },
+    { "action": "question", "resource": "*", "effect": "allow" },
+    { "action": "skill", "resource": "mycelia-*", "effect": "allow" },
+    { "action": "webfetch", "resource": "https://opencode.ai/docs/*", "effect": "allow" },
+    { "action": "webfetch", "resource": "https://github.com/yutna/*", "effect": "allow" },
+    { "action": "webfetch", "resource": "https://raw.githubusercontent.com/yutna/*", "effect": "allow" }
+  ],
+  "policies": [
+    { "action": "tool.use", "resource": "shell:git push origin main", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git push * main", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git push *:main", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git push --force *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git push -f *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git push * --delete *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git branch -D *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:git branch -d *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:sudo *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:rm -rf *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:curl *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:wget *", "effect": "deny" },
+    { "action": "tool.use", "resource": "shell:gh pr merge *", "effect": "deny" },
+    { "action": "tool.use", "resource": "read:*.env", "effect": "deny" },
+    { "action": "tool.use", "resource": "read:*.env.*", "effect": "deny" },
+    { "action": "tool.use", "resource": "read:*.env.example", "effect": "allow" },
+    { "action": "tool.use", "resource": "edit:*.env", "effect": "deny" },
+    { "action": "tool.use", "resource": "edit:*.env.*", "effect": "deny" },
+    { "action": "tool.use", "resource": "edit:*.env.example", "effect": "allow" },
+    { "action": "tool.use", "resource": "external_directory:*", "effect": "deny" },
+    { "action": "mcp.use", "resource": "*", "effect": "deny" },
+    { "action": "plugin.use", "resource": "*", "effect": "deny" },
+    { "action": "skill.use", "resource": "*", "effect": "deny" },
+    { "action": "skill.use", "resource": "mycelia-*", "effect": "allow" },
+    { "action": "websearch.use", "resource": "*", "effect": "deny" }
+  ],
+  "agents": {
+    "general": {
+      "permissions": [
+        { "action": "question", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    },
+    "explore": {
+      "permissions": [
+        { "action": "question", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "keep": { "tokens": 15000 }
+  },
+  "snapshots": true,
+  "worktree": { "directory": "../worktrees" },
+  "experimental": { "subagent_depth": 1 }
+}

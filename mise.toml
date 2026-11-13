@@ -10,3 +10,7 @@ run = ["npm run lint:md", "npm run lint:links"]
 [tasks."lint:actions"]
 description = "Run actionlint"
 run = "actionlint -color"
+
+[tasks."lint:config"]
+description = "Validate opencode.json against the published schema"
+run = "pipx run check-jsonschema --schemafile https://opencode.ai/config.json opencode.json"

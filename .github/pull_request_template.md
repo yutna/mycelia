@@ -11,7 +11,8 @@ Closes #
 ## Evidence
 
 - [ ] `mise run lint` passes
-- [ ] `actionlint` passes when workflows changed
+- [ ] `mise run lint:config` passes when `opencode.json` changed
+- [ ] `mise run lint:actions` passes when workflows changed
 - [ ] `git diff --check` passes
 
 ## Scope check
