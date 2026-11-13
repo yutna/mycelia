@@ -11,6 +11,7 @@ used in a normative document.
 | **AI-BOM** | An AI bill of materials: the inventory of models, providers, MCP servers, plugins, skills, packages, actions, and base images, with versions, hashes, licenses, and owners. |
 | **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
 | **Approval fatigue** | The loss of attention when a human approves too many changes; it turns oversight into a rubber stamp. |
+| **Audit log** | The append-only record of decisions and approvals, separate from the detailed trace. |
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
@@ -42,6 +43,7 @@ used in a normative document.
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
+| **OpenTelemetry (OTel)** | An open standard for traces, metrics, and logs; the optional export format for the Mycelia trace. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
@@ -62,8 +64,10 @@ used in a normative document.
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Severity** | The review classification of a finding: blocker, major, minor, or nit. |
 | **Sign-off** | The recorded human decision to accept a change, including what was reviewed and any conditions. |
+| **Span** | A named interval in a trace, with a parent and correlation IDs. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
+| **Tamper-evident** | A property of a log where any modification or gap can be detected, for example with a hash chain. |
 | **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
 | **Test integrity** | The property that tests still fail when the behavior is wrong; it is protected by a test-diff guard, mutation testing, and review. |
 | **Role contract** | The purpose, allowed actions, denied actions, tools, data classes, and escalation path of a role. |

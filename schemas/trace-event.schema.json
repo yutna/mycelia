@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/trace-event.schema.json",
+  "title": "Mycelia Trace Event",
+  "description": "One event in a factory trace: actor, action, resource, hashes, cost, result, and correlation IDs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "TraceEvent" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EVT-[A-Z0-9-]+$",
+          "description": "Stable event identifier, for example EVT-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "traceID",
+        "spanID",
+        "runID",
+        "eventType",
+        "actor",
+        "action",
+        "result",
+        "timestamp"
+      ],
+      "properties": {
+        "traceID": { "type": "string", "minLength": 1 },
+        "spanID": { "type": "string", "minLength": 1 },
+        "parentSpanID": { "type": "string" },
+        "runID": { "type": "string", "minLength": 1 },
+        "workItemID": { "type": "string" },
+        "eventType": {
+          "enum": [
+            "session",
+            "tool",
+            "permission",
+            "policy",
+            "evidence",
+            "state",
+            "review",
+            "acceptance",
+            "release",
+            "incident"
+          ]
+        },
+        "actor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role"],
+          "properties": {
+            "role": { "type": "string", "minLength": 1 },
+            "actor": { "type": "string" },
+            "session": { "type": "string" },
+            "model": { "type": "string" },
+            "policyVersion": { "type": "string" }
+          }
+        },
+        "action": { "type": "string", "minLength": 1 },
+        "resource": { "type": "string" },
+        "inputHash": { "type": "string" },
+        "outputHash": { "type": "string" },
+        "costUSD": { "type": "number", "minimum": 0 },
+        "result": { "enum": ["ok", "error", "denied", "blocked"] },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "previousHash": { "type": "string" },
+        "hash": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    }
+  }
+}
