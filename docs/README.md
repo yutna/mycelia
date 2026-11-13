@@ -83,6 +83,7 @@ docs/
 - [readiness-assessment.md](70-adoption/readiness-assessment.md) — 24 controls, gates, ceiling, gaps
 - [conformance-profiles.md](70-adoption/conformance-profiles.md) — Minimal, Standard, High-assurance
 - [adoption-guide.md](70-adoption/adoption-guide.md) — greenfield, brownfield, phases
+- [worked-example.md](70-adoption/worked-example.md) — baseline, gaps, reassessment
 
 ## Context
 
