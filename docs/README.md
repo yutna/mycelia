@@ -43,6 +43,7 @@ docs/
 - [policy-as-code.md](20-control/policy-as-code.md) — policy model, precedence, decisions, exceptions
 - [evidence-manifest.md](20-control/evidence-manifest.md) — definition of done, evidence, gates
 - [decision-rights.md](20-control/decision-rights.md) — decision matrix, oversight, break-glass
+- [sandbox-and-isolation.md](20-control/sandbox-and-isolation.md) — isolation levels, sandbox contract
 
 ## Context
 
