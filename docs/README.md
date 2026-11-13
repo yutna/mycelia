@@ -28,6 +28,12 @@ docs/
   80-interface/     CLI contract, file formats
 ```
 
+## Concern radar
+
+The living catalog of industry concerns, with adopted, adapted, watch, and
+out-of-scope statuses, is in
+[00-foundations/concern-radar.md](00-foundations/concern-radar.md).
+
 ## Status
 
 `v0.1.0` establishes the identity, the OpenCode profile, and the operating

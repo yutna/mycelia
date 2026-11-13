@@ -117,10 +117,10 @@ not transfer an approval to an adopter.
 
 ## Concern radar
 
-`docs/00-foundations/concern-radar.md` (planned) is the living catalog of
-industry concerns. Each entry has a status: adopted, adapted, watch, or out of
-scope. A new keyword or framework is recorded there before it changes the
-specification.
+[The concern radar](docs/00-foundations/concern-radar.md) is the living
+catalog of industry concerns. Each entry has a status: adopted, adapted,
+watch, or out of scope. A new keyword or framework is recorded there before it
+changes the specification.
 
 ## Related documents
 
