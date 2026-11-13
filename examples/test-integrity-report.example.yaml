@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: TestIntegrityReport
+metadata:
+  id: TIR-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  commit: 0123456789abcdef0123456789abcdef01234567
+  mutation:
+    score: 82.5
+    killed: 33
+    survived: 7
+    equivalent: 2
+  coverage:
+    changedLines: 88.0
+    branches: 76.0
+  testDiff:
+    modified: true
+    justification: Added a regression test for the new behavior.
+    approvedBy: reviewer
+  verdict: pass
+  notes: Surviving mutants reviewed; two are equivalent and recorded.
