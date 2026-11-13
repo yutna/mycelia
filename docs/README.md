@@ -40,6 +40,7 @@ docs/
 ## Control
 
 - [roles-and-permissions.md](20-control/roles-and-permissions.md) — role catalog, permissions, identity
+- [policy-as-code.md](20-control/policy-as-code.md) — policy model, precedence, decisions, exceptions
 
 ## Context
 

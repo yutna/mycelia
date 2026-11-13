@@ -1,0 +1,18 @@
+apiVersion: mycelia/v1
+kind: PolicyDecision
+metadata:
+  id: PD-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  policy: red-lines
+  policyVersion: "1"
+  subject:
+    role: implementer
+    session: ses_example
+    actor: bot-mycelia
+  action: shell
+  resource: git push origin main
+  effect: deny
+  reason: Direct pushes to main are prohibited.
+  obligations: []
+  timestamp: 2026-11-13T09:00:01Z
