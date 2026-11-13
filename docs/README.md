@@ -44,6 +44,8 @@ docs/
 - [evidence-manifest.md](20-control/evidence-manifest.md) — definition of done, evidence, gates
 - [decision-rights.md](20-control/decision-rights.md) — decision matrix, oversight, break-glass
 - [sandbox-and-isolation.md](20-control/sandbox-and-isolation.md) — isolation levels, sandbox contract
+- [supply-chain.md](20-control/supply-chain.md) — inventory, trust levels, AI-BOM, SLSA
+- [budgets-and-kill-switch.md](20-control/budgets-and-kill-switch.md) — limits, cost, stop
 
 ## Context
 
