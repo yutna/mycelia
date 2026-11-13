@@ -102,9 +102,11 @@ docs/
 
 ## Status
 
-`v0.1.0` establishes the identity, the OpenCode profile, and the operating
-contract. The normative documents are added in later milestones. Until a
-document exists, treat its section as planned, not normative.
+`v1.0.0` is the first stable specification release. The normative documents,
+schemas, conformance profiles, and readiness assessment are available.
+
+The repository itself is assessed at L0 because it is a specification, not a
+running factory. See [AUDIT.md](../AUDIT.md).
 
 ## Root documents
 

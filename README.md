@@ -54,11 +54,13 @@ It is not:
 
 ## Status
 
-`v0.1.0` establishes the repository identity, the OpenCode profile, and the
-operating contract. The normative specifications land milestone by milestone.
+`v1.0.0` is the first stable specification release. It includes the normative
+model, 24 readiness controls, three conformance profiles, 17 schemas, the
+OpenCode profile, the readiness assessment, and the audit record.
 
-This repository does not claim certification, complete autonomy, or fitness for
-a particular regulatory regime. See [SCOPE.md](SCOPE.md).
+The specification is not a certification, a complete autonomy guarantee, or
+fitness for a particular regulatory regime. See [SCOPE.md](SCOPE.md) and
+[CONFORMANCE.md](CONFORMANCE.md).
 
 ## Repository map
 
