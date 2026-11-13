@@ -14,3 +14,10 @@ run = "actionlint -color"
 [tasks."lint:config"]
 description = "Validate opencode.json against the published schema"
 run = "pipx run check-jsonschema --schemafile https://opencode.ai/config.json opencode.json"
+
+[tasks."lint:schemas"]
+description = "Validate JSON Schemas and examples"
+run = [
+  "pipx run check-jsonschema --check-metaschema schemas/*.schema.json",
+  "pipx run check-jsonschema --schemafile schemas/work-item.schema.json examples/work-item.example.yaml",
+]

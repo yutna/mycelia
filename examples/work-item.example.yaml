@@ -1,0 +1,44 @@
+apiVersion: mycelia/v1
+kind: WorkItem
+metadata:
+  id: MYC-123
+  title: Add a hardened OpenCode profile
+  createdAt: 2026-11-13T09:00:00Z
+  owner: yutna
+spec:
+  goal: Add a least-privilege OpenCode profile to the repository.
+  context: The current profile uses the permissive OpenCode defaults.
+  acceptanceCriteria:
+    - The profile validates against the OpenCode schema.
+    - A denied shell command is blocked by policy.
+    - The reviewer agent runs with a different model from the implementer.
+  nonGoals:
+    - Do not implement a plugin or a CLI.
+    - Do not change the release workflow.
+  constraints:
+    - No product code.
+    - Markdown must pass markdownlint.
+  riskTier: R2
+  autonomyLevel: L2
+  dataClass: internal
+  affectedAreas:
+    - opencode.json
+    - .opencode/agents
+  evidence:
+    - type: schema-validation
+      required: true
+      verifier: ci
+    - type: policy-test
+      required: true
+      threshold: denied command returns a policy error
+      verifier: verifier
+    - type: review
+      required: true
+      verifier: reviewer
+  rollback: Revert the pull request.
+  dependencies:
+    - MYC-100
+  approvals:
+    - maintainer
+  links:
+    - https://github.com/yutna/mycelia/issues/5
