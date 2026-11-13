@@ -60,6 +60,7 @@ docs/
 - [verification-stack.md](40-assurance/verification-stack.md) — layers, determinism, flake policy
 - [test-integrity.md](40-assurance/test-integrity.md) — test-diff guard, mutation, reward hacking
 - [review-rubric.md](40-assurance/review-rubric.md) — independence, dimensions, severity, LLM-as-judge
+- [human-acceptance.md](40-assurance/human-acceptance.md) — packet, sampling, sign-off, rework
 
 ## Context
 

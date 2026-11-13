@@ -6,6 +6,7 @@ used in a normative document.
 | Term | Definition |
 | --- | --- |
 | **Acceptance harness** | The structured flow in which a human accepts or rejects a change using an evidence packet, a risk tier, and a rollback plan. |
+| **Acceptance packet** | The summary a human receives to accept a change: work item, diff, evidence, review, risk, rollback, cost, and open questions. |
 | **Agent** | An OpenCode agent configuration with a system prompt, model, step limit, and permission rules. Agents are either primary or subagent. |
 | **AI-BOM** | An AI bill of materials: the inventory of models, providers, MCP servers, plugins, skills, packages, actions, and base images, with versions, hashes, licenses, and owners. |
 | **Ambiguity** | A condition where the goal, acceptance criteria, risk tier, data class, or approval is unclear. It ends in `blocked`, never in a guess. |
@@ -50,9 +51,11 @@ used in a normative document.
 | **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
 | **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
 | **Runtime contract** | The capabilities Mycelia requires from OpenCode, how each maps to a primitive, and what must be built around it. |
+| **Sampling** | Reviewing a random, risk-weighted subset of changes instead of every change. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Severity** | The review classification of a finding: blocker, major, minor, or nit. |
+| **Sign-off** | The recorded human decision to accept a change, including what was reviewed and any conditions. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
 | **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
