@@ -7,15 +7,20 @@ used in a normative document.
 | --- | --- |
 | **Acceptance harness** | The structured flow in which a human accepts or rejects a change using an evidence packet, a risk tier, and a rollback plan. |
 | **Agent** | An OpenCode agent configuration with a system prompt, model, step limit, and permission rules. Agents are either primary or subagent. |
+| **Approval fatigue** | The loss of attention when a human approves too many changes; it turns oversight into a rubber stamp. |
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
+| **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
+| **Human in command (HIC)** | A human owns policy, accountability, and incident command at every autonomy level. |
+| **Human in the loop (HITL)** | A human approves a specific action before it happens. |
+| **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
