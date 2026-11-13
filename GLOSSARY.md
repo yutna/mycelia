@@ -22,6 +22,7 @@ used in a normative document.
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
+| **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
@@ -48,12 +49,14 @@ used in a normative document.
 | **Human in the loop (HITL)** | A human approves a specific action before it happens. |
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
+| **Incident commander** | The human who owns an incident response and its decisions. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
 | **OpenTelemetry (OTel)** | An open standard for traces, metrics, and logs; the optional export format for the Mycelia trace. |
 | **pass@k** | The probability that at least one of k attempts succeeds on a task. |
+| **Postmortem** | A blameless review of an incident: timeline, impact, causes, response, and actions. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |

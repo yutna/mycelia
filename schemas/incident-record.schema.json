@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/incident-record.schema.json",
+  "title": "Mycelia Incident Record",
+  "description": "An incident: severity, category, status, commander, containment, postmortem, and actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "properties": {
+    "apiVersion": { "const": "mycelia/v1" },
+    "kind": { "const": "IncidentRecord" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "createdAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^INC-[0-9]+$",
+          "description": "Stable incident identifier, for example INC-001."
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "severity",
+        "category",
+        "status",
+        "commander",
+        "detectedAt",
+        "summary",
+        "containment",
+        "postmortem"
+      ],
+      "properties": {
+        "severity": { "enum": ["SEV1", "SEV2", "SEV3", "SEV4"] },
+        "category": {
+          "enum": [
+            "security",
+            "data",
+            "availability",
+            "quality",
+            "policy",
+            "supply-chain",
+            "model"
+          ]
+        },
+        "status": { "enum": ["open", "contained", "recovered", "closed"] },
+        "commander": { "type": "string", "minLength": 1 },
+        "detectedAt": { "type": "string", "format": "date-time" },
+        "summary": { "type": "string", "minLength": 1 },
+        "containment": { "type": "string", "minLength": 1 },
+        "postmortem": { "type": "string", "minLength": 1 },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "due"],
+            "properties": {
+              "owner": { "type": "string", "minLength": 1 },
+              "due": { "type": "string", "format": "date" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "traceRef": { "type": "string" }
+      }
+    }
+  }
+}

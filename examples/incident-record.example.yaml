@@ -1,0 +1,22 @@
+apiVersion: mycelia/v1
+kind: IncidentRecord
+metadata:
+  id: INC-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  severity: SEV2
+  category: security
+  status: contained
+  commander: yutna
+  detectedAt: 2026-11-13T08:55:00Z
+  summary: A denied shell command was attempted through an obfuscated wrapper.
+  containment: Session interrupted, credentials revoked, policy rule added.
+  postmortem: Postmortem scheduled before the next release.
+  actions:
+    - owner: security-owner
+      due: 2026-11-20
+      description: Add the regression case to the adversarial suite.
+    - owner: maintainer
+      due: 2026-11-15
+      description: Update the policy test.
+  traceRef: trace/incident-001.jsonl
