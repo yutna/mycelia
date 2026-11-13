@@ -33,4 +33,5 @@ run = [
   "pipx run check-jsonschema --schemafile schemas/trace-event.schema.json examples/trace-event.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/provenance-record.schema.json examples/provenance-record.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/evaluation-record.schema.json examples/evaluation-record.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/incident-record.schema.json examples/incident-record.example.yaml",
 ]

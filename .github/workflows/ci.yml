@@ -130,6 +130,11 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/evaluation-record.schema.json
           examples/evaluation-record.example.yaml
+      - name: Validate incident record example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/incident-record.schema.json
+          examples/incident-record.example.yaml
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()
