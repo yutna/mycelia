@@ -30,12 +30,14 @@ used in a normative document.
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
+| **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
+| **Golden task** | A representative work item with a fixed input, expected outcome, and scoring method. |
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
@@ -46,8 +48,10 @@ used in a normative document.
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
+| **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
 | **OpenTelemetry (OTel)** | An open standard for traces, metrics, and logs; the optional export format for the Mycelia trace. |
+| **pass@k** | The probability that at least one of k attempts succeeds on a task. |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
