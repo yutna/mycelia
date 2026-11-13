@@ -85,6 +85,8 @@ docs/
 - [adoption-guide.md](70-adoption/adoption-guide.md) — greenfield, brownfield, phases
 - [worked-example.md](70-adoption/worked-example.md) — baseline, gaps, reassessment
 - [opencode-conformance.md](70-adoption/opencode-conformance.md) — runtime checklist
+- [coverage-crosswalk.md](70-adoption/coverage-crosswalk.md) — 12 areas, keywords, frameworks
+- [assurance-case.md](70-adoption/assurance-case.md) — claims, arguments, evidence
 
 ## Interface
 
