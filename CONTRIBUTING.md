@@ -43,9 +43,9 @@ mise run lint
 Individual checks:
 
 ```sh
-mise exec -- npm run lint:md
-mise exec -- npm run lint:links
-mise exec -- actionlint -color
+mise run lint
+mise run lint:config
+mise run lint:actions
 ```
 
 ## Markdown style
