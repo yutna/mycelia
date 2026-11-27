@@ -54,6 +54,7 @@ docs/
 - [multi-agent-concurrency.md](30-execution/multi-agent-concurrency.md) — worktrees, merge queue, handoffs
 - [change-lifecycle.md](30-execution/change-lifecycle.md) — branch, draft PR, CI, merge, release
 - [opencode-runtime-contract.md](30-execution/opencode-runtime-contract.md) — capabilities, gaps, conformance
+- [opencode-reference-notes.md](30-execution/opencode-reference-notes.md) — OpenCode V2 docs findings (non-normative)
 
 ## Assurance
 

@@ -167,6 +167,7 @@ change, and a fallback route.
 - [policy-as-code.md](../20-control/policy-as-code.md) — policy
 - [sandbox-and-isolation.md](../20-control/sandbox-and-isolation.md) — sandbox
 - [autonomous-loop.md](autonomous-loop.md) — loop and checkpoints
+- [opencode-reference-notes.md](opencode-reference-notes.md) — OpenCode V2 docs findings (non-normative)
 - `trace-and-audit.md` — durable trace (planned)
 - `evaluation-and-model-change.md` — evaluations (planned)
 - [docs/README.md](../README.md) — documentation map
