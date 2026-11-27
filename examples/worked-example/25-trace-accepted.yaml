@@ -2,7 +2,7 @@ apiVersion: mycelia/v1
 kind: TraceEvent
 metadata:
   id: EVT-202-ACCEPTED
-  createdAt: 2026-12-01T12:15:00Z
+  createdAt: 2026-12-01T12:45:00Z
 spec:
   traceID: trace-200
   spanID: evt-202-accepted
@@ -12,9 +12,9 @@ spec:
   actor:
     role: integrator
     policyVersion: "1.2.0"
-  action: "transition:merging->accepted"
+  action: "transition:observing->accepted"
   result: ok
-  timestamp: 2026-12-01T12:15:00Z
+  timestamp: 2026-12-01T12:45:00Z
   attributes:
     mergeCommit: c3e5a7c9e1b3d5f7a9c1e3b5d7f9a1c3e5b7d9f1
     pullRequest: "https://github.com/acme/ledger-service/pull/201"

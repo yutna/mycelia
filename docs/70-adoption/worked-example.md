@@ -130,89 +130,102 @@ This section is illustrative, not normative. Every record is in
 [`examples/worked-example/`](../../examples/worked-example/) and validates
 against its schema (`scripts/check-worked-example.sh`, run by
 `mise run lint:schemas` and CI). Record names below are the file names without
-`.yaml`.
+the number and `.yaml`. The evidence shows two of the layers the risk matrix
+requires for R2
+([verification-stack.md](../40-assurance/verification-stack.md) §11); a real
+run records every required layer or a skip record for it.
 
 ### 9.1 Setup
 
 `acme/ledger-service` now runs at L2 on a conformant runtime
-(`01-mycelia-config`): heartbeat `PT1M`, acknowledgement expiry `P1D`,
-escalation chain `ledger-owner` then `platform-lead`, recorded-decision limit
-zero. Work item `MYC-200` (`02-work-item`) asks for a CSV export of monthly
-statements. It is R2, `confidential`, and lists `affectedAreas` as path globs.
+(`mycelia-config`): heartbeat `PT1M`, acknowledgement expiry `P1D`, escalation
+chain `ledger-owner` then `platform-lead`, recorded-decision limit zero. Work
+item `MYC-200` (`work-item`) asks for a CSV export of monthly statements. It is
+R2, `confidential`, and lists `affectedAreas` as path globs.
 
 ### 9.2 First run ends `blocked`
 
-An operator starts `RUN-201` (`03-run-state-run-201`); at L2 one operator start
-per run is enough (`MYC-EXE-005`). The run takes the lease on `MYC-200` in its
-own worktree (`MYC-EXE-004`) and writes a checkpoint at each transition, each
-with the work item version (`MYC-EXE-001`).
+An operator starts `RUN-201`, and the start is in the trace
+(`trace-start-run-201`); at L2 one operator start per run is enough
+(`MYC-EXE-005`). The run takes the lease on `MYC-200` in its own worktree
+(`MYC-EXE-004`), creates the branch under an idempotency key
+(`idempotency-branch`, `MYC-EXE-003`), and writes a checkpoint at each
+transition, each with the work item version (`run-state-run-201`,
+`MYC-EXE-001`). The version covers the work item's contract fields; recording a
+question or an answer does not change it.
 
 While implementing, the agent finds that converted amounts can have more than
 two decimals. Half up matches the PDF statement; half to even matches the
 ledger. This changes numbers customers see, so it is a product decision, not an
-implementation choice, and `MYC-EXE-019` does not apply. The runtime follows the
+implementation choice. `MYC-EXE-019` would not allow a recorded decision
+anyway: the configured limit is zero (fence 5). The runtime follows the
 ambiguity protocol
 ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §5):
 
-- The question `Q-200-1`, with both options, their consequences, and the
-  recommendation, goes into the work item (`openQuestions`) and the trace
-  (`15-trace-block`).
+- The question `Q-200-1`, with both options, their consequences, the
+  recommendation, and the owner who can answer, goes into the work item
+  (`openQuestions`) and the trace (`trace-block`).
 - The run checkpoints in `blocked` (`RUN-201#4`), ends `blocked`, and releases
-  its lease.
+  its lease. The work cycle is recorded as newly blocked, which does not count
+  toward the no-progress guard (`work-cycle-201`, `MYC-EXE-015`).
 
 ### 9.3 Notification, acknowledgement, and a reply
 
 - The runtime records the idempotency key before it sends
-  (`04-idempotency-notify`, `MYC-EXE-003`), then notifies `ledger-owner`, the
-  first target in the chain (`05-notification`, `16-trace-notify`,
-  `MYC-EXE-009`). The notification expires one day after delivery.
+  (`idempotency-notify`), then notifies `ledger-owner`, the first target in the
+  chain (`notification`, `trace-notify`, `MYC-EXE-009`). The runtime, not the
+  ended run, sends it; the records name `RUN-201` as the run whose block it
+  reports. The notification expires one day after delivery.
 - The owner acknowledges within the hour. Escalation to `platform-lead` stops,
   but the block stays (`MYC-EXE-017`).
-- A support agent replies with an opinion (`06-reply`, `17-trace-reply`). The
-  support agent has no decision right, so the reply is recorded with
+- A support agent replies with an opinion (`reply`, `trace-reply`). The support
+  agent has no decision right, so the reply is recorded with
   `clearsBlock: false` and the work item stays `blocked`.
 
 ### 9.4 Owner answer and the new run
 
 The owner answers: half up, and the answer does not change the work item
-(`07-owner-answer`, `18-trace-answer`). Only this record clears the block. The
+(`owner-answer`, `trace-answer`). Only this record clears the block. The
 question's status becomes `answered` with a link to the answer.
 
-The answer authorizes a new run; `RUN-201` stays terminal. `RUN-202`
-(`08-run-state-run-202`, `19-trace-start`) takes a new lease and starts from
-the blocked checkpoint. The resume checks of
+The answer authorizes a new run; `RUN-201` stays terminal. An operator starts
+`RUN-202` (`trace-start-run-202`, `run-state-run-202`). It takes a new lease and
+starts from the blocked checkpoint. The resume checks of
 [autonomous-loop.md](../30-execution/autonomous-loop.md) §7 pass: same commit,
 branch, policy version, and work item version. The answer states no change, so
 the run continues at `implementing` instead of `intake`. Both runs count
-against one budget ledger for the work item (`09-budget-ledger`,
-`MYC-EXE-007`), so the restart does not reset the budget.
+against one budget ledger for the work item (`budget-ledger`, `MYC-EXE-007`),
+so the restart does not reset the budget.
 
-### 9.5 Evidence, review, acceptance, merge
+### 9.5 Evidence, review, acceptance, merge, observation
 
 - `RUN-202` opens the pull request under an idempotency key
-  (`10-idempotency-pull-request`).
+  (`idempotency-pull-request`).
 - The fast gate selects the statement checks from the selection map and passes
-  at the head commit (`11-evidence-unit`, `12-evidence-integration`), with the
-  selection map version and duration recorded (`MYC-ASR-001`).
+  at the head commit, with the selection map version and duration recorded
+  (`evidence-unit`, `evidence-integration`).
 - An independent reviewer on another model approves at the same commit
-  (`13-review`) and checks the rounding against the answer.
-- At L2 the agent does not merge
-  ([autonomy-levels.md](../00-foundations/autonomy-levels.md) §2). The owner
-  accepts at the same commit (`14-acceptance`, `20-trace-acceptance`); a work
-  item that was blocked is an exception the owner handles.
-- The change is squash merged, and the run ends `accepted`
-  (`21-trace-accepted`).
+  (`review`) and checks the rounding against the answer.
+- At L2 the agent does not merge on evidence gates alone
+  ([autonomy-levels.md](../00-foundations/autonomy-levels.md) §2): the owner
+  accepts at the same commit (`acceptance`, `trace-acceptance`); a work item
+  that was blocked is an exception the owner handles. Only then does the
+  runtime merge, under its own key (`idempotency-merge`).
+- The run observes the change for the agreed window
+  ([change-lifecycle.md](../30-execution/change-lifecycle.md) §10), then ends
+  `accepted` (`trace-accepted`). The work cycle cites the merged change and the
+  accepted work item as progress (`work-cycle-202`).
 
 ### 9.6 Record links
 
 | From | To | Link |
 | --- | --- | --- |
-| Work item `Q-200-1` | `07-owner-answer` | `answerRef: ANS-201` |
-| `05-notification` | `04-idempotency-notify` | Same key: work item, blocked commit, `notify`, `ledger-owner-step-0` |
-| `07-owner-answer` | `03-run-state-run-201` | `blockedRunID`, `blockedCheckpoint: RUN-201#4` |
-| `07-owner-answer` | `08-run-state-run-202` | `newRunID`, `newRunFirstCheckpoint: RUN-202#1` |
-| Both run states | `09-budget-ledger` | `budgetLedgerRef: LDG-200`; totals are the sum of both runs |
-| `11`, `12`, `13`, `14` | `08-run-state-run-202` | All at the final head commit |
+| Work item `Q-200-1` | `owner-answer` | `answerRef: ANS-201` |
+| `notification` | `idempotency-notify` | Same key: work item, blocked commit, `notify`, `ledger-owner-step-0` |
+| `owner-answer` | `run-state-run-201` | `blockedRunID`, `blockedCheckpoint: RUN-201#4` |
+| `owner-answer` | `run-state-run-202` | `newRunID`, `newRunFirstCheckpoint: RUN-202#1` |
+| Both run states | `budget-ledger` | `budgetLedgerRef: LDG-200`; totals are the sum of both runs |
+| `evidence-*`, `review`, `acceptance`, `idempotency-merge` | `run-state-run-202` | All at the final head commit |
 
 ## 10. What the example demonstrates
 

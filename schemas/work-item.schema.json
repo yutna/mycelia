@@ -106,7 +106,7 @@
     "question": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "question", "options", "askedAt", "runID", "status"],
+      "required": ["id", "question", "options", "owner", "askedAt", "runID", "status"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "question": { "type": "string", "minLength": 1 },
@@ -124,6 +124,11 @@
           }
         },
         "recommendation": { "type": "string", "minLength": 1 },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The person or role with the decision right who can answer (failure-and-ambiguity.md section 5 step 4)."
+        },
         "askedAt": { "type": "string", "format": "date-time" },
         "runID": { "type": "string", "minLength": 1 },
         "status": { "enum": ["open", "answered", "withdrawn"] },

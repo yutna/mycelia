@@ -17,5 +17,5 @@ spec:
     - ANS-201
   rollbackReviewed: true
   conditions: []
-  notes: "L2: the agent does not merge; the owner accepts. A work item that was blocked is an exception the owner handles."
+  notes: "L2: the runtime merges only after the owner accepts. A work item that was blocked is an exception the owner handles."
   timestamp: 2026-12-01T12:08:00Z

@@ -1,0 +1,18 @@
+apiVersion: mycelia/v1
+kind: IdempotencyRecord
+metadata:
+  id: IDK-203
+  createdAt: 2026-12-01T12:10:00Z
+spec:
+  key:
+    workItemID: MYC-200
+    commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+    action: merge
+  keyHash: "sha256:3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b"
+  effect: merge
+  runID: RUN-202
+  status: done
+  recordedAt: 2026-12-01T12:10:00Z
+  completedAt: 2026-12-01T12:14:30Z
+  result: c3e5a7c9e1b3d5f7a9c1e3b5d7f9a1c3e5b7d9f1
+  repeats: 0

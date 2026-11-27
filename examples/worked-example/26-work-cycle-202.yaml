@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: WorkCycleRecord
+metadata:
+  id: CYC-202
+  createdAt: 2026-12-01T12:46:00Z
+spec:
+  startedAt: 2026-12-01T11:05:00Z
+  endedAt: 2026-12-01T12:46:00Z
+  startedBy: operator
+  outcome: progress
+  progressItems:
+    - type: merged-change
+      ref: "https://github.com/acme/ledger-service/pull/201"
+    - type: work-item-ended
+      ref: MYC-200
+      outcome: accepted
+  runIDs:
+    - RUN-202
+  noProgressCount: 0
+  noProgressLimit: 3
+  guardFired: false

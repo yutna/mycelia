@@ -24,4 +24,3 @@ spec:
       - unit/statements
     duration: PT2M10S
   verifiedAt: 2026-12-01T11:42:00Z
-  traceEvent: "trace/run-202.jsonl#evd-200-unit"

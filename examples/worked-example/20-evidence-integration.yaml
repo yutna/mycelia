@@ -24,4 +24,3 @@ spec:
       - integration/statements-api
     duration: PT3M40S
   verifiedAt: 2026-12-01T11:44:00Z
-  traceEvent: "trace/run-202.jsonl#evd-200-integ"

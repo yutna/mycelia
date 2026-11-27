@@ -48,6 +48,7 @@
         },
         "openQuestions": {
           "type": "array",
+          "description": "Questions for the next role, as free text. Questions under the ambiguity protocol are recorded in the work item's openQuestions and referenced by ID elsewhere.",
           "items": { "type": "string" }
         },
         "deadline": { "type": "string", "format": "date-time" },
