@@ -1,0 +1,25 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: budget-exhausted
+  title: Budget is counted across restarts and stops the run
+spec:
+  requirements: [MYC-EXE-007]
+  profiles: [standard, high-assurance]
+  description: Consume most of a budget, restart the runtime, then exceed it.
+  cases:
+    - id: across-restart
+      given:
+        workItem: { riskTier: R2 }
+        config: { budget: { steps: 10 } }
+      when:
+        - step: start-run
+        - step: consume-budget
+          with: { steps: 8 }
+        - step: restart-runtime
+        - step: consume-budget
+          with: { steps: 3 }
+      expect:
+        terminalState: aborted
+        runExitCode: 4
+        evidence: [BudgetLedger, RunState, TraceEvent]

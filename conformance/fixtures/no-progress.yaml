@@ -1,0 +1,36 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: no-progress
+  title: Only real progress counts against the no-progress guard
+spec:
+  requirements: [MYC-EXE-015]
+  profiles: [standard, high-assurance]
+  description: Run cycles whose runs only post reports, then cycles that make progress.
+  cases:
+    - id: report-only-cycles
+      given:
+        workItem: { riskTier: R2 }
+        config: { noProgressLimit: 3 }
+      when:
+        - step: start-cycle
+          with: { count: 3, runOutcome: report-only }
+      expect:
+        terminalState: none
+        runExitCode: 3
+        cycleOutcome: no-progress
+        evidence: [WorkCycleRecord, NotificationRecord, TraceEvent]
+    - id: progress-resets
+      given:
+        workItem: { riskTier: R2 }
+        config: { noProgressLimit: 3 }
+      when:
+        - step: start-cycle
+          with: { count: 2, runOutcome: report-only }
+        - step: start-cycle
+          with: { runOutcome: merged }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        cycleOutcome: progress
+        evidence: [WorkCycleRecord, TraceEvent]

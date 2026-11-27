@@ -1,0 +1,42 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: carry-over
+  title: Evidence carries across a base update only when it is proven safe
+spec:
+  requirements: [MYC-EXE-021]
+  profiles: [standard, high-assurance]
+  description: Update the base with deltas of different shapes and check which results carry.
+  cases:
+    - id: one-selected-input
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { touches: one-selected-input }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [CarriedResult, Evidence, TraceEvent]
+    - id: nothing-carries
+      description: Each variant must re-run every check.
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with:
+            variants: [patch-identity-changed, touches-trigger-path, touches-change-patch-path, multiple-merge-bases, lockfile-both-sides]
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]

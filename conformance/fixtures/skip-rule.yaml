@@ -1,0 +1,36 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: skip-rule
+  title: Skips happen only by rule, with replacement evidence
+spec:
+  requirements: [MYC-ASR-005]
+  profiles: [standard, high-assurance]
+  description: Skip a required layer with and without replacement evidence, and with a skip rule added in the same pull request.
+  cases:
+    - id: skip-without-replacement
+      given:
+        workItem: { riskTier: R2 }
+        config: { skipRules: [docs-only] }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { paths: ["docs/guide.md"], replacementEvidence: missing }
+        - step: reach-terminal-state
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [SkipRecord, TraceEvent]
+    - id: rule-added-in-same-pull-request
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { addsSkipRule: unit-skip, skipsUnit: true }
+        - step: reach-terminal-state
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [Evidence, TraceEvent]
+        absent: [the new skip rule applied]

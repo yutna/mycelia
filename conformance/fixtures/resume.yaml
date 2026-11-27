@@ -1,0 +1,35 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: resume
+  title: A run resumes from its last checkpoint
+spec:
+  requirements: [MYC-EXE-001, MYC-EXE-002, MYC-EXE-003]
+  profiles: [standard, high-assurance]
+  description: Stop the runner in each non-terminal state, restart, and check that the run resumes from the checkpoint without repeating a side effect.
+  cases:
+    - id: stop-in-each-state
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: [intake, planned, implementing, verifying, reviewing, accepting, merging, observing] }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: checkpoint-mismatch
+      given:
+        workItem: { riskTier: R2 }
+        runState: { checkpointBranchHead: does-not-match }
+      when:
+        - step: restart-runtime
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]

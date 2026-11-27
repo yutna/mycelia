@@ -1,0 +1,23 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: kill-switch
+  title: The kill switch stops runs and survives a restart
+spec:
+  requirements: [MYC-EXE-008]
+  profiles: [standard, high-assurance]
+  description: Engage the kill switch mid-run, restart the runtime, and try to start a run.
+  cases:
+    - id: engaged-mid-run
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: engage-kill-switch
+        - step: restart-runtime
+        - step: start-run
+      expect:
+        terminalState: aborted
+        runExitCode: 1
+        evidence: [KillSwitchRecord, RunState, TraceEvent]
+        absent: [a new run starting while the switch is engaged]

@@ -1,0 +1,45 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: answer-resume
+  title: Only an owner answer clears a block
+spec:
+  requirements: [MYC-EXE-017]
+  profiles: [standard, high-assurance]
+  description: Block a run, then send an acknowledgement, a reply without the decision right, and an owner answer.
+  cases:
+    - id: answer-clears-block
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: block-run
+          with: { inState: planned }
+        - step: send-acknowledgement
+        - step: send-reply
+          with: { decisionRight: false }
+        - step: send-owner-answer
+          with: { changesWorkItem: false }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: planned
+        evidence: [OwnerAnswerRecord, LeaseRecord, TraceEvent]
+    - id: answer-changes-work-item
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: block-run
+          with: { inState: implementing }
+        - step: send-owner-answer
+          with: { changesWorkItem: true }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: intake
+        evidence: [OwnerAnswerRecord, TraceEvent]

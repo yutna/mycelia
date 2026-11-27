@@ -1,0 +1,23 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: concurrent-run
+  title: One active run per work item
+spec:
+  requirements: [MYC-EXE-004]
+  profiles: [standard, high-assurance]
+  description: Start a second run for a work item that already has an active run.
+  cases:
+    - id: second-run-refused
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: start-second-run
+        - step: reach-terminal-state
+          with: { run: first, gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [LeaseRecord, TraceEvent]
+        absent: [second worktree, change to the work item state by the second run]

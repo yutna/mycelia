@@ -1,0 +1,22 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: blocked-only
+  title: When every work item is blocked, the cycle starts no run and notifies once
+spec:
+  requirements: [MYC-EXE-016]
+  profiles: [standard, high-assurance]
+  description: Block every eligible work item and run several cycles.
+  cases:
+    - id: every-item-blocked
+      given:
+        repository: { eligibleWorkItems: 3, openQuestionsPerItem: 1 }
+      when:
+        - step: start-cycle
+          with: { count: 3 }
+      expect:
+        terminalState: none
+        runExitCode: 3
+        cycleOutcome: blocked-only
+        evidence: [WorkCycleRecord, NotificationRecord, IdempotencyRecord]
+        absent: [a started run, a second summary notification, a repeated per-item notification]

@@ -1,0 +1,36 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: host-isolation
+  title: Host configuration does not leak into a run
+spec:
+  requirements: [MYC-EXE-014]
+  profiles: [standard, high-assurance]
+  description: Place marker skills in the host's global OpenCode configuration and in ~/.claude.
+  cases:
+    - id: markers-absent
+      given:
+        workItem: { riskTier: R1 }
+      when:
+        - step: place-host-marker
+          with: { locations: [opencode-global, claude-home] }
+        - step: start-run
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RuntimeEnvironmentRecord, TraceEvent]
+        absent: [a marker skill in the loaded skills]
+    - id: marker-loaded
+      given:
+        workItem: { riskTier: R1 }
+        runtime: { isolation: broken }
+      when:
+        - step: place-host-marker
+          with: { locations: [opencode-global] }
+        - step: start-run
+      expect:
+        terminalState: aborted
+        runExitCode: 1
+        evidence: [RuntimeEnvironmentRecord, TraceEvent]

@@ -1,0 +1,63 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: dependency-tier
+  title: Dependency updates get their minimum risk tier from data
+spec:
+  requirements: [MYC-CTL-007]
+  profiles: [standard, high-assurance]
+  description: One case per rule of MYC-CTL-007, each run to its terminal state.
+  cases:
+    - id: test-only-minor
+      given:
+        config: { testOnlyPackages: [vitest] }
+      when:
+        - step: propose-dependency-update
+          with: { package: vitest, from: 2.1.0, to: 2.2.0 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [DependencyTierRecord, Evidence]
+    - id: production-minor
+      when:
+        - step: propose-dependency-update
+          with: { package: lodash, from: 4.17.20, to: 4.18.0, expectedTier: R2 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      given: {}
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [DependencyTierRecord, ReviewRecord, Evidence]
+    - id: major-fails-api
+      given: {}
+      when:
+        - step: propose-dependency-update
+          with: { package: "@tanstack/react-table", from: 8.20.0, to: 9.0.0, manifestOnly: true }
+        - step: fail-check
+          with: { layer: typecheck, flake: false }
+      expect:
+        terminalState: rejected
+        runExitCode: 7
+        evidence: [DependencyTierRecord, Evidence, TraceEvent]
+    - id: non-semver-is-migration
+      given: {}
+      when:
+        - step: propose-dependency-update
+          with: { package: internal-tool, from: "2026.10", to: "2026.11", expectedTier: migration }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [DependencyTierRecord]
+    - id: r3-package-needs-confirmation
+      given:
+        config: { r3Packages: ["pg", "*-auth"] }
+      when:
+        - step: propose-dependency-update
+          with: { package: pg, from: 8.11.0, to: 8.12.0, expectedTier: R3 }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [DependencyTierRecord, NotificationRecord]

@@ -1,0 +1,38 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: full-gate-budget
+  title: Pre-merge full-gate runs are budgeted
+spec:
+  requirements: [MYC-ASR-004]
+  profiles: [standard, high-assurance]
+  description: Request one counted full-gate run over the maximum, and check that uncounted runs do not consume the budget.
+  cases:
+    - id: over-maximum
+      given:
+        workItem: { riskTier: R3 }
+        config: { maxFullGateRuns: 3 }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { triggersFullGate: true, count: 4 }
+      expect:
+        terminalState: aborted
+        runExitCode: 4
+        evidence: [BudgetLedger, TraceEvent]
+        absent: [a fourth counted full-gate run]
+    - id: queue-rebuild-not-counted
+      given:
+        workItem: { riskTier: R3 }
+        config: { maxFullGateRuns: 3 }
+      when:
+        - step: start-run
+        - step: enter-merge-queue
+        - step: enter-merge-queue
+          with: { causedBy: another-entry }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [BudgetLedger, Evidence]

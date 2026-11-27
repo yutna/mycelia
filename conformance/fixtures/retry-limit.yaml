@@ -1,0 +1,35 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: retry-limit
+  title: Retries stop at the limit and never repeat a side effect
+spec:
+  requirements: [MYC-EXE-003]
+  profiles: [standard, high-assurance]
+  description: Fail a transient tool call past its retry limit and replay a step; check the limit, the terminal state, and that no effect is duplicated.
+  cases:
+    - id: transient-failure-past-limit
+      given:
+        workItem: { riskTier: R1 }
+      when:
+        - step: start-run
+        - step: fail-check
+          with: { kind: transient-tool-failure, attempts: 4 }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: replayed-step
+      given:
+        workItem: { riskTier: R1 }
+      when:
+        - step: start-run
+        - step: replay-step
+          with: { effect: open-pull-request }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [IdempotencyRecord, TraceEvent]
+        absent: [duplicate pull request]
