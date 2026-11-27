@@ -39,6 +39,9 @@ Minimal plus these controls at 2 or higher:
 - `CTL-15` to `CTL-17`
 - `CTL-19`, `CTL-21`
 
+It also runs on a conformant runtime with a passing conformance result
+(`MYC-CORE-013`).
+
 The repository has a sandbox, an independent reviewer, acceptance sampling, a
 trace, a merge queue, and a tested rollback. A human accepts by sampling.
 

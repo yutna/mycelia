@@ -36,6 +36,7 @@ docs/
 - [system-context.md](00-foundations/system-context.md) — actors, systems, boundaries
 - [autonomy-levels.md](00-foundations/autonomy-levels.md) — L0-L4, R0-R4, ceiling, promotion
 - [concern-radar.md](00-foundations/concern-radar.md) — adopted, adapted, watch, and out-of-scope concerns
+- [decisions/](00-foundations/decisions/README.md) — Architecture Decision Records
 
 ## Control
 

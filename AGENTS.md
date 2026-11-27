@@ -1,8 +1,9 @@
 # Agent instructions
 
-Mycelia is a specification repository for an evidence-governed AI software
-factory on OpenCode. It contains Markdown, JSON/JSONC configuration, JSON
-Schema, and examples. It does not contain product code.
+Mycelia is a control-plane specification for an evidence-governed AI software
+factory on OpenCode, with a reference runtime planned from `v2.1.0`. It contains Markdown, JSON/JSONC
+configuration, JSON Schema, and examples. From `v2.1.0` it also contains the
+reference runtime in `runtime/`. It does not contain product code.
 
 ## Non-negotiables
 
@@ -55,8 +56,11 @@ action checks when their files change.
 ## Scope boundary
 
 - In scope: normative specs, schemas, examples, OpenCode configuration,
-  contracts, and audit records.
-- Out of scope: runtime code, plugins, CLI implementation, dashboards.
+  contracts, conformance fixtures, and audit records. From `v2.1.0`: the
+  reference runtime, its plugins, and its CLI, only under `runtime/`.
+- Out of scope: runtime code outside `runtime/`, dashboards, hosted services.
+- The boundary is
+  [ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md).
 - `opencode.json` is the runtime configuration. `mycelia.yaml` is the
   factory policy and evidence configuration. Do not mix them.
 

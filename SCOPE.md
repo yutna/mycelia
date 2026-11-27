@@ -1,8 +1,9 @@
 # Scope
 
-Mycelia is a specification for an evidence-governed AI software factory on
-OpenCode. This document defines what the project covers, what it does not, and
-what it claims.
+Mycelia is a control-plane specification for an evidence-governed AI software
+factory on OpenCode, with a reference runtime planned from `v2.1.0`. This
+document defines what the
+project covers, what it does not, and what it claims.
 
 ## Current release
 
@@ -16,7 +17,7 @@ is done, and how to tell what the repository still lacks.
 
 ## In scope
 
-- OpenCode V2 as the only runtime, tested with version 2.2.6 or newer.
+- OpenCode V2 as the only harness, tested with version 2.2.6 or newer.
 - Role and permission contracts expressed through OpenCode agents, permissions,
   and policies.
 - Policy-as-code, evidence manifests, and decision rights.
@@ -28,19 +29,44 @@ is done, and how to tell what the repository still lacks.
 - A readiness assessment that reports the gap to the next safe autonomy level.
 - Adoption guidance for greenfield and brownfield repositories.
 - JSON Schema data contracts, examples, and an interface contract.
+- The runtime contract that a conformant runtime implements, and the
+  conformance kit contract with its fixtures.
+- A reference runtime and the executable conformance kit, in `runtime/`, from
+  `v2.1.0`.
 
 ## Out of scope
 
 - Harnesses other than OpenCode. A different harness needs its own adapter and
   its own conformance profile.
-- Product code, runtime implementation, plugins, CLIs, dashboards, and hosted
-  services. The specification defines the contract; an implementation is a
-  separate project.
+- Product code of an adopting repository, dashboards, and hosted services.
+- Runtime code outside `runtime/`. The reference runtime is one implementation;
+  another runtime is a separate project that proves conformance with the kit.
 - Model training, fine-tuning, and distillation.
 - Certification, accreditation, audit attestation, or legal advice.
 - A guarantee that generated code is correct. The guarantee is about evidence
   and terminal states, not about intent.
 - Regulatory approval for a specific jurisdiction or sector.
+
+## Specification and runtime
+
+Mycelia has two parts. The **control-plane specification** is the normative
+documents, schemas, examples, and OpenCode profile. The **reference runtime** is
+one implementation of the
+[runtime contract](docs/30-execution/opencode-runtime-contract.md). The
+boundary is recorded in
+[ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md).
+
+| Autonomy level | Runtime required | How conformance is shown |
+| --- | --- | --- |
+| L0, L1 | No; a human runs the loop | Evidence produced by hand |
+| L2, L3, L4 | Yes (`MYC-CORE-013`) | A conformant runtime and a passing conformance kit result for the declared profile |
+
+The runtime is not optional from L2. A runtime other than the reference runtime
+may be used if it passes the conformance kit. Until a kit implementation
+exists (planned for `v2.1.0`), no repository can show this evidence, and the
+ceiling under `v2.0.0` is L1. Where the reference runtime
+disagrees with the specification, the specification wins and the runtime has a
+bug.
 
 ## Reliability contract
 
@@ -62,8 +88,9 @@ here: no silent success, not a promise of perfect code.
   harness is future work, not a current claim.
 - The readiness model scores evidence, not intentions. A control without
   evidence is reported as unproven.
-- The repository is a specification, not a certification. A conformant
-  repository does not inherit an approval from this project.
+- The repository is a specification with a reference runtime, not a
+  certification. A conformant repository does not inherit an approval from
+  this project.
 - The specification is versioned. A later release may tighten a requirement;
   the release notes record the change.
 - The audit record describes what was checked and what remains limited. It is
