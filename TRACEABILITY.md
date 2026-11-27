@@ -153,6 +153,22 @@ These refine `MYC-CORE-013`.
 | `readiness-report` | [readiness-assessment.md](docs/70-adoption/readiness-assessment.md) | [example](examples/readiness-report.example.yaml) |
 | `conformance-fixture` | [conformance-kit.md](docs/70-adoption/conformance-kit.md) | [fixtures](conformance/fixtures/) |
 | `conformance-result` | [conformance-kit.md](docs/70-adoption/conformance-kit.md) | [example](examples/conformance-result.example.yaml) |
+| `idempotency-record` | [opencode-runtime-contract.md](docs/30-execution/opencode-runtime-contract.md) | [example](examples/idempotency-record.example.yaml) |
+| `budget-ledger` | [opencode-runtime-contract.md](docs/30-execution/opencode-runtime-contract.md) | [example](examples/budget-ledger.example.yaml) |
+| `kill-switch-record` | [budgets-and-kill-switch.md](docs/20-control/budgets-and-kill-switch.md) | [example](examples/kill-switch-record.example.yaml) |
+| `notification-record` | [opencode-runtime-contract.md](docs/30-execution/opencode-runtime-contract.md) | [example](examples/notification-record.example.yaml) |
+| `owner-answer-record` | [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) | [example](examples/owner-answer-record.example.yaml) |
+| `reply-record` | [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) | [example](examples/reply-record.example.yaml) |
+| `work-cycle-record` | [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) | [example](examples/work-cycle-record.example.yaml) |
+| `recorded-decision` | [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) | [example](examples/recorded-decision.example.yaml) |
+| `configuration-defect` | [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) | [example](examples/configuration-defect.example.yaml) |
+| `gap-record` | [opencode-runtime-contract.md](docs/30-execution/opencode-runtime-contract.md) | [example](examples/gap-record.example.yaml) |
+| `load-check-record` | [guard-design.md](docs/20-control/guard-design.md) | [example](examples/load-check-record.example.yaml) |
+| `runtime-environment-record` | [opencode-runtime-contract.md](docs/30-execution/opencode-runtime-contract.md) | [example](examples/runtime-environment-record.example.yaml) |
+| `selection-map-defect` | [verification-stack.md](docs/40-assurance/verification-stack.md) | [example](examples/selection-map-defect.example.yaml) |
+| `update-record` | [change-lifecycle.md](docs/30-execution/change-lifecycle.md) | [example](examples/update-record.example.yaml) |
+| `carried-result` | [change-lifecycle.md](docs/30-execution/change-lifecycle.md) | [example](examples/carried-result.example.yaml) |
+| `dependency-tier-record` | [supply-chain.md](docs/20-control/supply-chain.md) | [example](examples/dependency-tier-record.example.yaml) |
 
 ## 5. Coverage
 

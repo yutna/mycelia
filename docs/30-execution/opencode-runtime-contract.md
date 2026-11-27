@@ -177,10 +177,10 @@ every conformant runtime in the same way.
 
 Values such as the heartbeat interval, the stale-run threshold, and the
 acknowledgement expiry are not fixed by this document. The repository MUST
-configure them; the `mycelia.yaml` runtime section is added in
-[#109](https://github.com/yutna/mycelia/issues/109). Fields that a requirement
-records and that the schemas do not have yet are marked
-"(field added in #109)". The fixtures named under "Verification" are in
+configure them in the `mycelia.yaml` runtime section
+([mycelia schema](../../schemas/mycelia.schema.json)), which requires them when
+the autonomy ceiling is L2 or higher. The records the requirements name are
+schemas in [`schemas/`](../../schemas/README.md). The fixtures named under "Verification" are in
 `conformance/fixtures/` and follow the
 [conformance kit contract](../70-adoption/conformance-kit.md); a verification
 without a fixture name is an assessor check.
@@ -248,7 +248,8 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** Execution is at least once. Without keys, a retry creates
   duplicate pull requests, comments, or releases.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Side-effect records with their keys (field added in #109).
+- **Evidence:** Idempotency records with their keys
+  ([idempotency-record](../../schemas/idempotency-record.schema.json)).
 - **Verification:** Fixtures `resume` and `retry-limit`: replay a step and check
   that no duplicate effect exists.
 - **Failure mode:** The work item is `blocked` when a duplicate effect is
@@ -263,8 +264,8 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** Two runs on one work item race on the branch, the evidence,
   and the pull request.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Lease record in the run state (field added in #109); worktree
-  record.
+- **Evidence:** Lease in the run state (`lease` in [run-state](../../schemas/run-state.schema.json)),
+  with its worktree.
 - **Verification:** Fixture `concurrent-run`: start two runs
   for one work item; the second is refused, the refusal is traced, and the work
   item's state is unchanged.
@@ -284,7 +285,8 @@ L3, R3 changes still need human acceptance.
   loop that only runs while a person drives each prompt is L1, not L2.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Scheduler configuration (L3-L4) or the operator start record in
-  the trace (L2); heartbeat timestamps in the run state (field added in #109).
+  the trace (L2), and `startedBy` in the run state; the heartbeat in the run
+  state (`heartbeat` in [run-state](../../schemas/run-state.schema.json)).
 - **Verification:** Audit sample of run starts against the level; audit sample
   of heartbeat gaps against the configured interval.
 - **Failure mode:** Ceiling lowered to L2 when runs at L3 or L4 are not started
@@ -318,8 +320,9 @@ L3, R3 changes still need human acceptance.
   crash loop spends without limit. The reference notes record that workspace
   budgets do not count some plan allowances.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Budget ledger in the run state (the schema has `budget`; the
-  ledger fields are added in #109); trace of usage events.
+- **Evidence:** Budget ledger for the work item ([budget-ledger](../../schemas/budget-ledger.schema.json)),
+  linked from the run state by `budgetLedgerRef`, so it counts across runs as
+  well as restarts; trace of usage events.
 - **Verification:** Fixture `budget-exhausted`: exhaust a
   budget across a restart; the run ends `aborted` with exit code `4`
   ([cli-contract.md](../80-interface/cli-contract.md)).
@@ -335,7 +338,8 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** A kill switch that a restart clears, or that is checked only at
   start, does not stop a runaway loop.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Kill-switch drill record and trace
+- **Evidence:** Kill-switch records ([kill-switch-record](../../schemas/kill-switch-record.schema.json)), drill
+  records, and trace
   ([budgets-and-kill-switch.md](../20-control/budgets-and-kill-switch.md) §8,
   §10).
 - **Verification:** Fixture `kill-switch`: engage mid-run, restart the runtime,
@@ -356,7 +360,7 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** A `blocked` state that nobody sees stops the loop silently.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Notification record with delivery, acknowledgement, expiry, and
-  escalation step (field added in #109).
+  escalation step ([notification-record](../../schemas/notification-record.schema.json)).
 - **Verification:** Fixture `notification`: block a run, withhold the
   acknowledgement, and check the escalation.
 - **Failure mode:** Ceiling lowered to L1 when no adapter is configured. How the
@@ -411,7 +415,7 @@ L3, R3 changes still need human acceptance.
   Replay support on the target version is not yet verified.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Durable trace ([trace-and-audit.md](../50-observability/trace-and-audit.md));
-  gap records (field added in #109).
+  gap records ([gap-record](../../schemas/gap-record.schema.json)).
 - **Verification:** Fixture `trace-gap`: drop the event
   connection mid-run; check that the gap is recorded and reconciled or marked
   unproven.
@@ -433,8 +437,8 @@ L3, R3 changes still need human acceptance.
   invalid policy statement with only a log warning, so a typo removes a red line
   silently.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Load-check result for each run; policy source paths and their
-  write permissions.
+- **Evidence:** Load-check record for each run, with the policy source paths
+  and their write permissions ([load-check-record](../../schemas/load-check-record.schema.json)).
 - **Verification:** Fixture `policy-load`: break one policy
   statement; the runtime must refuse to start.
 - **Failure mode:** The run is `aborted` by policy before the first prompt;
@@ -451,8 +455,9 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** Configuration on a shared host changes the agent's
   instructions, tools, and permissions without any repository change.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Runtime environment record; loaded agents, skills, and plugins
-  listed in the trace.
+- **Evidence:** Runtime environment record
+  ([runtime-environment-record](../../schemas/runtime-environment-record.schema.json));
+  loaded agents, skills, and plugins listed in the trace.
 - **Verification:** Fixture `host-isolation`: place marker
   skills in the host's global OpenCode configuration and in `~/.claude`; neither
   may appear in the run.

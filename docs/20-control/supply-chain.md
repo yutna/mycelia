@@ -184,7 +184,8 @@ section sets the minimum risk tier of a dependency update from data the
 runtime can read. A human may raise the tier, never lower it below the
 minimum.
 
-Defaults (fields added in #109):
+Defaults (`testOnlyPackages` and `r3Packages` in the `dependencies` section of
+`mycelia.yaml`, [mycelia schema](../../schemas/mycelia.schema.json)):
 
 | Setting | Default |
 | --- | --- |
@@ -224,8 +225,9 @@ Defaults (fields added in #109):
   safe bump and failed; a bump that changes code shipped in the artifact is a
   normal change, not a test-only one.
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
-- **Evidence:** The proposed tier with the version change and the list entries
-  it used; the migration work item for a failed update.
+- **Evidence:** Dependency tier record with the proposed tier, the version
+  change, and the list entries it used ([dependency-tier-record](../../schemas/dependency-tier-record.schema.json)); the
+  migration work item for a failed update.
 - **Verification:** Fixture `dependency-tier`: one update
   per rule above; check the proposed tier and, for a failing major update, the
   `rejected` outcome and the proposed migration.

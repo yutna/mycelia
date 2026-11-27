@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/recorded-decision.schema.json",
+  "title": "Mycelia Recorded Decision",
+  "description": "An implementation choice an agent made without blocking, with options, choice, evidence, fence results, and review verdict (MYC-EXE-019).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "RecordedDecision"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^DEC-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example DEC-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "runID",
+        "commit",
+        "question",
+        "options",
+        "choice",
+        "fences",
+        "outcome"
+      ],
+      "properties": {
+        "workItemID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2
+        },
+        "choice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "ref",
+            "commit"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "test-result",
+                "prototype-run",
+                "measurement",
+                "repository-convention"
+              ]
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            }
+          }
+        },
+        "fences": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "riskTier",
+            "workItemUnchanged",
+            "affectedAreas",
+            "evidenceAtCommit",
+            "underLimit"
+          ],
+          "properties": {
+            "riskTier": {
+              "enum": [
+                "pass",
+                "fail",
+                "not-checked"
+              ]
+            },
+            "workItemUnchanged": {
+              "enum": [
+                "pass",
+                "fail",
+                "not-checked"
+              ]
+            },
+            "affectedAreas": {
+              "enum": [
+                "pass",
+                "fail",
+                "not-checked"
+              ]
+            },
+            "evidenceAtCommit": {
+              "enum": [
+                "pass",
+                "fail",
+                "not-checked"
+              ]
+            },
+            "underLimit": {
+              "enum": [
+                "pass",
+                "fail",
+                "not-checked"
+              ]
+            }
+          },
+          "description": "The five fences of MYC-EXE-019, checked by the runtime from recorded data."
+        },
+        "outcome": {
+          "enum": [
+            "recorded",
+            "open-question"
+          ],
+          "description": "recorded when every fence passes; open-question when a fence fails or the decision is rejected."
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "verdict",
+            "by",
+            "ref"
+          ],
+          "properties": {
+            "verdict": {
+              "enum": [
+                "approved",
+                "rejected"
+              ]
+            },
+            "by": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1
+            },
+            "at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "traceEvent": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "recorded"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "evidence"
+            ],
+            "properties": {
+              "fences": {
+                "properties": {
+                  "riskTier": {
+                    "const": "pass"
+                  },
+                  "workItemUnchanged": {
+                    "const": "pass"
+                  },
+                  "affectedAreas": {
+                    "const": "pass"
+                  },
+                  "evidenceAtCommit": {
+                    "const": "pass"
+                  },
+                  "underLimit": {
+                    "const": "pass"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "properties": {
+                  "fences": {
+                    "properties": {
+                      "riskTier": {
+                        "const": "fail"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "fences": {
+                    "properties": {
+                      "workItemUnchanged": {
+                        "const": "fail"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "fences": {
+                    "properties": {
+                      "affectedAreas": {
+                        "const": "fail"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "fences": {
+                    "properties": {
+                      "evidenceAtCommit": {
+                        "const": "fail"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "fences": {
+                    "properties": {
+                      "underLimit": {
+                        "const": "fail"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "outcome": {
+                "const": "open-question"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "review"
+            ],
+            "properties": {
+              "review": {
+                "properties": {
+                  "verdict": {
+                    "const": "rejected"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "outcome": {
+                "const": "open-question"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

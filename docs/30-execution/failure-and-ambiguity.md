@@ -299,16 +299,16 @@ pause (`MYC-EXE-018`).
 These requirements refine `MYC-CORE-008` and, through `MYC-CORE-013`, bind
 every conformant runtime together with the runtime contract's
 [§7](opencode-runtime-contract.md#7-runtime-requirements). They use the fields
-in [SPEC.md](../../SPEC.md) §5. Records that the schemas do not have yet are
-marked "(field added in #109)"; the named fixtures follow the
+in [SPEC.md](../../SPEC.md) §5. The records they name are schemas in
+[`schemas/`](../../schemas/README.md); the named fixtures follow the
 [conformance kit contract](../70-adoption/conformance-kit.md).
 
 ### `MYC-EXE-015` Progress and the no-progress guard
 
 - **Statement:** The runtime MUST classify the outcome of every work cycle as
   in §10 and record it in the trace. It MUST run a no-progress guard with a
-  limit the repository configures (field added in #109). The guard MUST count
-  only work cycles with the "No progress" outcome, MUST reset on progress, and
+  limit the repository configures (`noProgressLimit` in the `mycelia.yaml`
+  runtime section). The guard MUST count only work cycles with the "No progress" outcome, MUST reset on progress, and
   when the limit is reached MUST stop starting runs and notify the owner
   through `MYC-EXE-009`. Reports, comments, status updates, label changes,
   heartbeats, notifications, and checkpoints MUST NOT count as progress.
@@ -316,8 +316,8 @@ marked "(field added in #109)"; the named fixtures follow the
   cycles as no progress and pauses the loop for the wrong reason, while a guard
   that counts comments lets a loop report forever.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Work cycle outcome records with the progress items they cite;
-  the configured guard limit (fields added in #109).
+- **Evidence:** Work cycle records with the progress items they cite
+  ([work-cycle-record](../../schemas/work-cycle-record.schema.json)); the configured `noProgressLimit`.
 - **Verification:** Fixture `no-progress`: run cycles that
   only post reports; check that they are not counted as progress and that the
   guard fires at its configured limit only for "No progress" cycles.
@@ -343,8 +343,8 @@ marked "(field added in #109)"; the named fixtures follow the
 - **Rationale:** Without a preflight, each cycle re-runs blocked work, re-asks
   the same questions, and looks like a failure to make progress.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Blocked-only cycle record with the set of open questions and
-  the summary key (field added in #109).
+- **Evidence:** Work cycle record with the outcome `blocked-only`, the set of
+  open questions, and the summary key ([work-cycle-record](../../schemas/work-cycle-record.schema.json)).
 - **Verification:** Fixture `blocked-only`: block every
   eligible work item and run several cycles; check that no run starts, exactly
   one summary is sent, no per-item notification repeats, and no cycle counts
@@ -372,7 +372,10 @@ marked "(field added in #109)"; the named fixtures follow the
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Owner answer record with the stated-change flag, linked to the
   question and to the new run's first checkpoint; work item version in the
-  checkpoints (fields added in #109).
+  checkpoints
+  ([owner-answer-record](../../schemas/owner-answer-record.schema.json),
+  [reply-record](../../schemas/reply-record.schema.json), `workItemVersion` in
+  [run-state](../../schemas/run-state.schema.json)).
 - **Verification:** Fixture `answer-resume`: block a run,
   send an acknowledgement, then a reply from a person without the decision
   right, then an owner answer; check that only the last clears the block and
@@ -396,8 +399,8 @@ marked "(field added in #109)"; the named fixtures follow the
   blocked from stuck.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Guard and stop-condition configuration outside the prompts;
-  prompt scan results and recorded configuration defects (field added in
-  #109).
+  prompt scan results and recorded configuration defects
+  ([configuration-defect](../../schemas/configuration-defect.schema.json)).
 - **Verification:** Fixture `prompt-guard-conflict`: a role
   prompt says "continue without asking and do not stop", and every eligible
   work item is ambiguous. Check that each run ends `blocked` with a question,
@@ -422,12 +425,14 @@ marked "(field added in #109)"; the named fixtures follow the
      ([guard-design.md](../20-control/guard-design.md) §2), policy and
      permission configuration, schemas, CI workflows, the evidence manifest,
      and the work item. Adding a new test file inside `affectedAreas` is
-     allowed. A repository list of further protected paths is added in #109.
+     allowed. The repository MAY list further protected path globs in
+     `protectedPaths` of the `mycelia.yaml` runtime section.
   4. The record cites an evidence reference of an allowed type (a test
      result, a prototype run, a measurement, or an existing repository
      convention cited by path) produced or checked at the current commit.
   5. The work item has fewer recorded decisions than the configured limit
-     (field added in #109). When no limit is configured, the limit is zero.
+     (`recordedDecisionLimit` in the `mycelia.yaml` runtime section). When no
+     limit is configured, the limit is zero.
 
   Whether a choice is an implementation choice, and whether its evidence
   settles it, is judged by the independent reviewer, not by the runtime: a
@@ -452,8 +457,9 @@ marked "(field added in #109)"; the named fixtures follow the
   review keep the loop moving without trusting a weak model's judgment.
 - **Applies to:** L2-L4; R0-R2 only.
 - **Evidence:** Recorded decision records in the trace and the pull request,
-  with the fence results (fields added in #109); the review record that checks
-  them.
+  with the fence results
+  ([recorded-decision](../../schemas/recorded-decision.schema.json)); the review
+  record that checks them.
 - **Verification:** Fixture `recorded-decision`: an R3 work
   item, a modified protected file, a work item without path-glob
   `affectedAreas`, evidence from an older commit, no configured limit, and a

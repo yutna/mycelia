@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/notification-record.schema.json",
+  "title": "Mycelia Notification Record",
+  "description": "One notification to a person about a blocked work item or a blocked-only summary, with delivery, acknowledgement, expiry, and escalation step (MYC-EXE-009, MYC-EXE-016).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "NotificationRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^NTF-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example NTF-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "adapter",
+        "target",
+        "escalationStep",
+        "idempotencyKey",
+        "delivery"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "blocked",
+            "blocked-summary",
+            "guard-fired"
+          ]
+        },
+        "workItemID": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absent for a blocked-only summary, which belongs to no single work item."
+        },
+        "questionIDs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Open questions the notification carries; empty for a guard notice."
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalationStep": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0 for the first target; n for the nth target in the escalation chain."
+        },
+        "idempotencyKey": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "workItemID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "repository": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Used in place of the work item and commit for an effect that belongs to no single work item."
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The target or round, when one action has several (MYC-EXE-003)."
+            }
+          },
+          "description": "Idempotency key parts (MYC-EXE-003): work item, commit, and action, or repository and action.",
+          "oneOf": [
+            {
+              "required": [
+                "workItemID",
+                "commit"
+              ],
+              "not": {
+                "required": [
+                  "repository"
+                ]
+              }
+            },
+            {
+              "required": [
+                "repository"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "workItemID"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "commit"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "at"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "sent",
+                "delivered",
+                "failed"
+              ]
+            },
+            "at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "acknowledgement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "by",
+            "at"
+          ],
+          "properties": {
+            "by": {
+              "type": "string",
+              "minLength": 1
+            },
+            "at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "description": "An acknowledgement stops escalation; only an owner answer clears the block (MYC-EXE-017)."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "escalatedTo": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The notification record for the next step, when the acknowledgement expired."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "blocked"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "workItemID",
+              "questionIDs",
+              "expiresAt"
+            ],
+            "properties": {
+              "questionIDs": {
+                "minItems": 1
+              },
+              "idempotencyKey": {
+                "required": [
+                  "workItemID",
+                  "commit",
+                  "target"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "blocked-summary"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "workItemID"
+              ]
+            },
+            "required": [
+              "questionIDs"
+            ],
+            "properties": {
+              "escalationStep": {
+                "const": 0
+              },
+              "questionIDs": {
+                "minItems": 1
+              },
+              "idempotencyKey": {
+                "required": [
+                  "repository",
+                  "target"
+                ],
+                "properties": {
+                  "action": {
+                    "const": "blocked-summary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "guard-fired"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "workItemID"
+              ]
+            },
+            "properties": {
+              "idempotencyKey": {
+                "required": [
+                  "repository"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

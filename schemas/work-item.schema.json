@@ -57,6 +57,7 @@
         "dataClass": { "enum": ["public", "internal", "confidential", "secret"] },
         "affectedAreas": {
           "type": "array",
+          "description": "Repository path globs the change may touch; required as globs for a recorded decision (MYC-EXE-019 fence 3).",
           "items": { "type": "string", "minLength": 1 }
         },
         "evidence": {

@@ -92,9 +92,11 @@ fixture, and validates against `schemas/conformance-fixture.schema.json`.
 | `spec.cases[].expect.absent` | Effects that must not happen |
 
 Every expected outcome comes from the failure mode or statement of the
-requirement the fixture verifies; a fixture does not define behavior. Record
-kinds that are not yet schemas are added with the runtime data contracts
-(#109).
+requirement the fixture verifies; a fixture does not define behavior. Every
+record kind in `expect.evidence` is the `kind` of a schema in
+[`schemas/`](../../schemas/README.md); the meta-check below enforces it. The
+`given` sub-objects stay open in v2.0.0 and are tightened with the reference
+runtime.
 
 Step vocabulary:
 
@@ -156,9 +158,12 @@ Step vocabulary:
 - **Statement:** Every fixture named in a "Verification" field MUST exist as a
   file in `conformance/fixtures/`, every fixture file MUST be named in at least
   one "Verification" field, and each file's `metadata.id` MUST equal its file
-  name. A meta-check MUST enforce this in CI.
+  name. Every record kind in a case's `expect.evidence` MUST be the `kind` of a
+  schema in `schemas/`, and a case's `profiles` MUST be a subset of its
+  fixture's. A meta-check MUST enforce this in CI.
 - **Rationale:** A requirement that names a missing fixture is untested; a
-  fixture no requirement names tests nothing anyone relies on. This applies
+  fixture no requirement names tests nothing anyone relies on. An expected
+  record with no schema cannot be checked. This applies
   `MYC-CTL-005` to the kit itself.
 - **Applies to:** This repository; any fork of the kit.
 - **Evidence:** Meta-check output (`scripts/check-fixture-names.sh`).

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/carried-result.schema.json",
+  "title": "Mycelia Carried Result",
+  "description": "An automated check result carried from an earlier commit after a base update, with the proof MYC-EXE-021 requires.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "CarriedResult"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CAR-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example CAR-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "check",
+        "evidenceRef",
+        "earlierCommit",
+        "newCommit",
+        "earlierMergeBase",
+        "newMergeBase",
+        "earlierPatchID",
+        "newPatchID",
+        "selectionMapVersion"
+      ],
+      "properties": {
+        "check": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The evidence record at the earlier commit."
+        },
+        "earlierCommit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "newCommit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "earlierMergeBase": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "newMergeBase": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "earlierPatchID": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$",
+          "description": "git patch-id --stable of the change patch."
+        },
+        "newPatchID": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$",
+          "description": "git patch-id --stable of the change patch."
+        },
+        "selectionMapVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "updateRecord": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

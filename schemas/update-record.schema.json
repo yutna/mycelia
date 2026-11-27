@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/update-record.schema.json",
+  "title": "Mycelia Update Record",
+  "description": "A staleness decision and the base update it led to (MYC-EXE-020).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "UpdateRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^UPD-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example UPD-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "runID",
+        "staleness"
+      ],
+      "properties": {
+        "workItemID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "staleness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stale",
+            "reasons"
+          ],
+          "properties": {
+            "stale": {
+              "type": "boolean"
+            },
+            "reasons": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "selected-path-in-base-delta",
+                  "release-tag-after-merge-base",
+                  "max-age"
+                ]
+              }
+            },
+            "detail": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "method": {
+          "const": "merge",
+          "description": "Merge of the default branch; never a force push."
+        },
+        "fromCommit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "toCommit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "fromMergeBase": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "toMergeBase": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "idempotencyKey": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "workItemID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "repository": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Used in place of the work item and commit for an effect that belongs to no single work item."
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The target or round, when one action has several (MYC-EXE-003)."
+            }
+          },
+          "description": "Idempotency key parts (MYC-EXE-003): work item, commit, and action, or repository and action.",
+          "oneOf": [
+            {
+              "required": [
+                "workItemID",
+                "commit"
+              ],
+              "not": {
+                "required": [
+                  "repository"
+                ]
+              }
+            },
+            {
+              "required": [
+                "repository"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "workItemID"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "commit"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "conflict": {
+          "type": "boolean"
+        },
+        "gateBefore": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gateAfter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseUpdatesAfter": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The work item's base-update count in the budget ledger after this update."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "toCommit"
+            ]
+          },
+          "then": {
+            "required": [
+              "method",
+              "fromCommit",
+              "fromMergeBase",
+              "toMergeBase",
+              "idempotencyKey",
+              "conflict"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "staleness": {
+                "properties": {
+                  "stale": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "staleness": {
+                "properties": {
+                  "reasons": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

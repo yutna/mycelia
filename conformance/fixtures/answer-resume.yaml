@@ -38,7 +38,7 @@ spec:
         terminalState: accepted
         runExitCode: 0
         stateAfter: planned
-        evidence: [OwnerAnswerRecord, LeaseRecord, TraceEvent]
+        evidence: [OwnerAnswerRecord, RunState, TraceEvent]
     - id: answer-changes-work-item
       given:
         workItem: { riskTier: R2 }

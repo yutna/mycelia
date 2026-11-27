@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/idempotency-record.schema.json",
+  "title": "Mycelia Idempotency Record",
+  "description": "One external side effect and its idempotency key, recorded before the effect is sent (MYC-EXE-003).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "IdempotencyRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^IDK-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example IDK-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "keyHash",
+        "effect",
+        "runID",
+        "status",
+        "recordedAt"
+      ],
+      "properties": {
+        "key": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "workItemID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "repository": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Used in place of the work item and commit for an effect that belongs to no single work item."
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The target or round, when one action has several (MYC-EXE-003)."
+            }
+          },
+          "description": "Idempotency key parts (MYC-EXE-003): work item, commit, and action, or repository and action.",
+          "oneOf": [
+            {
+              "required": [
+                "workItemID",
+                "commit"
+              ],
+              "not": {
+                "required": [
+                  "repository"
+                ]
+              }
+            },
+            {
+              "required": [
+                "repository"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "workItemID"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "commit"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "keyHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "Hash of the canonical key parts."
+        },
+        "effect": {
+          "enum": [
+            "branch",
+            "pull-request",
+            "comment",
+            "label",
+            "merge",
+            "release",
+            "notification",
+            "base-update"
+          ]
+        },
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "recorded",
+            "done",
+            "failed"
+          ],
+          "description": "recorded: key written, effect not yet confirmed; done: effect confirmed; failed: effect failed."
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "result": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The original result a repeat with the same key returns, for example a pull request URL."
+        },
+        "repeats": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of repeats that returned the original result without repeating the effect."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/budget-ledger.schema.json",
+  "title": "Mycelia Budget Ledger",
+  "description": "Durable budget consumption for one work item, counted across runs, restarts, resumes, and retries (MYC-EXE-007, MYC-ASR-004, MYC-EXE-020).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "BudgetLedger"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^LDG-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example LDG-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "totals",
+        "entries",
+        "exhausted"
+      ],
+      "properties": {
+        "workItemID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "steps": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "tokens": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "costUSD": {
+              "type": "number",
+              "minimum": 0
+            },
+            "fullGateRuns": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "baseUpdates": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "description": "Limits in force, from the run's budget and the mycelia.yaml runtime section."
+        },
+        "totals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "steps",
+            "tokens",
+            "costUSD",
+            "fullGateRuns",
+            "baseUpdates"
+          ],
+          "properties": {
+            "steps": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "tokens": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "costUSD": {
+              "type": "number",
+              "minimum": 0
+            },
+            "fullGateRuns": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Counted pre-merge full-gate runs (MYC-ASR-004)."
+            },
+            "baseUpdates": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Runtime base updates (MYC-EXE-020)."
+            }
+          }
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "runID",
+              "at",
+              "type"
+            ],
+            "properties": {
+              "runID": {
+                "type": "string",
+                "minLength": 1
+              },
+              "at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "type": {
+                "enum": [
+                  "usage",
+                  "full-gate-run",
+                  "base-update"
+                ]
+              },
+              "steps": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tokens": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "costUSD": {
+                "type": "number",
+                "minimum": 0
+              },
+              "ref": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Trace event, evidence, or update record the entry counts."
+              }
+            }
+          },
+          "minItems": 0
+        },
+        "providerAllowance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "readAt",
+            "readable"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "readAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "readable": {
+              "type": "boolean"
+            },
+            "remaining": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "description": "A provider allowance the workspace budget does not count, read before each step; unreadable stops the run as budget exhausted."
+        },
+        "exhausted": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

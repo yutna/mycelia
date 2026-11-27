@@ -60,6 +60,41 @@
         "role": { "type": "string", "minLength": 1 },
         "model": { "type": "string" },
         "policyVersion": { "type": "string" },
+        "startedBy": {
+          "enum": ["scheduler", "operator"],
+          "description": "Who started the run (MYC-EXE-005): the scheduler, or an operator command at L2."
+        },
+        "lease": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["acquiredAt", "worktree"],
+          "description": "The exclusive claim this run holds on its work item (MYC-EXE-004, MYC-EXE-006).",
+          "properties": {
+            "acquiredAt": { "type": "string", "format": "date-time" },
+            "worktree": { "type": "string", "minLength": 1 },
+            "releasedAt": { "type": "string", "format": "date-time" },
+            "releaseReason": { "enum": ["terminal", "stale", "checkpoint"] }
+          }
+        },
+        "heartbeat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["interval", "lastAt"],
+          "description": "Heartbeat of an active run (MYC-EXE-005); a last heartbeat older than the stale-run threshold makes the run stale.",
+          "properties": {
+            "interval": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "ISO 8601 duration, from the mycelia.yaml runtime section."
+            },
+            "lastAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "budgetLedgerRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The work item's BudgetLedger, which counts consumption across runs and restarts (MYC-EXE-007)."
+        },
         "budget": {
           "type": "object",
           "additionalProperties": false,
@@ -76,11 +111,39 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["state", "at", "commit"],
+            "required": ["state", "at", "commit", "workItemVersion"],
+            "description": "A checkpoint as listed in autonomous-loop.md section 6.",
             "properties": {
               "state": { "type": "string", "minLength": 1 },
               "at": { "type": "string", "format": "date-time" },
               "commit": { "type": "string", "minLength": 1 },
+              "branch": { "type": "string", "minLength": 1 },
+              "workItemVersion": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Work item revision or content hash (MYC-EXE-017, MYC-EXE-019 fence 2)."
+              },
+              "role": { "type": "string", "minLength": 1 },
+              "model": { "type": "string" },
+              "policyVersion": { "type": "string" },
+              "budgetConsumed": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "steps": { "type": "integer", "minimum": 0 },
+                  "tokens": { "type": "integer", "minimum": 0 },
+                  "costUSD": { "type": "number", "minimum": 0 }
+                }
+              },
+              "evidenceRefs": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "openQuestions": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "traceEvent": { "type": "string" },
               "note": { "type": "string" }
             }
           }

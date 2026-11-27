@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/load-check-record.schema.json",
+  "title": "Mycelia Load Check Record",
+  "description": "The start-of-run check that every red-line policy was loaded, denies its action, and lives where the agent cannot write (MYC-EXE-013, guard-design.md section 6).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "LoadCheckRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^LCK-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example LCK-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runID",
+        "policyVersion",
+        "policies",
+        "result"
+      ],
+      "properties": {
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "source",
+              "scope",
+              "agentWritable",
+              "loaded",
+              "denies"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope": {
+                "enum": [
+                  "managed",
+                  "system",
+                  "global"
+                ]
+              },
+              "agentWritable": {
+                "type": "boolean"
+              },
+              "loaded": {
+                "type": "boolean"
+              },
+              "denies": {
+                "type": "boolean"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "result": {
+          "enum": [
+            "pass",
+            "fail"
+          ],
+          "description": "fail refuses the run before the first prompt."
+        }
+      }
+    }
+  }
+}

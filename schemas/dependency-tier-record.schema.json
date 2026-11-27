@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/dependency-tier-record.schema.json",
+  "title": "Mycelia Dependency Tier Record",
+  "description": "The minimum risk tier the runtime proposes for a dependency update, with the version change and list entries it used (MYC-CTL-007).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "DependencyTierRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^DEP-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example DEP-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "package",
+        "to",
+        "change",
+        "rules",
+        "migration",
+        "proposedTier"
+      ],
+      "properties": {
+        "workItemID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "package": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ecosystem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absent for a new direct dependency."
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "change": {
+          "enum": [
+            "patch",
+            "minor",
+            "major",
+            "pre-1.0-non-patch",
+            "non-semver",
+            "lockfile-major",
+            "new-direct"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "description": "The rules of MYC-CTL-007 that apply; the proposed tier is the highest they give."
+        },
+        "migration": {
+          "type": "boolean",
+          "description": "True when rule 3 applies: a migration in its own work item, at least R2."
+        },
+        "listEntries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Test-only or R3 list entries the proposal used."
+        },
+        "proposedTier": {
+          "enum": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "confirmedBy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The human who confirmed an R3 tier."
+        },
+        "migrationWorkItem": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "migration": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "migrationWorkItem"
+            ],
+            "properties": {
+              "proposedTier": {
+                "enum": [
+                  "R2",
+                  "R3",
+                  "R4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

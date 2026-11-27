@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/owner-answer-record.schema.json",
+  "title": "Mycelia Owner Answer Record",
+  "description": "An answer from a person with the decision right to an open question; the only record that clears a block (MYC-EXE-017).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "OwnerAnswerRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ANS-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example ANS-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemID",
+        "questionID",
+        "answerer",
+        "answeredAt",
+        "answer",
+        "statesChange",
+        "blockedRunID"
+      ],
+      "properties": {
+        "workItemID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "questionID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answerer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answeredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statesChange": {
+          "type": "boolean",
+          "description": "True when the answerer states that the answer changes the work item; the new run starts at intake."
+        },
+        "blockedRunID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blockedCheckpoint": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The blocked checkpoint the new run starts from."
+        },
+        "newRunID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "newRunFirstCheckpoint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "traceEvent": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

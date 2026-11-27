@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/gap-record.schema.json",
+  "title": "Mycelia Gap Record",
+  "description": "A gap in the durable trace and its reconciliation (MYC-EXE-012).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "GapRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^GAP-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example GAP-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runID",
+        "detectedBy",
+        "from",
+        "reconciliation"
+      ],
+      "properties": {
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "detectedBy": {
+          "enum": [
+            "disconnect",
+            "sequence"
+          ]
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sequenceRange": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "first",
+            "last"
+          ],
+          "properties": {
+            "first": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "last": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "reconciliation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "source",
+            "at"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "reconciled",
+                "unproven"
+              ]
+            },
+            "source": {
+              "enum": [
+                "session-export",
+                "server-api",
+                "none"
+              ]
+            },
+            "at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "recoveredEvents": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

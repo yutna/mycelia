@@ -85,7 +85,8 @@ Every produced evidence item has:
 | `timestamp` | When it was produced |
 | `hash` | SHA-256 of the artifact |
 | `location` | Where the artifact is stored |
-| `result` | `pass`, `fail`, or `blocked`; `skipped` for a layer skipped by rule ([verification-stack.md](../40-assurance/verification-stack.md) `MYC-ASR-005`; schema value added in #109) |
+| `result` | `pass`, `fail`, or `blocked`; `skipped` for a layer skipped by rule ([verification-stack.md](../40-assurance/verification-stack.md) `MYC-ASR-005`), with `skipRule` and `replacementEvidenceRefs` |
+| `gate` | For a gate result: gate name, trigger, selection map version, selected checks, and duration ([verification-stack.md](../40-assurance/verification-stack.md) §12) |
 | `verifiedAt` | When the verifier checked it |
 | `traceEvent` | The trace event that links the evidence to the run |
 

@@ -1,0 +1,23 @@
+apiVersion: mycelia/v1
+kind: WorkCycleRecord
+metadata:
+  id: CYC-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  startedAt: 2026-11-13T09:00:00Z
+  endedAt: 2026-11-13T09:02:00Z
+  startedBy: scheduler
+  outcome: blocked-only
+  progressItems: []
+  runIDs: []
+  noProgressCount: 0
+  noProgressLimit: 3
+  guardFired: false
+  openQuestionIDs:
+    - Q-001
+    - Q-002
+  summaryKey:
+    repository: example/repo
+    action: blocked-summary
+    target: "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+  summarySent: true

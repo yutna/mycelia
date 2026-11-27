@@ -1,0 +1,18 @@
+apiVersion: mycelia/v1
+kind: IdempotencyRecord
+metadata:
+  id: IDK-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  key:
+    workItemID: MYC-123
+    commit: 0123456789abcdef0123456789abcdef01234567
+    action: pull-request
+  keyHash: "sha256:abababababababababababababababababababababababababababababababab"
+  effect: pull-request
+  runID: RUN-001
+  status: done
+  recordedAt: 2026-11-13T09:00:00Z
+  completedAt: 2026-11-13T09:00:05Z
+  result: "https://github.com/example/repo/pull/42"
+  repeats: 1

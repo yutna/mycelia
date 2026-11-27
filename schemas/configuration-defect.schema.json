@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/configuration-defect.schema.json",
+  "title": "Mycelia Configuration Defect",
+  "description": "Prompt, command, or skill text that tells an agent to answer an open question or to ignore a guard (MYC-EXE-018).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "ConfigurationDefect"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CFD-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example CFD-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "sourceType",
+        "finding",
+        "excerpt",
+        "foundBy",
+        "foundAt",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository path of the text."
+        },
+        "sourceType": {
+          "enum": [
+            "role-prompt",
+            "command",
+            "skill"
+          ]
+        },
+        "finding": {
+          "enum": [
+            "answers-open-question",
+            "ignores-guard"
+          ]
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "foundBy": {
+          "enum": [
+            "assessor",
+            "lint"
+          ]
+        },
+        "foundAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "open",
+            "fixed"
+          ]
+        }
+      }
+    }
+  }
+}

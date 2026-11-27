@@ -26,6 +26,22 @@ validated example.
 | [readiness-report](readiness-report.schema.json) | `ReadinessReport` | [readiness-report](../examples/readiness-report.example.yaml) |
 | [conformance-fixture](conformance-fixture.schema.json) | `ConformanceFixture` | [fixtures](../conformance/fixtures/) |
 | [conformance-result](conformance-result.schema.json) | `ConformanceResult` | [conformance-result](../examples/conformance-result.example.yaml) |
+| [idempotency-record](idempotency-record.schema.json) | `IdempotencyRecord` | [idempotency-record](../examples/idempotency-record.example.yaml) |
+| [budget-ledger](budget-ledger.schema.json) | `BudgetLedger` | [budget-ledger](../examples/budget-ledger.example.yaml) |
+| [kill-switch-record](kill-switch-record.schema.json) | `KillSwitchRecord` | [kill-switch-record](../examples/kill-switch-record.example.yaml) |
+| [notification-record](notification-record.schema.json) | `NotificationRecord` | [notification-record](../examples/notification-record.example.yaml) |
+| [owner-answer-record](owner-answer-record.schema.json) | `OwnerAnswerRecord` | [owner-answer-record](../examples/owner-answer-record.example.yaml) |
+| [reply-record](reply-record.schema.json) | `ReplyRecord` | [reply-record](../examples/reply-record.example.yaml) |
+| [work-cycle-record](work-cycle-record.schema.json) | `WorkCycleRecord` | [work-cycle-record](../examples/work-cycle-record.example.yaml) |
+| [recorded-decision](recorded-decision.schema.json) | `RecordedDecision` | [recorded-decision](../examples/recorded-decision.example.yaml) |
+| [configuration-defect](configuration-defect.schema.json) | `ConfigurationDefect` | [configuration-defect](../examples/configuration-defect.example.yaml) |
+| [gap-record](gap-record.schema.json) | `GapRecord` | [gap-record](../examples/gap-record.example.yaml) |
+| [load-check-record](load-check-record.schema.json) | `LoadCheckRecord` | [load-check-record](../examples/load-check-record.example.yaml) |
+| [runtime-environment-record](runtime-environment-record.schema.json) | `RuntimeEnvironmentRecord` | [runtime-environment-record](../examples/runtime-environment-record.example.yaml) |
+| [selection-map-defect](selection-map-defect.schema.json) | `SelectionMapDefect` | [selection-map-defect](../examples/selection-map-defect.example.yaml) |
+| [update-record](update-record.schema.json) | `UpdateRecord` | [update-record](../examples/update-record.example.yaml) |
+| [carried-result](carried-result.schema.json) | `CarriedResult` | [carried-result](../examples/carried-result.example.yaml) |
+| [dependency-tier-record](dependency-tier-record.schema.json) | `DependencyTierRecord` | [dependency-tier-record](../examples/dependency-tier-record.example.yaml) |
 
 ## Validate
 

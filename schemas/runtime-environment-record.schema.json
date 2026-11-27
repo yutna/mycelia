@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/runtime-environment-record.schema.json",
+  "title": "Mycelia Runtime Environment Record",
+  "description": "The isolated environment a run used and what loaded in it (MYC-EXE-014).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "RuntimeEnvironmentRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ENV-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example ENV-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runID",
+        "opencodeVersion",
+        "user",
+        "configDir",
+        "systemScope",
+        "env",
+        "loaded"
+      ],
+      "properties": {
+        "runID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "opencodeVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "user": {
+          "type": "string",
+          "minLength": 1
+        },
+        "configDir": {
+          "type": "string",
+          "minLength": 1
+        },
+        "systemScope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Isolation variables, for example OPENCODE_DISABLE_CLAUDE_CODE."
+        },
+        "loaded": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "agents",
+            "skills",
+            "plugins"
+          ],
+          "properties": {
+            "agents": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "skills": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "plugins": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "hostMarkersFound": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Host marker files found in the run; must be empty."
+        }
+      }
+    }
+  }
+}

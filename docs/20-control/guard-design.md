@@ -252,8 +252,10 @@ the autonomy ceiling (outcome 4); any other unproven rule affects scoring:
 Every registry rule
 ([rule-lifecycle.md](../60-evolution/rule-lifecycle.md) §10) names its
 enforcer: the guard and guard rule that blocks it, or "instruction only" when
-no guard exists. The format of the enforcer field is defined with the schemas
-in #109. An instruction-only registry rule that an audit or incident shows was
+no guard exists. In the `rules` registry of `mycelia.yaml`
+([mycelia schema](../../schemas/mycelia.schema.json)), `enforcer` is either the
+string `instruction only` or an object with the `guard` and its `rule`. An
+instruction-only registry rule that an audit or incident shows was
 broken twice SHOULD get a guard. A registry rule enforced by a guard SHOULD NOT
 also be restated as instruction text that can drift from the guard.
 
