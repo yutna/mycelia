@@ -12,6 +12,7 @@ system prevents both unmanaged autonomy and rubber-stamping.
 
 | Class | Examples | Default authority |
 | --- | --- | --- |
+| Implementation choice | A name, an internal structure, or which existing pattern or algorithm to use, left open by the work item | Agent at R0-R2, recorded under `MYC-EXE-019`; otherwise the human owner |
 | Editorial | Typo, formatting, link fix | Maintainer |
 | Normative | New or changed requirement | Maintainer and independent review |
 | Security | Security requirement or finding | Security owner and maintainer |
@@ -23,10 +24,16 @@ system prevents both unmanaged autonomy and rubber-stamping.
 | Release | Tag and publish | Maintainer; human owner for R3/R4 |
 | Risk tier | Assign R0-R4 to a work item | Planner proposes; human owner confirms R3/R4 |
 
+Implementation choice is the only class an agent may decide, and only within
+the fences of `MYC-EXE-019`. Every other class is held by the authority in the
+table, and an agent that meets one of them asks under the ambiguity protocol
+([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §5).
+
 ## 3. Decision matrix
 
 | Decision | Proposer | Approver | Consulted | Informed |
 | --- | --- | --- | --- | --- |
+| Implementation choice (R0-R2) | Agent | Agent, recorded; checked by the independent reviewer | None | Human owner through the pull request |
 | Editorial change | Contributor or agent | Maintainer | None | None |
 | Normative change | Maintainer | Maintainer and independent reviewer | Adopters | Contributors |
 | Security change | Security owner | Security owner and maintainer | Human owner | Contributors |

@@ -54,6 +54,7 @@ it never falls through to `accepted`.
 | `verifying` | `blocked` | Evidence or verifier missing |
 | `reviewing` | `accepting` | No blocking findings |
 | `reviewing` | `rejected` | Blocking finding |
+| `reviewing` | `blocked` | A recorded decision is rejected (`MYC-EXE-019`) |
 | `accepting` | `merging` | Approval recorded |
 | `accepting` | `blocked` | Approval missing |
 | `merging` | `observing` | Merge gate pass |
@@ -144,7 +145,7 @@ run that starts from the blocked checkpoint with the answer in context. An
 acknowledgement alone does not clear the block. A report or a notification is
 not progress, and a work cycle in which every eligible work item is blocked
 starts no run and sends at most one summary notification. The requirements are `MYC-EXE-015` to
-`MYC-EXE-018` in [failure-and-ambiguity.md](failure-and-ambiguity.md) §10-§11.
+`MYC-EXE-019` in [failure-and-ambiguity.md](failure-and-ambiguity.md) §10-§11.
 
 ## 11. OpenCode mapping
 

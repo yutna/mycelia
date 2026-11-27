@@ -74,6 +74,7 @@ used in a normative document.
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
 | **Idempotency key** | The key on an external side effect, made of the work item, the commit, and the action, that makes a repeat return the original result instead of a second effect. |
+| **Implementation choice** | A choice the work item leaves open that is not a question about goal, criteria, scope, risk, data class, approval, or source of truth, such as a name or an internal structure. The only decision class an agent may decide (`MYC-EXE-019`). |
 | **Incident commander** | The human who owns an incident response and its decisions. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
@@ -100,6 +101,7 @@ used in a normative document.
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
 | **Reward hacking** | Satisfying a metric or check without satisfying its intent, for example weakening a test to make it pass. |
 | **Rule lifecycle** | The states of a rule (draft, active, deprecated, retired) and the process that moves it between them. |
+| **Recorded decision** | An implementation choice an agent made at R0-R2 and recorded with its evidence under `MYC-EXE-019`; it is not an open question. |
 | **Red teaming** | Adversarial testing that attempts to bypass policy, exfiltrate data, or abuse a tool. |
 | **Release gate** | The set of evidence, security, provenance, and rollback checks that must pass before a release. |
 | **Release record** | The auditable record of a release: version, commit, gates, rollback, decision, and timestamp. |

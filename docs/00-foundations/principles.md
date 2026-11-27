@@ -69,7 +69,10 @@ stop condition.
 large blast radius.
 
 **Implications.** The loop stops on ambiguity, policy conflict, repeated
-failure, or budget exhaustion. A stop is a terminal state, not a retry.
+failure, or budget exhaustion. A stop is a terminal state, not a retry. An
+implementation choice the work item leaves open is not an ambiguity: at R0-R2
+the agent records it and continues, within fences the runtime checks
+(`MYC-EXE-019`).
 
 **Anti-pattern.** "Keep going until it works" with no cost ceiling.
 

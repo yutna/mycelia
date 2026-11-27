@@ -41,7 +41,7 @@ Conformance is claimed per profile, not globally.
   the loop. It passes the conformance kit for the profile it claims. A
   repository at L2 or higher MUST run on one (`MYC-CORE-013`). The runtime
   requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7
-  and `MYC-EXE-015` to `MYC-EXE-018` in failure-and-ambiguity.md §11.
+  and `MYC-EXE-015` to `MYC-EXE-019` in failure-and-ambiguity.md §11.
   The conformance kit contract is added during `v2.0.0`.
 
 A repository that cannot produce evidence for a control does not conform at
@@ -181,7 +181,7 @@ failure, not a pass. This invariant is the core of the reliability contract in
 | `MYC-CORE-005` | No work item may reach `accepted` without satisfying its evidence manifest. | Evidence artifacts | Gate check |
 | `MYC-CORE-006` | R3 and R4 changes MUST have independent verification and human acceptance. | Review record and sign-off | Audit sample |
 | `MYC-CORE-007` | The factory MUST record the model, prompt, policy, and rule versions for every run. | Trace event | Trace audit |
-| `MYC-CORE-008` | The factory MUST stop and escalate on ambiguity, policy conflict, or budget exhaustion. | Blocked state and question | Failure drill |
+| `MYC-CORE-008` | The factory MUST stop and escalate on ambiguity, policy conflict, or budget exhaustion. An implementation choice recorded within the fences of `MYC-EXE-019` is not an ambiguity. | Blocked state and question | Failure drill |
 | `MYC-CORE-009` | The factory MUST NOT merge or release without the required gates. | Gate results | CI and ruleset check |
 | `MYC-CORE-010` | A repository MUST be assessed against the readiness model before its autonomy level is raised. | Readiness report | Assessment review |
 | `MYC-CORE-011` | Every exception MUST be time-bound, owned, and audited. | Exception record | Audit sample |
@@ -191,7 +191,7 @@ failure, not a pass. This invariant is the core of the reliability contract in
 Runtime requirements refine `MYC-CORE-013`. They are `MYC-EXE-001` to
 `MYC-EXE-014` in the
 [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7, with
-the required wrappers in §6, and `MYC-EXE-015` to `MYC-EXE-018` in
+the required wrappers in §6, and `MYC-EXE-015` to `MYC-EXE-019` in
 [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) §11,
 which also refine `MYC-CORE-008`.
 

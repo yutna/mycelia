@@ -148,6 +148,15 @@ A bad question is vague:
 
 A recommendation is allowed, but it is not a decision.
 
+One kind of choice is not an ambiguity in this sense: an **implementation
+choice**, a choice the work item leaves open and that none of the conditions
+above describes, such as a name, an internal structure, or which existing
+pattern or algorithm to use. At R0-R2 an agent may make an implementation
+choice itself and record it, within the fences of `MYC-EXE-019`. Every other
+decision belongs to a human
+([decision-rights.md](../20-control/decision-rights.md) §2) and follows the
+protocol above.
+
 ## 6. Escalation ladder
 
 1. **Self-check.** Reproduce the failure and confirm the classification.
@@ -241,6 +250,9 @@ Terms:
   `rejected` (for an issue tracker: the issue is closed with that outcome). A
   report, comment, status update, label change, heartbeat, notification, or
   checkpoint is not progress.
+- A **recorded decision** is an implementation choice an agent made and
+  recorded under `MYC-EXE-019`. It is not an open question, it does not block
+  the work item, and it is not progress.
 - An **owner answer** is the reply to an open question from a person who holds
   the decision right for it
   ([decision-rights.md](../20-control/decision-rights.md) §7), recorded in the
@@ -254,7 +266,7 @@ stop also follows §2 for the work item it ended.
 | Progress | At least one merged change or `accepted`/`rejected` work item | No; resets the count |
 | Stopped | Kill switch, budget, or policy stop ended the cycle | No |
 | No progress | At least one run started, none made progress, and at least one did not end `blocked` with a recorded §5 question | Yes |
-| Newly blocked | At least one run started, and every run that started ended `blocked` with a recorded §5 question | No |
+| Newly blocked | At least one run started, and every run that started ended `blocked` with a recorded §5 question (including a rejected recorded decision, `MYC-EXE-019`) | No |
 | Blocked-only | Eligible work items exist, none is runnable, so no run starts (`MYC-EXE-016`) | No |
 | Idle | No eligible work item | No |
 
@@ -378,6 +390,52 @@ defined by the conformance kit contract.
   override text.
 - **Failure mode:** Ceiling lowered to L1 when prompt text can change a guard's
   result or an agent can record an owner answer.
+
+### `MYC-EXE-019` Recorded implementation choices
+
+- **Statement:** An agent MAY make an implementation choice (§5) without
+  blocking only when all of these hold, and the runtime MUST check each one
+  from recorded data, not from the agent's own judgment:
+  1. The work item is R0, R1, or R2.
+  2. The choice changes none of the work item's goal, acceptance criteria,
+     non-goals, constraints, risk tier, or data class (compared with the work
+     item version in the checkpoint).
+  3. The work item lists `affectedAreas`, the diff stays inside them, and the
+     diff touches no protected file: tests, guard configuration and fixtures
+     ([guard-design.md](../20-control/guard-design.md) §2), policy and
+     permission configuration, schemas, CI workflows, the evidence manifest,
+     the work item, and any path the repository marks protected.
+  4. The choice authorizes or changes no gated side effect (merge, release,
+     external message, data or schema migration); those keep their own gates.
+  5. The record cites evidence that settles the choice (a test, prototype, or
+     measurement) at the current commit.
+  6. The work item has not reached the configured limit of recorded decisions
+     (field added in #109).
+
+  The runtime MUST record each recorded decision in the trace with the
+  options considered, the choice, and the evidence, and MUST list it in the
+  pull request under "Recorded decisions". When a fence fails, the choice is
+  an open question under §5 and the work item ends `blocked`. When the
+  independent reviewer or an accepting human rejects a recorded decision, the
+  work item ends `blocked` with that decision as an open question whose
+  recommendation is the agent's choice; it resumes through `MYC-EXE-017`.
+- **Rationale:** Blocking on every open choice stops the loop on questions an
+  experiment can settle, while letting an agent decide anything it judges
+  reversible lets it guess on goals, scope, and risk. A narrow class with
+  checks outside the agent keeps the loop moving without trusting a weak
+  model's judgment.
+- **Applies to:** L2-L4; R0-R2 only.
+- **Evidence:** Recorded decision records in the trace and the pull request,
+  with the fence results (fields added in #109); the review record that checks
+  them.
+- **Verification:** Fixture `recorded-decision` (proposed for #108): an R3 work
+  item, a protected file in the diff, a work item without `affectedAreas`, and
+  a work item over the limit each turn the choice into an open question; a
+  reviewer rejection ends the work item `blocked` with the decision as the
+  recommendation.
+- **Failure mode:** The work item is `blocked` when a fence fails or a recorded
+  decision is rejected; ceiling lowered to L1 when the runtime lets an agent
+  decide outside the fences.
 
 ## 12. Related documents
 
