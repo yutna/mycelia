@@ -42,6 +42,7 @@ docs/
 
 - [roles-and-permissions.md](20-control/roles-and-permissions.md) — role catalog, permissions, identity
 - [policy-as-code.md](20-control/policy-as-code.md) — policy model, precedence, decisions, exceptions
+- [guard-design.md](20-control/guard-design.md) — normalization, exact allow-lists, bypass corpus, canaries, meta-check
 - [evidence-manifest.md](20-control/evidence-manifest.md) — definition of done, evidence, gates
 - [decision-rights.md](20-control/decision-rights.md) — decision matrix, oversight, break-glass
 - [sandbox-and-isolation.md](20-control/sandbox-and-isolation.md) — isolation levels, sandbox contract

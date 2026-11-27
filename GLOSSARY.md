@@ -22,7 +22,8 @@ used in a normative document.
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Brownfield** | An existing repository with legacy code, checks, and ownership that must be adopted incrementally. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
-| **Canary** | A limited release to a small audience or traffic share before a full rollout. |
+| **Bypass corpus** | The fixtures, per guard rule, that each try a known bypass form and must be caught (`MYC-CTL-003`). |
+| **Canary** | A limited release to a small audience or traffic share before a full rollout. Not a guard canary. |
 | **Capacity planning** | Sizing concurrency, review, and incident capacity to the expected demand. |
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
@@ -63,6 +64,8 @@ used in a normative document.
 | **Flake** | A check that produces different results on the same input and environment; it is a defect, not a pass. |
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
+| **Guard** | An automated rule that blocks or flags an action or a change: a lint rule, CI check, policy, permission rule, or plugin guard. |
+| **Guard canary** | A guard fixture with a known input and an exact expected offense count, findings status, and rule name (`MYC-CTL-004`). Not a release canary. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
 | **Headless run** | A run with no person at the OpenCode client, such as a run started by the scheduler or by an operator command that does not stay attached. Not the same as L4 unattended. |
 | **Heartbeat** | A timestamp an active run writes to its run state at a configured interval, so the runtime can tell a live run from a stale one. |
@@ -75,6 +78,7 @@ used in a normative document.
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
+| **Meta-check** | A check over a guard that fails when a rule in the effective rule set has no canary or bypass corpus (`MYC-CTL-005`). |
 | **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
 | **Notification adapter** | The runtime component that tells the owner a work item is `blocked`, records delivery and acknowledgement, and escalates on expiry (`MYC-EXE-009`). |

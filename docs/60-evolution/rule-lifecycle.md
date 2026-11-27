@@ -88,8 +88,10 @@ A permanent exception is a rule change in disguise.
 
 ## 8. Testing
 
-- Every rule has a positive test: the allowed action proceeds.
-- Every rule has a negative test: the denied action is blocked.
+A rule enforced by a guard is tested as
+[guard-design.md](../20-control/guard-design.md) requires: bypass corpus,
+exact-count guard canaries, and a meta-check. In addition:
+
 - A threshold rule has a boundary test.
 - A policy change runs a dry run against historical decisions.
 - The tests are part of the pull request evidence.
@@ -115,6 +117,7 @@ The registry lists:
 | Owner | `security-owner` |
 | Review date | `2027-01-31` |
 | Replacement | `RULE-014` |
+| Enforcer | The guard and guard rule, or `instruction only` ([guard-design.md](../20-control/guard-design.md) §8; format defined in #109) |
 
 The planned location is `rules.yaml` or a section of `mycelia.yaml`. Until the
 schema exists, the registry is a table in the readiness report.

@@ -48,7 +48,10 @@ with the failing output. After the retry limit, the run is `blocked` or
 ### Flaky check
 
 A check fails for infrastructure or nondeterminism. Re-run once, then quarantine
-the check with an owner. A flaky check is never a pass.
+the check with an owner. A quarantine is a time-bound exception
+(`MYC-CORE-011`, [guard-design.md](../20-control/guard-design.md)
+`MYC-CTL-006`). A red-line check is never quarantined: it fails closed and the
+change is `blocked`. A flaky check is never a pass.
 
 ### Policy violation
 

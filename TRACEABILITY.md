@@ -53,6 +53,19 @@ These refine `MYC-CORE-013`; `MYC-EXE-015` to `MYC-EXE-018` also refine
 | `MYC-EXE-017` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Owner answer record | `CTL-14` |
 | `MYC-EXE-018` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded configuration defects | `CTL-14` |
 
+### Guard requirements
+
+These refine `MYC-CORE-003` and `MYC-CORE-009`.
+
+| Requirement | Specification | Evidence | Control |
+| --- | --- | --- | --- |
+| `MYC-CTL-001` | [guard design](docs/20-control/guard-design.md) §5 | Shared normalization; bypass corpus results | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
+| `MYC-CTL-002` | [guard design](docs/20-control/guard-design.md) §5 | Exemption lists; look-alike fixtures | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
+| `MYC-CTL-003` | [guard design](docs/20-control/guard-design.md) §5 | Bypass corpus and recorded reasons | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
+| `MYC-CTL-004` | [guard design](docs/20-control/guard-design.md) §5 | Guard canary results | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
+| `MYC-CTL-005` | [guard design](docs/20-control/guard-design.md) §5 | Meta-check output | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
+| `MYC-CTL-006` | [guard design](docs/20-control/guard-design.md) §5 | Loosening approval; exception records | `CTL-12`, `CTL-20` |
+
 ## 3. Assessment controls
 
 | Control | Owning document | Evidence |

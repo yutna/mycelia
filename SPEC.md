@@ -195,6 +195,10 @@ the required wrappers in §6, and `MYC-EXE-015` to `MYC-EXE-018` in
 [failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) §11,
 which also refine `MYC-CORE-008`.
 
+Guard requirements refine `MYC-CORE-003` and `MYC-CORE-009`. They are
+`MYC-CTL-001` to `MYC-CTL-006` in
+[guard-design.md](docs/20-control/guard-design.md) §5.
+
 ### Failure modes
 
 An unmet core requirement has one of four outcomes:
