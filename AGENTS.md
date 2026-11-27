@@ -1,7 +1,7 @@
 # Agent instructions
 
 Mycelia is a control-plane specification for an evidence-governed AI software
-factory on OpenCode, with a reference runtime. It contains Markdown, JSON/JSONC
+factory on OpenCode, with a reference runtime planned from `v2.1.0`. It contains Markdown, JSON/JSONC
 configuration, JSON Schema, and examples. From `v2.1.0` it also contains the
 reference runtime in `runtime/`. It does not contain product code.
 

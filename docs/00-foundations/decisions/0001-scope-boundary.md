@@ -75,6 +75,9 @@ Harder:
   longer meets L2 under `v2.0.0`. The assessor lowers its ceiling to L1 until
   the runtime evidence exists. This is a breaking change and needs a major
   version.
+- Until a kit implementation exists (planned for `v2.1.0`), no repository can
+  show the conformance result, so the ceiling under `v2.0.0` is L1 for every
+  repository.
 - The reference runtime can be mistaken for the specification. The specification
   stays normative; where the runtime disagrees with it, the runtime has a bug.
 

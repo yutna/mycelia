@@ -17,7 +17,7 @@ together decide who accepts a change.
 | --- | --- | --- | --- | --- |
 | L0 Manual | Nothing autonomous | Does the work; uses the spec as a checklist | None | Manual record |
 | L1 Assisted | Agent proposes a plan and a change | Runs checks and merges every change | Work item, role contract, policy, evidence manifest | Agent output and human-run checks |
-| L2 Supervised | Agent runs the loop in a sandbox; independent reviewer | Accepts by sampling; handles exceptions | L1 plus sandbox, independent review, acceptance sampling, trace | Manifest, review, sample record |
+| L2 Supervised | Agent runs the loop in a sandbox; independent reviewer | Accepts by sampling; handles exceptions | L1 plus conformant runtime, sandbox, independent review, acceptance sampling, trace | Manifest, review, sample record |
 | L3 Autonomous | Agent merges R0-R2 after evidence gates | Handles R3 and R4, policy, incidents | L2 plus provenance, mutation testing, incident response, evaluations, readiness assessment | Gates, trace, provenance, evaluation |
 | L4 Unattended | Multi-agent concurrency; policy-gated merge | Owns policy, audits by sampling, commands incidents | L3 plus concurrency controls, merge queue, budgets, observability, audit sampling, incident drills | All evidence plus sampling and drills |
 
@@ -132,6 +132,7 @@ does not compensate.
 | --- | --- |
 | No concurrency controls | L3 |
 | No mutation testing | L2 |
+| No conformant runtime | L1 |
 | No independent review | L1 |
 | No work item or evidence manifest | L0 |
 

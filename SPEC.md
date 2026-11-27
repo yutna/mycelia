@@ -35,10 +35,12 @@ Conformance is claimed per profile, not globally.
   claims, including the policy gates and terminal states.
 - A **conformant assessment** follows the readiness model, cites evidence for
   every score, and reports unproven controls as unproven.
-- A **conformant runtime** implements the
-  [runtime contract](docs/30-execution/opencode-runtime-contract.md) and passes
-  the conformance kit for the profile it claims. A repository at L2 or higher
-  MUST run on one (`MYC-CORE-013`).
+- A **conformant runtime** is the conformant implementation of the
+  [runtime contract](docs/30-execution/opencode-runtime-contract.md) that runs
+  the loop. It passes the conformance kit for the profile it claims. A
+  repository at L2 or higher MUST run on one (`MYC-CORE-013`). The runtime
+  contract's requirement IDs (`MYC-EXE-*`) and the kit contract are added
+  during `v2.0.0`.
 
 A repository that cannot produce evidence for a control does not conform at
 the level that requires that control, even if the control is described in its
@@ -182,7 +184,7 @@ failure, not a pass. This invariant is the core of the reliability contract in
 | `MYC-CORE-010` | A repository MUST be assessed against the readiness model before its autonomy level is raised. | Readiness report | Assessment review |
 | `MYC-CORE-011` | Every exception MUST be time-bound, owned, and audited. | Exception record | Audit sample |
 | `MYC-CORE-012` | The factory MUST record variance when evidence is not reproducible. | Variance note | Reproducibility check |
-| `MYC-CORE-013` | A repository that claims L2 or higher MUST run its loop on a runtime that conforms to the runtime contract, shown by a passing conformance kit result for its declared profile. | Conformance kit result | Assessor check; the ceiling is L1 without it |
+| `MYC-CORE-013` | A repository that claims L2 or higher MUST run its loop on a runtime that conforms to the runtime contract, shown by a passing conformance result for its declared profile. | Conformance result, as defined by the conformance kit contract, from any implementation of that contract | Assessor check |
 
 ### Failure modes
 
@@ -191,7 +193,8 @@ An unmet core requirement has one of four outcomes:
 1. The work item is `blocked` until the missing artifact or decision arrives.
 2. The work item is `rejected` with the reason and evidence.
 3. The run is `aborted` by policy or budget.
-4. The repository's autonomy ceiling is lowered by the assessor.
+4. The repository's autonomy ceiling is lowered by the assessor. For example,
+   without `MYC-CORE-013` evidence the ceiling is L1.
 
 Silent success is never an allowed outcome.
 
@@ -200,7 +203,7 @@ Silent success is never an allowed outcome.
 | Profile | Target level | Required controls | Human role |
 | --- | --- | --- | --- |
 | **Minimal** | L1 | Work item, role contract, policy, evidence manifest, terminal states | Merges every change |
-| **Standard** | L2 | Minimal plus sandbox, independent review, human acceptance sampling, trace | Accepts by sampling |
+| **Standard** | L2 | Minimal plus conformant runtime, sandbox, independent review, human acceptance sampling, trace | Accepts by sampling |
 | **High-assurance** | L3-L4 | Standard plus provenance, mutation testing, incident response, evaluations, readiness assessment | Policy, high risk, audit |
 
 A profile inherits the requirements of the profiles before it. A repository

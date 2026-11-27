@@ -7,9 +7,10 @@
 <!-- markdownlint-enable MD013 -->
 
 Mycelia is a control-plane specification for an evidence-governed AI software
-factory on OpenCode, with a reference runtime. It defines the roles, permissions, policies, execution loop,
-assurance, observability, and readiness assessment that let autonomous agents
-do real work in a repository without silent failure.
+factory on OpenCode, with a reference runtime planned from `v2.1.0`. It defines
+the roles, permissions, policies, execution loop, assurance, observability, and
+readiness assessment that let autonomous agents do real work in a repository
+without silent failure.
 
 ## Why Mycelia
 
