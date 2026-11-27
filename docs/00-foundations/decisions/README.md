@@ -19,3 +19,4 @@ format and the rule for when a decision needs a record are in
 | ADR | Title | Status |
 | --- | --- | --- |
 | [0001](0001-scope-boundary.md) | Scope boundary: control-plane specification and reference runtime | Accepted |
+| [0002](0002-runtime-stack.md) | Runtime stack and OpenCode baseline | Accepted |

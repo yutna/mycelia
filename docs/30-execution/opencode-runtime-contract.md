@@ -2,7 +2,8 @@
 
 Status: Draft
 
-Runtime: OpenCode V2, tested with version 2.2.6 or newer
+Runtime: OpenCode V2, version 2.4.0 or newer; last tested with 2.2.6, 2.4.x test
+pending ([ADR-0002](../00-foundations/decisions/0002-runtime-stack.md))
 
 ## 1. Purpose
 
@@ -136,7 +137,7 @@ change, and a fallback route.
 
 ## 7. Conformance tests
 
-- `opencode --version` reports 2.2.6 or newer.
+- `opencode --version` reports 2.4.0 or newer.
 - `opencode.json` validates against the published schema.
 - The custom agents, commands, and skills are discovered.
 - A policy-denied action is blocked with a policy error.

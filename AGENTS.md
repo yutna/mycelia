@@ -41,6 +41,10 @@ reference runtime in `runtime/`. It does not contain product code.
 - `mise run lint:schemas` — validate schemas and examples
 - `mise run lint:actions` — actionlint, when workflows change
 - `git diff --check` — whitespace
+- From `v2.1.0`, for changes under `runtime/`: the TypeScript lint, type
+  check, and tests defined there
+  ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md)). The
+  exact `mise` tasks are added with the runtime.
 
 Run `mise run lint` before every pull request. Run the config, schema, and
 action checks when their files change.
@@ -66,8 +70,9 @@ action checks when their files change.
 
 ## OpenCode rules
 
-- Tested with OpenCode 2.2.6 or newer. Record the version in the pull request
-  when behavior depends on it.
+- Requires OpenCode 2.4.0 or newer
+  ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md)). Record
+  the version in the pull request when behavior depends on it.
 - Do not run `opencode run --auto` with broad permissions in CI. Explicitly
   deny dangerous actions in `opencode.jsonc`, then allow only what the task
   needs.

@@ -12,7 +12,7 @@ spec:
     default: L1
   runtime:
     name: opencode
-    version: 2.2.6
+    version: 2.4.2
     config: opencode.json
   riskTiers:
     R0: Documentation, comments, formatting.
