@@ -170,10 +170,10 @@ included. They apply from L2, because `MYC-CORE-013` requires a conformant
 runtime from L2. Each requirement uses the fields in
 [SPEC.md](../../SPEC.md) §5.
 
-`MYC-EXE-015` to `MYC-EXE-018` (progress, blocked-only preflight, owner answer
-and resume, and guards over prompts) are defined in
-[failure-and-ambiguity.md](failure-and-ambiguity.md) §11 and bind every
-conformant runtime in the same way.
+`MYC-EXE-015` to `MYC-EXE-019` (progress, blocked-only preflight, owner answer
+and resume, guards over prompts, and recorded implementation choices) are
+defined in [failure-and-ambiguity.md](failure-and-ambiguity.md) §11 and bind
+every conformant runtime in the same way.
 
 Values such as the heartbeat interval, the stale-run threshold, and the
 acknowledgement expiry are not fixed by this document. The repository MUST

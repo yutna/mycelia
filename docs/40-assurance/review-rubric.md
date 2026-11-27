@@ -37,6 +37,7 @@ The reviewer reads:
 - the policy decisions
 - the trace for the run
 - the rollback plan
+- the recorded decisions (`MYC-EXE-019`)
 
 A review without the evidence is a style check, not an assurance check.
 
@@ -57,6 +58,14 @@ A review without the evidence is a style check, not an assurance check.
 
 Each dimension is `pass`, `fail`, or `not-applicable`. A blocking dimension that
 is `fail` blocks the merge. A `not-applicable` must be justified.
+
+Recorded decisions. A work item with any recorded decision gets an
+independent review at every risk tier. The reviewer checks each recorded
+decision: that it is an implementation choice and not a question about the
+goal, scope, risk, or another human-held class, and that its evidence settles
+it. A recorded decision the reviewer rejects ends the work item `blocked`
+(`MYC-EXE-019`). An implementation choice the diff makes but does not record is
+a blocking finding.
 
 ## 5. Severity
 

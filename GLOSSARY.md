@@ -74,6 +74,7 @@ used in a normative document.
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
 | **Idempotency key** | The key on an external side effect, made of the work item, the commit, and the action, that makes a repeat return the original result instead of a second effect. |
+| **Implementation choice** | A choice the work item leaves open that is not a question about goal, criteria, scope, risk, data class, approval, or source of truth, such as an internal structure or a name that follows an existing convention. The only decision class an agent may decide (`MYC-EXE-019`). |
 | **Incident commander** | The human who owns an incident response and its decisions. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
 | **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
@@ -95,6 +96,7 @@ used in a normative document.
 | **Policy-as-code** | Machine-enforced rules that a prompt cannot override. In OpenCode these are `policies`, which are stricter than `permissions`. |
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
+| **Recorded decision** | An implementation choice an agent made at R0-R2 and recorded with its evidence under `MYC-EXE-019`; it is not an open question. |
 | **Risk tier** | One of R0 documentation, R1 tests and tooling, R2 normal feature or fix, R3 sensitive area such as auth, payments, schema, or infrastructure, or R4 critical or security-sensitive. |
 | **ROI** | Return on investment: value delivered divided by total cost, including human time and incidents. |
 | **Review rubric** | The dimensions and blocking thresholds used to judge a change consistently. |
