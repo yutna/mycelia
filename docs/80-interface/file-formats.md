@@ -89,6 +89,22 @@ lower-case kebab-case.
 | `readiness-report.schema.json` | `ReadinessReport` | `readiness-report.example.yaml` |
 | `conformance-fixture.schema.json` | `ConformanceFixture` | `conformance/fixtures/*.yaml` |
 | `conformance-result.schema.json` | `ConformanceResult` | `conformance-result.example.yaml` |
+| `idempotency-record.schema.json` | `IdempotencyRecord` | `idempotency-record.example.yaml` |
+| `budget-ledger.schema.json` | `BudgetLedger` | `budget-ledger.example.yaml` |
+| `kill-switch-record.schema.json` | `KillSwitchRecord` | `kill-switch-record.example.yaml` |
+| `notification-record.schema.json` | `NotificationRecord` | `notification-record.example.yaml` |
+| `owner-answer-record.schema.json` | `OwnerAnswerRecord` | `owner-answer-record.example.yaml` |
+| `reply-record.schema.json` | `ReplyRecord` | `reply-record.example.yaml` |
+| `work-cycle-record.schema.json` | `WorkCycleRecord` | `work-cycle-record.example.yaml` |
+| `recorded-decision.schema.json` | `RecordedDecision` | `recorded-decision.example.yaml` |
+| `configuration-defect.schema.json` | `ConfigurationDefect` | `configuration-defect.example.yaml` |
+| `gap-record.schema.json` | `GapRecord` | `gap-record.example.yaml` |
+| `load-check-record.schema.json` | `LoadCheckRecord` | `load-check-record.example.yaml` |
+| `runtime-environment-record.schema.json` | `RuntimeEnvironmentRecord` | `runtime-environment-record.example.yaml` |
+| `selection-map-defect.schema.json` | `SelectionMapDefect` | `selection-map-defect.example.yaml` |
+| `update-record.schema.json` | `UpdateRecord` | `update-record.example.yaml` |
+| `carried-result.schema.json` | `CarriedResult` | `carried-result.example.yaml` |
+| `dependency-tier-record.schema.json` | `DependencyTierRecord` | `dependency-tier-record.example.yaml` |
 
 ## 6. Validation
 

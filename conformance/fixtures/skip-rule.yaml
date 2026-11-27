@@ -20,7 +20,7 @@ spec:
       expect:
         terminalState: blocked
         runExitCode: 3
-        evidence: [SkipRecord, TraceEvent]
+        evidence: [Evidence, TraceEvent]
     - id: rule-added-in-same-pull-request
       given:
         workItem: { riskTier: R2 }

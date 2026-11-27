@@ -103,7 +103,7 @@
         "given": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Starting conditions. Sub-objects are open until the runtime data contracts are complete.",
+          "description": "Starting conditions. Sub-objects stay open in v2.0.0; the reference runtime (v2.1.0) tightens them.",
           "properties": {
             "workItem": {
               "type": "object"
@@ -248,7 +248,7 @@
             "type": "string",
             "pattern": "^[A-Z][A-Za-z]+$"
           },
-          "description": "Record kinds the run must produce; schema kinds or records added with the runtime data contracts."
+          "description": "Record kinds the run must produce; each is the kind of a schema in schemas/ (checked by scripts/check-fixture-names.sh)."
         },
         "trace": {
           "type": "array",

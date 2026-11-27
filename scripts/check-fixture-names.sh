@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Meta-check for the conformance kit (MYC-ADP-002): every fixture named in a
-# Verification field has a file, every file is named somewhere, and each
-# file's metadata.id equals its file name. Names are cited as
+# Verification field has a file, every file is named somewhere, each file's
+# metadata.id equals its file name, every expected record kind has a schema,
+# and a case's profiles are a subset of its fixture's. Names are cited as
 # Fixture `name`, Fixtures `a` and `b`, or a comma list, and may wrap lines.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -26,5 +27,25 @@ for f in conformance/fixtures/*.yaml; do
     echo "metadata.id '$id' does not match file $f"; status=1
   fi
 done
-[ "$status" -eq 0 ] && echo "ok -- $(echo "$files" | wc -l) fixtures, names match"
+# Every record kind in expect.evidence is the kind of a schema in schemas/.
+kinds=$(cat schemas/*.schema.json | tr -d ' \n' | grep -oE '"kind":\{"const":"[A-Za-z]+"\}' \
+  | sed 's/.*"const":"//; s/"}//' | sort -u)
+used=$(grep -h 'evidence: \[' conformance/fixtures/*.yaml | sed 's/.*evidence: \[//; s/\].*//' | tr ',' '\n' \
+  | tr -d ' ' | sort -u)
+unknown=$(comm -23 <(echo "$used") <(echo "$kinds"))
+if [ -n "$unknown" ]; then
+  echo "Record kind in expect.evidence with no schema:"; echo "$unknown"; status=1
+fi
+
+# A case's profiles are a subset of its fixture's profiles.
+for f in conformance/fixtures/*.yaml; do
+  fixture=$(grep -m1 -E '^  profiles: ' "$f" | sed 's/.*\[//; s/\].*//' | tr ',' '\n' | tr -d ' ' | sort -u)
+  { grep -E '^      profiles: ' "$f" || true; } | while read -r line; do
+    case_profiles=$(echo "$line" | sed 's/.*\[//; s/\].*//' | tr ',' '\n' | tr -d ' ' | sort -u)
+    extra=$(comm -23 <(echo "$case_profiles") <(echo "$fixture"))
+    if [ -n "$extra" ]; then echo "Case profile not in fixture profiles in $f: $extra"; exit 1; fi
+  done || status=1
+done
+
+[ "$status" -eq 0 ] && echo "ok -- $(echo "$files" | wc -l) fixtures, names, record kinds, and profiles match"
 exit "$status"
