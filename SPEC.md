@@ -40,8 +40,9 @@ Conformance is claimed per profile, not globally.
   [runtime contract](docs/30-execution/opencode-runtime-contract.md) that runs
   the loop. It passes the conformance kit for the profile it claims. A
   repository at L2 or higher MUST run on one (`MYC-CORE-013`). The runtime
-  requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7
-  and `MYC-EXE-015` to `MYC-EXE-019` in failure-and-ambiguity.md §11.
+  requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7,
+  `MYC-EXE-015` to `MYC-EXE-019` in failure-and-ambiguity.md §11, and
+  `MYC-EXE-020` and `MYC-EXE-021` in change-lifecycle.md §8.
   The conformance kit contract is added during `v2.0.0`.
 
 A repository that cannot produce evidence for a control does not conform at
@@ -202,6 +203,15 @@ Guard requirements refine `MYC-CORE-003` and `MYC-CORE-009`. They are
 Verification tier requirements refine `MYC-CORE-005` and `MYC-CORE-009`. They
 are `MYC-ASR-001` to `MYC-ASR-005` in
 [verification-stack.md](docs/40-assurance/verification-stack.md) §12.
+
+Change-lifecycle and dependency requirements: `MYC-EXE-020` and `MYC-EXE-021`
+(stale base, evidence after a base update) in
+[change-lifecycle.md](docs/30-execution/change-lifecycle.md) §8, runtime
+requirements that also refine `MYC-CORE-005`; `MYC-ASR-006` (tag identity) in
+[release-and-rollback.md](docs/40-assurance/release-and-rollback.md) §4,
+refining `MYC-CORE-009`; and `MYC-CTL-007` (dependency update risk tier) in
+[supply-chain.md](docs/20-control/supply-chain.md) §12, refining
+`MYC-CORE-003`.
 
 ### Failure modes
 

@@ -176,7 +176,63 @@ versions, evaluation before a change, contract review, and a fallback provider.
 Revocation is immediate: disable the component, remove it from the allowlist,
 rotate credentials, and record the incident.
 
-## 12. Verification
+## 12. Dependency updates
+
+A dependency update is a change like any other, but its risk does not follow
+from the size of its diff: a one-line lockfile bump can change an API. This
+section sets the minimum risk tier of a dependency update from data the
+runtime can read. A human may raise the tier, never lower it below the
+minimum.
+
+Defaults (fields added in #109):
+
+| Setting | Default |
+| --- | --- |
+| Test-only packages (R1 updates) | None |
+| R3 packages | A repository list of package names or patterns, seeded from these categories: authentication, cryptography, payments, database drivers, infrastructure |
+
+### `MYC-CTL-007` Dependency update risk tier
+
+- **Statement:** The runtime MUST propose the minimum risk tier of a dependency
+  update from the version change and the repository's lists:
+  1. A patch or minor update of a package on the repository's test-only list:
+     R1.
+  2. Any other patch or minor update: R2.
+  3. A major update, any update of a pre-1.0 package other than a patch, a
+     version change that does not parse as semantic versioning (calendar
+     versions, commit references), or a lockfile change with no manifest
+     change that moves a package across a major version: a **migration**, at
+     least R2, in its own work item with a migration plan and its rollback.
+  4. A new direct dependency: at least R2, and the package passes the
+     allowlist review (§5).
+  5. A package on the repository's R3 list: at least R3, which a human
+     confirms ([decision-rights.md](decision-rights.md) §2).
+
+  Adding a package to the test-only list or removing one from the R3 list
+  lowers a tier: it is a guard loosening
+  ([guard-design.md](guard-design.md) `MYC-CTL-006`, human approval) and MUST
+  NOT apply in the pull request that makes it.
+
+  When a dependency update whose change patch touches only dependency
+  manifests and lockfiles fails a compile, type, or test check after the flake
+  check of [verification-stack.md](../40-assurance/verification-stack.md) §4,
+  the update MUST NOT be retried as a product failure: it ends `rejected` and
+  the runtime proposes a migration work item
+  ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §2).
+  Updates opened by a bot follow the same rules.
+- **Rationale:** A major upgrade that needed an API migration was treated as a
+  safe bump and failed; a bump that changes code shipped in the artifact is a
+  normal change, not a test-only one.
+- **Applies to:** L2-L4; all risk tiers. Recommended at L1.
+- **Evidence:** The proposed tier with the version change and the list entries
+  it used; the migration work item for a failed update.
+- **Verification:** Fixture `dependency-tier` (proposed for #108): one update
+  per rule above; check the proposed tier and, for a failing major update, the
+  `rejected` outcome and the proposed migration.
+- **Failure mode:** The work item is `blocked` until a human confirms an R3
+  tier; ceiling lowered to L1 when dependency updates bypass the rules.
+
+## 13. Verification
 
 - The inventory is complete.
 - Every pin matches its lockfile or digest.
@@ -186,7 +242,7 @@ rotate credentials, and record the incident.
 - The AI-BOM is updated.
 - R3 and R4 releases have the required provenance attestation.
 
-## 13. Anti-patterns
+## 14. Anti-patterns
 
 - `npx -y` with an unpinned package in a trusted path.
 - A plugin from an unknown source.
@@ -198,7 +254,7 @@ rotate credentials, and record the incident.
 - Trusting a component because it is popular.
 - A model upgrade with no evaluation.
 
-## 14. Related documents
+## 15. Related documents
 
 - [README.md](../../README.md) — project identity and map
 - [SCOPE.md](../../SCOPE.md) — boundaries, claims, limitations

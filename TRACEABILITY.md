@@ -30,7 +30,8 @@ examples.
 ### Runtime requirements
 
 These refine `MYC-CORE-013`; `MYC-EXE-015` to `MYC-EXE-019` also refine
-`MYC-CORE-008`. A conformant runtime meets all of them.
+`MYC-CORE-008`, and `MYC-EXE-020` and `MYC-EXE-021` also refine
+`MYC-CORE-005`. A conformant runtime meets all of them.
 
 | Requirement | Specification | Evidence | Control |
 | --- | --- | --- | --- |
@@ -53,6 +54,8 @@ These refine `MYC-CORE-013`; `MYC-EXE-015` to `MYC-EXE-019` also refine
 | `MYC-EXE-017` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Owner answer record | `CTL-14` |
 | `MYC-EXE-018` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded configuration defects | `CTL-14` |
 | `MYC-EXE-019` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded decisions with fence results; review record | `CTL-12`, `CTL-14` |
+| `MYC-EXE-020` | [change lifecycle](docs/30-execution/change-lifecycle.md) §8 | Staleness decision; update record; gate results | `CTL-17` |
+| `MYC-EXE-021` | [change lifecycle](docs/30-execution/change-lifecycle.md) §8 | Carried result records; base-delta re-runs | `CTL-17`, `CTL-19` |
 
 ### Guard requirements
 
@@ -78,6 +81,15 @@ These refine `MYC-CORE-005` and `MYC-CORE-009`.
 | `MYC-ASR-003` | [verification stack](docs/40-assurance/verification-stack.md) §12 | N-1 results on release branches | `CTL-19` |
 | `MYC-ASR-004` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Full-gate counts in the budget ledger | `CTL-15`, `CTL-19` |
 | `MYC-ASR-005` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Skip records with replacement evidence | `CTL-19`, `CTL-20` |
+
+### Release and supply-chain requirements
+
+`MYC-ASR-006` refines `MYC-CORE-009`; `MYC-CTL-007` refines `MYC-CORE-003`.
+
+| Requirement | Specification | Evidence | Control |
+| --- | --- | --- | --- |
+| `MYC-ASR-006` | [release and rollback](docs/40-assurance/release-and-rollback.md) §4 | Release records; tag protection | `CTL-18`, `CTL-23` |
+| `MYC-CTL-007` | [supply chain](docs/20-control/supply-chain.md) §12 | Proposed tier with version change; migration work item | `CTL-05`, `CTL-12` |
 
 ## 3. Assessment controls
 

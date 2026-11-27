@@ -84,7 +84,8 @@ exceeded is a capacity problem.
 - Keep branches short-lived.
 - Prefer small pull requests that merge within a day.
 - Use feature flags for incomplete work instead of a long-lived branch.
-- Rebase on `main` before the merge queue.
+- Update the branch from `main` before the merge queue by merging `main` into
+  it ([change-lifecycle.md](change-lifecycle.md) §8).
 - Delete the branch after the merge.
 
 ## 9. Handoffs
@@ -107,7 +108,7 @@ exceeded is a capacity problem.
 | Stale lock | Report to the owner; do not steal silently |
 | Clean merge, semantic conflict | Review finding; rework or split the task |
 | Queue failure | Return to implementing or blocked |
-| Rebase conflict | Re-implement small, or ask |
+| Merge conflict | Re-implement small, or ask |
 
 A semantic conflict is the dangerous one. Tests and review are the detection.
 

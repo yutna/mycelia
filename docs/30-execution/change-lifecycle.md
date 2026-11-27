@@ -31,7 +31,8 @@ observation. It also records the tooling quirks that a new clone will hit.
 - Keep the branch short-lived.
 - Commit in Conventional Commits form.
 - Do not commit secrets, generated artifacts, or unrelated changes.
-- Rebase on `main` before the merge queue.
+- Update the branch from `main` before the merge queue by merging `main` into
+  it (§8); a force push is a red line.
 
 ## 4. Draft pull request
 
@@ -81,17 +82,107 @@ private reasoning. The author does not approve its own change.
 - The branch is deleted after the merge.
 - A failed queue entry returns the change to `implementing` or `blocked`.
 
-## 8. Release
+## 8. Base freshness
+
+The merge queue tests the merged result. Before the queue, a branch can still
+go stale: a check fails because the base is old, not because the change is
+wrong, and the factory treats it as a product failure. This section defines
+staleness, how a runtime updates a branch, and which evidence survives the
+update.
+
+Terms:
+
+- The **base delta** is the set of paths changed on the default branch between
+  the merge base the evidence was produced on and the merge base at the new
+  head. A merge base is `git merge-base <default branch> <head>`; when there is
+  more than one, nothing carries.
+- The **change patch** is the diff from the merge base to the branch head. Its
+  **patch identity** is `git patch-id --stable` of that diff.
+
+Defaults (fields added in #109):
+
+| Setting | Default |
+| --- | --- |
+| Maximum branch age since the merge base | 7 days |
+| Maximum runtime base updates per work item | 3 |
+
+### `MYC-EXE-020` Stale base
+
+- **Statement:** A branch is stale when the base delta contains a path that the
+  selection map
+  ([verification-stack.md](../40-assurance/verification-stack.md) §12) links
+  to a check selected for the change, when a release tag was created on the
+  default branch after the merge base, or when the merge base is older than
+  the configured maximum age. When a gate fails on a stale branch, the runtime
+  MUST update the branch and re-run the gate before it classifies the failure;
+  the failure on the stale base is not evidence against the change. The
+  runtime updates a branch by merging the default branch into it, without a
+  force push, under an idempotency key (`MYC-EXE-003`). Each runtime update
+  MUST count against the configured maximum in the durable budget ledger
+  (`MYC-EXE-007`); an update that would exceed it MUST NOT start, and the loop
+  run ends `aborted` as budget exhaustion. A re-run after an update the runtime
+  made does not count against the full-gate budget (`MYC-ASR-004`). A merge
+  conflict follows the merge-conflict class
+  ([failure-and-ambiguity.md](failure-and-ambiguity.md) §2).
+- **Rationale:** A stale base made a release check fail with "release already
+  exists" on a dependency change that was fine; only an update was needed.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Staleness decision with its reason; update record with its key;
+  gate results before and after the update.
+- **Verification:** Fixture `stale-base` (proposed for #108): fail a gate on a
+  stale base; check that the runtime updates and re-runs before classifying.
+- **Failure mode:** The work item is `blocked` when the update cannot be made;
+  ceiling lowered to L1 when stale-base failures are classified against the
+  change.
+
+### `MYC-EXE-021` Evidence after a base update
+
+- **Statement:** Evidence is tied to the current commit. After a base update
+  without a conflict, the run returns to `verifying`, not `implementing`. An
+  automated check result MAY be carried from the earlier commit only when all
+  of these hold: the patch identity at both commits is equal; each commit has
+  exactly one merge base; the selection map at the new head computes a
+  selection for the base delta and does not select the check; and the base
+  delta touches no path in the change patch, no full-gate trigger path of
+  `MYC-ASR-002` (build, CI configuration, lockfiles, toolchain, shared test
+  infrastructure, the selection map, the skip rules), and no guard
+  configuration. Every check selected for the base delta MUST re-run. When
+  any condition fails, nothing carries. Skip records (`MYC-ASR-005`) are
+  re-evaluated at the new head. A review record carries only when the patch
+  identity is equal; otherwise a new review is needed. Acceptance at R0-R2 is a
+  gate decision and is evaluated again at the new head; human acceptance for
+  R3 and R4 MUST NOT carry. The merge queue still runs its gate on the merged
+  result. A carried result MUST record the earlier and new commits, both merge
+  bases, both patch identities, and the selection map version.
+- **Rationale:** Re-running every check after every base update makes each
+  update cost a full cycle; carrying results without proof lets a base change
+  break the change unseen.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Carried result records (fields added in #109); re-run results
+  for the base delta.
+- **Verification:** Fixture `carry-over` (proposed for #108): update a base
+  with a delta that touches one selected input; check that exactly the
+  selected checks re-run and the rest carry with their records; repeat with a
+  changed patch identity, a delta that touches a trigger path or a path in the
+  change patch, and more than one merge base, and check that nothing carries.
+- **Failure mode:** A carried result without its record is missing evidence and
+  the work item is `blocked`; ceiling lowered to L1 when results carry without
+  the conditions.
+
+## 9. Release
 
 - A release is the close of a `vX.Y.Z` milestone at 100 percent.
 - The release workflow tags the default branch and creates a GitHub Release.
 - The release notes are generated from the merged pull requests.
 - A preflight checks the version files when the repository has them.
+- Tags follow tag identity
+  ([release-and-rollback.md](../40-assurance/release-and-rollback.md)
+  `MYC-ASR-006`).
 - A publish job runs after the release when the project publishes artifacts.
 - A release is not a synonym for a merge; the merge gate and the release gate
   are separate.
 
-## 9. Observation
+## 10. Observation
 
 After the merge, observe the change for the agreed window:
 
@@ -102,7 +193,7 @@ After the merge, observe the change for the agreed window:
 
 A regression reopens the work item and triggers the failure protocol.
 
-## 10. Rollback
+## 11. Rollback
 
 Every R2 and above change has a rollback path:
 
@@ -115,13 +206,13 @@ Every R2 and above change has a rollback path:
 A rollback is a normal operation, not a failure of the process. An untested
 rollback is an untested control.
 
-## 11. Break-glass
+## 12. Break-glass
 
 Emergency access is time-bound, owned, and recorded. It cannot disable the
 trace or the evidence requirement for R3 and R4. The post-incident review
 happens before the next release.
 
-## 12. Tooling note
+## 13. Tooling note
 
 The GitHub CLI may report "base branch policy prohibits the merge" even when
 the pull request is ready, the checks pass, and `mergeStateStatus` is `CLEAN`.
@@ -145,7 +236,7 @@ gh api -X PUT repos/<owner>/<repo>/pulls/<N>/merge \
 Delete the branch if the API merge did not do it. Record the command and the
 result in the pull request as evidence.
 
-## 13. Verification
+## 14. Verification
 
 - A direct push to `main` is rejected.
 - A draft pull request cannot merge.
@@ -157,7 +248,7 @@ result in the pull request as evidence.
 - A rollback drill succeeds.
 - Record the test output as evidence.
 
-## 14. Anti-patterns
+## 15. Anti-patterns
 
 - Pushing directly to `main`.
 - A pull request without an issue.
@@ -169,7 +260,7 @@ result in the pull request as evidence.
 - A release with no notes or no rollback plan.
 - Treating a CLI error as a policy decision.
 
-## 15. Related documents
+## 16. Related documents
 
 - [README.md](../../README.md) — project identity and map
 - [SCOPE.md](../../SCOPE.md) — boundaries, claims, limitations

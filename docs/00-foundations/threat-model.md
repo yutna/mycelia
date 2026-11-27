@@ -231,7 +231,7 @@ overwrites the other.
 - **Prevent.** Worktrees, file ownership, task DAG, WIP limits, merge queue,
   small changes.
 - **Detect.** Conflict detection, CI on the merge queue, trace correlation.
-- **Respond.** Stop the affected work, rebase or redo, and record the conflict.
+- **Respond.** Stop the affected work, update by merging or redo, and record the conflict.
 
 **Evidence.** Worktree record, merge queue result, trace.
 

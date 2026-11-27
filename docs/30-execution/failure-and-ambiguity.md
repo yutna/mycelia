@@ -21,7 +21,9 @@ ambiguity needs a precise question, not a guess.
 | Budget exhaustion | Any state | Stop | 0 | `aborted` |
 | Transient tool failure | Any state | Retry with backoff | 3 | `aborted` or `blocked` |
 | Model or provider failure | Any state | Retry or fall back | 2 | `aborted` |
-| Merge conflict | Merging | Rebase or re-implement | 2 | `blocked` |
+| Merge conflict | Merging | Update the branch from the default branch or re-implement | 2 | `blocked` |
+| Stale base | Verify | Update the branch and re-run (`MYC-EXE-020`) | 1 per failure; total capped by `MYC-EXE-020` | Merge conflict or product test failure |
+| Breaking dependency update | Verify | Stop; propose a migration work item (`MYC-CTL-007`) | 0 | `rejected` |
 | Security finding | Verify or review | Reject and open an incident | 0 | `rejected` |
 | Missing or stale evidence | Verify | Reproduce or ask | 0 | `blocked` |
 | Human rejection | Accepting | Reject | 0 | `rejected` |
@@ -81,8 +83,21 @@ policy allows that route.
 
 ### Merge conflict
 
-The base branch changed. Rebase or re-implement, up to two times. If the
-conflict is semantic, ask.
+The base branch changed. Update the branch by merging the default branch, or
+re-implement, up to two times. If the conflict is semantic, ask.
+
+### Stale base
+
+A check fails because the branch base is old. Update the branch from the
+default branch and re-run once (`MYC-EXE-020`). A conflict is a merge conflict;
+a failure after the update is classified on its own.
+
+### Breaking dependency update
+
+A dependency update fails a compile, type, or test check while its change patch
+touches only dependency manifests and lockfiles. It is not retried as a product
+failure: the update is `rejected` and a migration work item is proposed
+(`MYC-CTL-007`).
 
 ### Security finding
 
@@ -92,7 +107,8 @@ Do not retry with a weaker check.
 ### Missing or stale evidence
 
 The evidence manifest is not satisfied, or the evidence belongs to another
-commit. Reproduce the evidence or ask. Do not mark it as pass.
+commit and was not carried under `MYC-EXE-021`. Reproduce the evidence or ask.
+Do not mark it as pass.
 
 ### Human rejection
 

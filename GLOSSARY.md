@@ -19,6 +19,7 @@ used in a normative document.
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
 | **Blocked-only preflight** | The check, before a work cycle starts any run, that finds eligible work items but none runnable; the cycle then starts no run and sends at most one summary notification (`MYC-EXE-016`). |
+| **Base delta** | The paths changed on the default branch since the merge base a change's evidence was produced on. |
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Brownfield** | An existing repository with legacy code, checks, and ownership that must be adopted incrementally. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
@@ -82,6 +83,7 @@ used in a normative document.
 | **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Meta-check** | A check over a guard that fails when a rule in the effective rule set has no canary or bypass corpus (`MYC-CTL-005`). |
+| **Migration (dependency)** | A dependency update that crosses a major version or cannot be read as semantic versioning; its own work item with a plan and rollback (`MYC-CTL-007`). |
 | **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
 | **Notification adapter** | The runtime component that tells the owner a work item is `blocked`, records delivery and acknowledgement, and escalates on expiry (`MYC-EXE-009`). |
@@ -95,6 +97,7 @@ used in a normative document.
 | **Open question** | A question recorded by a `blocked` work item that has no recorded owner answer. |
 | **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
 | **Owner answer** | The reply to an open question from a person with the decision right, recorded in the trace and the work item; an acknowledgement is not an answer (`MYC-EXE-017`). |
+| **Patch identity** | `git patch-id --stable` of the diff from the merge base to the branch head; equal identities mean the same change (`MYC-EXE-021`). |
 | **Policy-as-code** | Machine-enforced rules that a prompt cannot override. In OpenCode these are `policies`, which are stricter than `permissions`. |
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |
 | **Readiness assessment** | An evidence-based evaluation of a repository against the controls. It outputs a gap report and an autonomy ceiling. |
@@ -123,9 +126,11 @@ used in a normative document.
 | **SPACE** | A developer productivity framework: satisfaction, performance, activity, communication, and efficiency. |
 | **Span** | A named interval in a trace, with a parent and correlation IDs. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
+| **Stale base** | A branch base that the default branch has moved past in a way that matters to the change: a selected input, a release tag, or the age limit (`MYC-EXE-020`). |
 | **Stale run** | An active run whose last heartbeat is older than the configured threshold. |
 | **Supervisor** | The automated responder that answers permission requests in a headless run with deny or an escalation (`MYC-EXE-010`). |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
+| **Tag identity** | The rule that a release tag names one commit and is never moved or reused (`MYC-ASR-006`). |
 | **Tamper-evident** | A property of a log where any modification or gap can be detected, for example with a hash chain. |
 | **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
 | **Template** | The copyable Mycelia core: specs, schemas, profile, commands, and assessment. |
