@@ -1,0 +1,24 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: headless-ask
+  title: No approval waits for a person in a headless run
+spec:
+  requirements: [MYC-EXE-010]
+  profiles: [standard, high-assurance]
+  description: Trigger a permission evaluation that resolves to ask in a headless run.
+  cases:
+    - id: ask-path
+      given:
+        workItem: { riskTier: R2 }
+        runtime: { headless: true }
+      when:
+        - step: start-run
+        - step: trigger-ask
+          with: { action: webfetch }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [PolicyDecision, TraceEvent]
+        trace:
+          - { eventType: permission, result: denied }

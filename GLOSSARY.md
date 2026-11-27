@@ -31,6 +31,9 @@ used in a normative document.
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
 | **Claim** | A statement in an assurance case that must be supported by an argument and evidence. |
 | **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
+| **Conformance fixture** | One conformance kit scenario as YAML data: requirements, profiles, and cases with input, steps, and expected outcome. |
+| **Conformance kit** | The command, fixtures, and result contract that show a runtime conforms (`MYC-CORE-013`); executed by an implementation of the contract. |
+| **Conformance result** | The record of one kit run against a runtime and profile; valid for a claim only under `MYC-ADP-001`. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **CLI contract** | The commands, flags, exit codes, and output formats an implementation must provide. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |
@@ -49,7 +52,7 @@ used in a normative document.
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
-| **Exit code** | The numeric result of a command: 0 success, 1 policy, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance. |
+| **Exit code** | The numeric result of a command: 0 success, 1 policy or kill switch, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance, 7 rejected. |
 | **Fast gate** | The pull request gate that runs the required layers over the checks a change affects, within a time target (`MYC-ASR-001`). |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **File format** | The serialization and layout of an artifact: YAML, JSON, JSONL, Markdown, or Git. |

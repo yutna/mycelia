@@ -169,7 +169,9 @@ starts no run and sends at most one summary notification. The requirements are `
 ## 12. Verification
 
 - State machine test: every allowed transition succeeds; every forbidden
-  transition fails.
+  transition fails. Fixture `terminal-states` drives a work item to each
+  terminal state
+  ([conformance-kit.md](../70-adoption/conformance-kit.md)).
 - Resume test: kill the run at each state and resume from the checkpoint.
 - Idempotency test: repeat each side effect and check for duplicates.
 - Budget test: exhaust each budget dimension and check `aborted`.

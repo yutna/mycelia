@@ -1,0 +1,109 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: dependency-tier
+  title: Dependency updates get their minimum risk tier from data
+spec:
+  requirements: [MYC-CTL-007]
+  profiles: [standard, high-assurance]
+  description: One case per rule of MYC-CTL-007. Migration cases run as their own work item with a migration plan.
+  cases:
+    - id: test-only-minor
+      given:
+        config: { testOnlyPackages: [vitest] }
+      when:
+        - step: propose-dependency-update
+          with: { package: vitest, from: 2.1.0, to: 2.2.0 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: R1
+        evidence: [DependencyTierRecord, Evidence]
+    - id: production-minor
+      given: {}
+      when:
+        - step: propose-dependency-update
+          with: { package: lodash, from: 4.17.20, to: 4.18.0 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: R2
+        evidence: [DependencyTierRecord, ReviewRecord, Evidence]
+    - id: major-fails-api
+      given: {}
+      when:
+        - step: propose-dependency-update
+          with: { package: "@tanstack/react-table", from: 8.20.0, to: 9.0.0, manifestOnly: true }
+        - step: fail-check
+          with: { layer: typecheck, flake: false }
+      expect:
+        terminalState: rejected
+        runExitCode: 7
+        proposedTier: migration
+        evidence: [DependencyTierRecord, WorkItem, Evidence, TraceEvent]
+    - id: pre-1-minor-is-migration
+      given:
+        workItem: { migrationPlan: present, rollback: present }
+      when:
+        - step: propose-dependency-update
+          with: { package: young-lib, from: 0.4.2, to: 0.5.0 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: migration
+        evidence: [DependencyTierRecord, ReviewRecord, Evidence]
+    - id: non-semver-is-migration
+      given:
+        workItem: { migrationPlan: present, rollback: present }
+      when:
+        - step: propose-dependency-update
+          with: { package: internal-tool, from: "2026.10", to: "2026.11" }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: migration
+        evidence: [DependencyTierRecord, ReviewRecord, Evidence]
+    - id: lockfile-only-major-is-migration
+      given:
+        workItem: { migrationPlan: present, rollback: present }
+      when:
+        - step: propose-dependency-update
+          with: { package: transitive-lib, from: 3.9.0, to: 4.0.0, lockfileOnly: true }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: migration
+        evidence: [DependencyTierRecord, ReviewRecord, Evidence]
+    - id: new-direct-dependency
+      given: {}
+      when:
+        - step: propose-dependency-update
+          with: { package: date-fns, from: none, to: 4.1.0 }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        proposedTier: R2
+        evidence: [DependencyTierRecord, PolicyDecision, ReviewRecord, Evidence]
+    - id: r3-package-needs-confirmation
+      given:
+        config: { r3Packages: ["pg", "*-auth"] }
+      when:
+        - step: propose-dependency-update
+          with: { package: pg, from: 8.11.0, to: 8.12.0 }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        proposedTier: R3
+        evidence: [DependencyTierRecord, NotificationRecord]

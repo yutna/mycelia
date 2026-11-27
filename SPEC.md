@@ -43,7 +43,8 @@ Conformance is claimed per profile, not globally.
   requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7,
   `MYC-EXE-015` to `MYC-EXE-019` in failure-and-ambiguity.md §11, and
   `MYC-EXE-020` and `MYC-EXE-021` in change-lifecycle.md §8.
-  The conformance kit contract is added during `v2.0.0`.
+  The conformance kit contract is
+  [conformance-kit.md](docs/70-adoption/conformance-kit.md).
 
 A repository that cannot produce evidence for a control does not conform at
 the level that requires that control, even if the control is described in its
@@ -212,6 +213,11 @@ requirements that also refine `MYC-CORE-005`; `MYC-ASR-006` (tag identity) in
 refining `MYC-CORE-009`; and `MYC-CTL-007` (dependency update risk tier) in
 [supply-chain.md](docs/20-control/supply-chain.md) §12, refining
 `MYC-CORE-003`.
+
+Conformance kit requirements refine `MYC-CORE-013`: `MYC-INT-001` (the
+`mycelia conformance` command), `MYC-ADP-001` (a valid conformance result), and
+`MYC-ADP-002` (kit coverage) in
+[conformance-kit.md](docs/70-adoption/conformance-kit.md).
 
 ### Failure modes
 

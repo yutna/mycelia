@@ -1,0 +1,134 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: recorded-decision
+  title: An agent decides an implementation choice only inside the fences
+spec:
+  requirements: [MYC-EXE-019]
+  profiles: [standard, high-assurance]
+  description: Exercise each fence of MYC-EXE-019 and the rejection path.
+  cases:
+    - id: within-fences
+      given:
+        workItem: { riskTier: R1, affectedAreas: ["src/report/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+          with: { evidence: test-result }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RecordedDecision, ReviewRecord, TraceEvent]
+    - id: r3-refused
+      description: R3 work runs only from L3, so this case applies to high-assurance only.
+      profiles: [high-assurance]
+      given:
+        workItem: { riskTier: R3, affectedAreas: ["src/auth/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: protected-file-modified
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { modifies: existing-test }
+        - step: record-decision
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: no-affected-areas
+      given:
+        workItem: { riskTier: R2 }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: evidence-from-older-commit
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+          with: { evidenceCommit: older }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: no-limit-configured
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+      when:
+        - step: start-run
+        - step: record-decision
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]
+    - id: over-limit
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+        config: { recordedDecisionLimit: 1 }
+      when:
+        - step: start-run
+        - step: record-decision
+        - step: record-decision
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RecordedDecision, TraceEvent]
+    - id: r0-still-reviewed
+      given:
+        workItem: { riskTier: R0, affectedAreas: ["docs/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RecordedDecision, ReviewRecord, TraceEvent]
+    - id: reviewer-rejects
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+        - step: reject-decision
+          with: { by: reviewer }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RecordedDecision, ReviewRecord, NotificationRecord]
+    - id: accepting-human-rejects
+      given:
+        workItem: { riskTier: R2, affectedAreas: ["src/**"] }
+        config: { recordedDecisionLimit: 2 }
+      when:
+        - step: start-run
+        - step: record-decision
+        - step: reject-decision
+          with: { by: accepting-human }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RecordedDecision, AcceptanceRecord, NotificationRecord]

@@ -129,7 +129,7 @@ Defaults (fields added in #109):
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Staleness decision with its reason; update record with its key;
   gate results before and after the update.
-- **Verification:** Fixture `stale-base` (proposed for #108): fail a gate on a
+- **Verification:** Fixture `stale-base`: fail a gate on a
   stale base; check that the runtime updates and re-runs before classifying.
 - **Failure mode:** The work item is `blocked` when the update cannot be made;
   ceiling lowered to L1 when stale-base failures are classified against the
@@ -160,7 +160,7 @@ Defaults (fields added in #109):
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Carried result records (fields added in #109); re-run results
   for the base delta.
-- **Verification:** Fixture `carry-over` (proposed for #108): update a base
+- **Verification:** Fixture `carry-over`: update a base
   with a delta that touches one selected input; check that exactly the
   selected checks re-run and the rest carry with their records; repeat with a
   changed patch identity, a delta that touches a trigger path or a path in the

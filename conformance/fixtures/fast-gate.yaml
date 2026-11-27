@@ -1,0 +1,39 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: fast-gate
+  title: The fast gate never drops a required layer
+spec:
+  requirements: [MYC-ASR-001]
+  profiles: [standard, high-assurance]
+  description: Push changes for which the selection map selects nothing for a required layer, or cannot compute a selection.
+  cases:
+    - id: empty-selection-runs-layer
+      given:
+        workItem: { riskTier: R2 }
+        repository: { selectionMap: { mutation: none-selected } }
+      when:
+        - step: start-run
+        - step: push-change
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [Evidence, TraceEvent]
+        absent: [a required layer with neither a result nor a skip record]
+    - id: selection-fails-runs-full-gate
+      given:
+        workItem: { riskTier: R2 }
+        repository: { selectionMap: unreadable }
+      when:
+        - step: start-run
+        - step: push-change
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [Evidence, TraceEvent]
+        trace:
+          - { eventType: evidence, action: full-gate }

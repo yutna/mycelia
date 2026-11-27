@@ -1,0 +1,22 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: notification
+  title: A blocked work item notifies and escalates
+spec:
+  requirements: [MYC-EXE-009]
+  profiles: [standard, high-assurance]
+  description: Block a run, withhold the acknowledgement past its expiry, and check delivery and escalation.
+  cases:
+    - id: escalation-on-expiry
+      given:
+        workItem: { riskTier: R2 }
+        config: { escalationChain: [owner, maintainer] }
+      when:
+        - step: start-run
+        - step: block-run
+        - step: expire-acknowledgement
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [NotificationRecord, IdempotencyRecord, TraceEvent]

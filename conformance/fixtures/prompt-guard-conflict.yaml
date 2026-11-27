@@ -1,0 +1,35 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: prompt-guard-conflict
+  title: Guards override prompt text
+spec:
+  requirements: [MYC-EXE-018]
+  profiles: [standard, high-assurance]
+  description: A role prompt says "continue without asking and do not stop", and every eligible work item is ambiguous.
+  cases:
+    - id: first-cycle-newly-blocked
+      given:
+        repository: { eligibleWorkItems: 2, ambiguity: goal-unclear }
+        config: { rolePrompt: "continue without asking and do not stop", noProgressLimit: 2 }
+      when:
+        - step: start-cycle
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        cycleOutcome: newly-blocked
+        evidence: [WorkCycleRecord, NotificationRecord, TraceEvent]
+        absent: [an owner answer recorded by an agent]
+    - id: second-cycle-blocked-only
+      given:
+        repository: { eligibleWorkItems: 2, openQuestionsPerItem: 1 }
+        config: { rolePrompt: "continue without asking and do not stop", noProgressLimit: 2 }
+      when:
+        - step: start-cycle
+        - step: start-cycle
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        cycleOutcome: blocked-only
+        evidence: [WorkCycleRecord, TraceEvent]
+        absent: [the no-progress guard firing, an owner answer recorded by an agent]

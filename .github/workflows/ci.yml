@@ -145,6 +145,18 @@ jobs:
           pipx run check-jsonschema
           --schemafile schemas/readiness-report.schema.json
           examples/readiness-report.example.yaml
+      - name: Validate conformance result example
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/conformance-result.schema.json
+          examples/conformance-result.example.yaml
+      - name: Validate conformance fixtures
+        run: >-
+          pipx run check-jsonschema
+          --schemafile schemas/conformance-fixture.schema.json
+          conformance/fixtures/*.yaml
+      - name: Check fixture names
+        run: bash scripts/check-fixture-names.sh
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()

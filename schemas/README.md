@@ -24,6 +24,8 @@ validated example.
 | [incident-record](incident-record.schema.json) | `IncidentRecord` | [incident-record](../examples/incident-record.example.yaml) |
 | [mycelia](mycelia.schema.json) | `MyceliaConfig` | [mycelia](../examples/mycelia.example.yaml) |
 | [readiness-report](readiness-report.schema.json) | `ReadinessReport` | [readiness-report](../examples/readiness-report.example.yaml) |
+| [conformance-fixture](conformance-fixture.schema.json) | `ConformanceFixture` | [fixtures](../conformance/fixtures/) |
+| [conformance-result](conformance-result.schema.json) | `ConformanceResult` | [conformance-result](../examples/conformance-result.example.yaml) |
 
 ## Validate
 

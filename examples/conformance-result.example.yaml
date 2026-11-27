@@ -1,0 +1,51 @@
+apiVersion: mycelia/v1
+kind: ConformanceResult
+metadata:
+  id: CONF-2026-11-27-001
+  createdAt: "2026-11-27T10:00:00Z"
+spec:
+  runtime:
+    name: mycelia-reference-runtime
+    version: 2.1.0
+  opencodeVersion: 2.4.2
+  kit:
+    version: v2.0.0
+    commit: 0123456789abcdef0123456789abcdef01234567
+  profile: standard
+  partial: false
+  repository:
+    url: https://github.com/example/app
+    commit: 89abcdef0123456789abcdef0123456789abcdef
+  results:
+    - fixture: kill-switch
+      case: engaged-mid-run
+      status: pass
+      observed:
+        terminalState: aborted
+        runExitCode: 1
+      evidence:
+        - trace/RUN-001.jsonl
+        - run-state/RUN-001.yaml
+    - fixture: blocked-only
+      case: every-item-blocked
+      status: pass
+      observed:
+        terminalState: none
+        runExitCode: 3
+        cycleOutcome: blocked-only
+      evidence:
+        - trace/CYCLE-002.jsonl
+    - fixture: budget-exhausted
+      case: across-restart
+      status: fail
+      observed:
+        terminalState: aborted
+        runExitCode: 5
+      reason: Exited 5 (internal error) instead of 4 (budget exhausted).
+  summary:
+    total: 3
+    passed: 2
+    failed: 1
+    errors: 0
+    notApplicable: 0
+  outcome: fail

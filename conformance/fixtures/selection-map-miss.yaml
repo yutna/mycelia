@@ -1,0 +1,24 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: selection-map-miss
+  title: A full gate failure the fast gate did not select becomes a map defect
+spec:
+  requirements: [MYC-ASR-002]
+  profiles: [standard, high-assurance]
+  description: Merge a change whose fast gate did not select a check that the nightly full gate then fails.
+  cases:
+    - id: nightly-catches-miss
+      given:
+        repository: { selectionMap: { missing: "src/core/** -> integration" } }
+      when:
+        - step: start-run
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+        - step: fail-check
+          with: { gate: full, layer: integration, flake: false }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [SelectionMapDefect, Evidence, TraceEvent]
+        absent: [a selection map fix before its fixture was shown unselected]

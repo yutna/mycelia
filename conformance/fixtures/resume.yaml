@@ -1,0 +1,148 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: resume
+  title: A run resumes from its last checkpoint
+spec:
+  requirements: [MYC-EXE-001, MYC-EXE-002, MYC-EXE-003]
+  profiles: [standard, high-assurance]
+  description: Stop the runner in each non-terminal state, restart, and check that the run resumes from the checkpoint without repeating a side effect.
+  cases:
+    - id: stop-in-intake
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: intake }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: intake
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-planned
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: planned }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: planned
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-implementing
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: implementing }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: implementing
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-verifying
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: verifying }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-reviewing
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: reviewing }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: reviewing
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-accepting
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: accepting }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: accepting
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-merging
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: merging }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: merging
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: stop-in-observing
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { inState: observing }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: observing
+        evidence: [RunState, TraceEvent, IdempotencyRecord]
+        absent: [duplicate branch, duplicate pull request, duplicate comment]
+    - id: checkpoint-mismatch
+      given:
+        workItem: { riskTier: R2 }
+        runState: { checkpointBranchHead: does-not-match }
+      when:
+        - step: restart-runtime
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent]

@@ -1,0 +1,52 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: stale-base
+  title: A failure on a stale base is not held against the change
+spec:
+  requirements: [MYC-EXE-020]
+  profiles: [standard, high-assurance]
+  description: Fail a release check because a release tag was created after the merge base, and exceed the base-update budget.
+  cases:
+    - id: tag-after-merge-base
+      given:
+        workItem: { riskTier: R2 }
+        repository: { releaseTagAfterMergeBase: v0.29.0 }
+      when:
+        - step: start-run
+        - step: fail-check
+          with: { check: release, message: "release: v0.29.0 already exists", once: true }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [UpdateRecord, IdempotencyRecord, Evidence, TraceEvent]
+        absent: [a force push, the release-check failure classified against the change]
+    - id: update-budget-exceeded
+      given:
+        workItem: { riskTier: R2 }
+        config: { maxBaseUpdates: 3 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+      expect:
+        terminalState: aborted
+        runExitCode: 4
+        evidence: [BudgetLedger, UpdateRecord]
+        absent: [a fourth runtime base update]

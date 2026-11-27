@@ -1,0 +1,24 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: retry-limit
+  title: A replayed step never repeats its side effect
+spec:
+  requirements: [MYC-EXE-003]
+  profiles: [standard, high-assurance]
+  description: Replay a step that has an external side effect and check that the effect exists once.
+  cases:
+    - id: replayed-step
+      given:
+        workItem: { riskTier: R1 }
+      when:
+        - step: start-run
+        - step: replay-step
+          with: { effect: open-pull-request }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [IdempotencyRecord, TraceEvent]
+        absent: [duplicate pull request]

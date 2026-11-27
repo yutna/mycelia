@@ -1,0 +1,22 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: policy-load
+  title: A dropped red-line policy stops the runtime before the first prompt
+spec:
+  requirements: [MYC-EXE-013]
+  profiles: [standard, high-assurance]
+  description: Break one red-line policy statement so OpenCode drops it; the load check must refuse to start.
+  cases:
+    - id: broken-statement
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: break-policy-statement
+          with: { statement: "shell:git push --force *" }
+        - step: start-run
+      expect:
+        terminalState: aborted
+        runExitCode: 1
+        evidence: [LoadCheckRecord, TraceEvent]
+        absent: [a prompt sent to OpenCode]

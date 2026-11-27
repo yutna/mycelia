@@ -1,0 +1,105 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: carry-over
+  title: Evidence carries across a base update only when it is proven safe
+spec:
+  requirements: [MYC-EXE-021]
+  profiles: [standard, high-assurance]
+  description: Update the base with deltas of different shapes and check which results carry.
+  cases:
+    - id: one-selected-input
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { touches: one-selected-input }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [CarriedResult, Evidence, TraceEvent]
+    - id: patch-identity-changed
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: patch-identity-changed }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-trigger-path
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-trigger-path }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-change-patch-path
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-change-patch-path }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: multiple-merge-bases
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: multiple-merge-bases }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-lockfile
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-lockfile }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]

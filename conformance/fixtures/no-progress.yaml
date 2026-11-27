@@ -1,0 +1,42 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: no-progress
+  title: Only real progress counts against the no-progress guard
+spec:
+  requirements: [MYC-EXE-015]
+  profiles: [standard, high-assurance]
+  description: Run cycles whose runs only post reports, with and without progress between them.
+  cases:
+    - id: guard-fires-at-limit
+      given:
+        repository: { eligibleWorkItems: 1 }
+        config: { noProgressLimit: 3 }
+      when:
+        - step: start-cycle
+          with: { count: 3, runOutcome: report-only }
+      expect:
+        terminalState: none
+        runExitCode: 3
+        cycleOutcome: no-progress
+        evidence: [WorkCycleRecord, NotificationRecord, TraceEvent]
+        absent: [a run started after the guard fired]
+    - id: progress-resets
+      given:
+        repository: { eligibleWorkItems: 3 }
+        config: { noProgressLimit: 3 }
+      when:
+        - step: start-cycle
+          with: { count: 2, runOutcome: report-only }
+        - step: start-cycle
+          with: { runOutcome: merged }
+        - step: start-cycle
+          with: { count: 2, runOutcome: report-only }
+        - step: start-cycle
+          with: { runOutcome: merged }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        cycleOutcome: progress
+        evidence: [WorkCycleRecord, TraceEvent]
+        absent: [the no-progress guard firing]

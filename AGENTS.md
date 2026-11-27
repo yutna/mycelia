@@ -36,7 +36,8 @@ reference runtime in `runtime/`. It does not contain product code.
 
 ## Checks
 
-- `mise run lint` — markdownlint and lychee local links
+- `mise run lint` — markdownlint, lychee local links, and the conformance
+  fixture-name meta-check
 - `mise run lint:config` — validate `opencode.json`
 - `mise run lint:schemas` — validate schemas and examples
 - `mise run lint:actions` — actionlint, when workflows change

@@ -91,6 +91,16 @@ These refine `MYC-CORE-005` and `MYC-CORE-009`.
 | `MYC-ASR-006` | [release and rollback](docs/40-assurance/release-and-rollback.md) §4 | Release records; tag protection | `CTL-18`, `CTL-23` |
 | `MYC-CTL-007` | [supply chain](docs/20-control/supply-chain.md) §12 | Proposed tier with version change; migration work item | `CTL-05`, `CTL-12` |
 
+### Conformance kit requirements
+
+These refine `MYC-CORE-013`.
+
+| Requirement | Specification | Evidence | Control |
+| --- | --- | --- | --- |
+| `MYC-INT-001` | [conformance kit](docs/70-adoption/conformance-kit.md) §3 | Conformance result | L2 gate |
+| `MYC-ADP-001` | [conformance kit](docs/70-adoption/conformance-kit.md) §6 | Conformance result; runtime environment record | L2 gate |
+| `MYC-ADP-002` | [conformance kit](docs/70-adoption/conformance-kit.md) §5 | Fixture-name meta-check output | `CTL-19` |
+
 ## 3. Assessment controls
 
 | Control | Owning document | Evidence |
@@ -141,6 +151,8 @@ These refine `MYC-CORE-005` and `MYC-CORE-009`.
 | `incident-record` | [incident-response.md](docs/60-evolution/incident-response.md) | [example](examples/incident-record.example.yaml) |
 | `mycelia` | [template-and-adoption.md](docs/60-evolution/template-and-adoption.md) | [example](examples/mycelia.example.yaml) |
 | `readiness-report` | [readiness-assessment.md](docs/70-adoption/readiness-assessment.md) | [example](examples/readiness-report.example.yaml) |
+| `conformance-fixture` | [conformance-kit.md](docs/70-adoption/conformance-kit.md) | [fixtures](conformance/fixtures/) |
+| `conformance-result` | [conformance-kit.md](docs/70-adoption/conformance-kit.md) | [example](examples/conformance-result.example.yaml) |
 
 ## 5. Coverage
 

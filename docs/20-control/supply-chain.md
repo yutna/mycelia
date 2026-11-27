@@ -226,7 +226,7 @@ Defaults (fields added in #109):
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
 - **Evidence:** The proposed tier with the version change and the list entries
   it used; the migration work item for a failed update.
-- **Verification:** Fixture `dependency-tier` (proposed for #108): one update
+- **Verification:** Fixture `dependency-tier`: one update
   per rule above; check the proposed tier and, for a failing major update, the
   `rejected` outcome and the proposed migration.
 - **Failure mode:** The work item is `blocked` until a human confirms an R3

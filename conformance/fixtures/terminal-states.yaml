@@ -1,0 +1,58 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: terminal-states
+  title: Every work item ends in exactly one terminal state
+spec:
+  requirements: [MYC-CORE-004, MYC-CORE-005]
+  profiles: [standard, high-assurance]
+  description: Drive one R2 work item to each terminal state through a transition the loop defines, and check the state, exit code, and evidence.
+  cases:
+    - id: accepted
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RunState, Evidence, ReviewRecord, AcceptanceRecord, TraceEvent]
+        trace:
+          - { eventType: state, action: accepted }
+    - id: rejected
+      description: reviewing -> rejected on a blocking review finding.
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: fail-check
+          with: { kind: blocking-review-finding }
+      expect:
+        terminalState: rejected
+        runExitCode: 7
+        evidence: [RunState, ReviewRecord, TraceEvent]
+    - id: blocked
+      description: intake -> blocked on contradictory acceptance criteria.
+      given:
+        workItem: { riskTier: R2, acceptanceCriteria: contradictory }
+      when:
+        - step: start-run
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [RunState, TraceEvent, NotificationRecord]
+    - id: aborted-by-policy
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: attempt-denied-action
+          with: { action: "shell:git push --force origin main" }
+      expect:
+        terminalState: aborted
+        runExitCode: 1
+        evidence: [RunState, PolicyDecision, TraceEvent]
+        trace:
+          - { eventType: policy, result: denied }

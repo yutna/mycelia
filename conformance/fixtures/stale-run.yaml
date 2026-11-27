@@ -1,0 +1,27 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: stale-run
+  title: A run without heartbeats is detected and handled
+spec:
+  requirements: [MYC-EXE-006]
+  profiles: [standard, high-assurance]
+  description: Kill the runner mid-run so heartbeats stop; check detection, the record, lease release after the session stops, and the decision.
+  cases:
+    - id: runner-killed
+      given:
+        workItem: { riskTier: R2 }
+        config: { staleRunThreshold: configured }
+      when:
+        - step: start-run
+        - step: stop-runner
+          with: { mode: kill, inState: implementing }
+        - step: restart-runtime
+        - step: reach-terminal-state
+          with: { decision: resume, gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [RunState, LeaseRecord, TraceEvent]
+        trace:
+          - { eventType: state, action: stale-run-detected }

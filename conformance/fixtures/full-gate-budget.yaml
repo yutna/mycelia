@@ -1,0 +1,41 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: full-gate-budget
+  title: Pre-merge full-gate runs are budgeted
+spec:
+  requirements: [MYC-ASR-004]
+  profiles: [standard, high-assurance]
+  description: An R2 change to a lockfile triggers the full gate on each new head; request one counted run over the maximum, and check that a merge queue rebuild caused by another entry is not counted.
+  cases:
+    - id: over-maximum
+      given:
+        workItem: { riskTier: R2 }
+        config: { maxFullGateRuns: 3 }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { paths: [package-lock.json], newHeads: 4, markReadyEachHead: true }
+      expect:
+        terminalState: aborted
+        runExitCode: 4
+        evidence: [BudgetLedger, TraceEvent]
+        absent: [a fourth counted full-gate run]
+    - id: queue-rebuild-not-counted
+      given:
+        workItem: { riskTier: R2 }
+        config: { maxFullGateRuns: 1 }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { paths: [package-lock.json] }
+        - step: mark-ready
+        - step: enter-merge-queue
+          with: { causedBy: another-entry }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        evidence: [BudgetLedger, Evidence]
+        absent: [the queue rebuild counted against the budget]

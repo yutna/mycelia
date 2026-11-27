@@ -180,9 +180,10 @@ acknowledgement expiry are not fixed by this document. The repository MUST
 configure them; the `mycelia.yaml` runtime section is added in
 [#109](https://github.com/yutna/mycelia/issues/109). Fields that a requirement
 records and that the schemas do not have yet are marked
-"(field added in #109)". The conformance fixtures named under "Verification" are defined by the
-conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108);
-a verification without a fixture name is an assessor check.
+"(field added in #109)". The fixtures named under "Verification" are in
+`conformance/fixtures/` and follow the
+[conformance kit contract](../70-adoption/conformance-kit.md); a verification
+without a fixture name is an assessor check.
 
 Terms used in this section:
 
@@ -264,7 +265,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Lease record in the run state (field added in #109); worktree
   record.
-- **Verification:** Fixture `concurrent-run` (proposed for #108): start two runs
+- **Verification:** Fixture `concurrent-run`: start two runs
   for one work item; the second is refused, the refusal is traced, and the work
   item's state is unchanged.
 - **Failure mode:** Ceiling lowered to L1 when the lease is not enforced.
@@ -302,7 +303,7 @@ L3, R3 changes still need human acceptance.
   that loses its lease while its session still runs creates two active runs.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Stale-run trace event with the decision taken.
-- **Verification:** Fixture `stale-run` (proposed for #108): kill the runner
+- **Verification:** Fixture `stale-run`: kill the runner
   mid-run; check detection, record, lease release, and the decision.
 - **Failure mode:** Ceiling lowered to L1 when stale runs are not detected.
 
@@ -319,7 +320,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Budget ledger in the run state (the schema has `budget`; the
   ledger fields are added in #109); trace of usage events.
-- **Verification:** Fixture `budget-exhausted` (proposed for #108): exhaust a
+- **Verification:** Fixture `budget-exhausted`: exhaust a
   budget across a restart; the run ends `aborted` with exit code `4`
   ([cli-contract.md](../80-interface/cli-contract.md)).
 - **Failure mode:** The run is `aborted` on exhaustion; ceiling lowered to L1
@@ -374,7 +375,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Effective permission set for each headless role; supervisor
   decisions in the trace.
-- **Verification:** Fixture `headless-ask` (proposed for #108): trigger an `ask`
+- **Verification:** Fixture `headless-ask`: trigger an `ask`
   path in a headless run; check that it is denied or escalated within the
   timeout.
 - **Failure mode:** The work item is `blocked` with the pending request as the
@@ -411,7 +412,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Durable trace ([trace-and-audit.md](../50-observability/trace-and-audit.md));
   gap records (field added in #109).
-- **Verification:** Fixture `trace-gap` (proposed for #108): drop the event
+- **Verification:** Fixture `trace-gap`: drop the event
   connection mid-run; check that the gap is recorded and reconciled or marked
   unproven.
 - **Failure mode:** A work item with an unproven trace cannot reach `accepted`
@@ -434,7 +435,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Load-check result for each run; policy source paths and their
   write permissions.
-- **Verification:** Fixture `policy-load` (proposed for #108): break one policy
+- **Verification:** Fixture `policy-load`: break one policy
   statement; the runtime must refuse to start.
 - **Failure mode:** The run is `aborted` by policy before the first prompt;
   ceiling lowered to L1 when the check does not exist.
@@ -452,7 +453,7 @@ L3, R3 changes still need human acceptance.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Runtime environment record; loaded agents, skills, and plugins
   listed in the trace.
-- **Verification:** Fixture `host-isolation` (proposed for #108): place marker
+- **Verification:** Fixture `host-isolation`: place marker
   skills in the host's global OpenCode configuration and in `~/.claude`; neither
   may appear in the run.
 - **Failure mode:** The run is `aborted` by policy; ceiling lowered to L1.

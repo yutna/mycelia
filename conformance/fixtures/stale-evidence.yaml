@@ -1,0 +1,24 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: stale-evidence
+  title: Evidence from another commit never passes
+spec:
+  requirements: [MYC-EXE-011]
+  profiles: [standard, high-assurance]
+  description: Change the commit after the evidence was produced, with the verifier unavailable so the evidence cannot be reproduced.
+  cases:
+    - id: commit-changed-verifier-missing
+      given:
+        workItem: { riskTier: R2 }
+        runtime: { verifierAfterChange: unavailable }
+      when:
+        - step: start-run
+        - step: push-change
+          with: { after: verifying }
+        - step: reach-terminal-state
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [Evidence, RunState, TraceEvent]
+        absent: [accepted with evidence from the earlier commit]

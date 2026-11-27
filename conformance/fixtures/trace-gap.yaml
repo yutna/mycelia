@@ -1,0 +1,23 @@
+apiVersion: mycelia/v1
+kind: ConformanceFixture
+metadata:
+  id: trace-gap
+  title: An unreconciled trace gap blocks acceptance
+spec:
+  requirements: [MYC-EXE-012]
+  profiles: [standard, high-assurance]
+  description: Disconnect the event stream during a run so a gap cannot be reconciled.
+  cases:
+    - id: unreconciled-gap
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: disconnect-trace
+          with: { reconcilable: false }
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [GapRecord, TraceEvent]
