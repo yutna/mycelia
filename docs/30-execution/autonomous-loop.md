@@ -70,7 +70,7 @@ it never falls through to `accepted`.
 2. No transition without a gate.
 3. Every transition writes a checkpoint.
 4. The state is durable; a restart resumes from the last checkpoint.
-5. Evidence is tied to the current commit.
+5. Evidence is tied to the current commit, or carried to it under `MYC-EXE-021`.
 6. A terminal state is final; a new attempt needs a new run or a human decision.
 7. The agent cannot skip a state, change its policy, raise its budget, or lower
    its risk tier.
@@ -103,7 +103,9 @@ To resume a run:
 5. Re-run any evidence that is stale.
 6. Continue from the checkpointed state.
 
-If the commit changed, invalidate the evidence and restart at `implementing`.
+If the commit changed, invalidate the evidence and restart at `implementing`,
+except after a base update without a conflict, which returns to `verifying`
+and carries evidence only under `MYC-EXE-021`.
 If the policy changed, re-evaluate the transition before continuing.
 
 ## 8. Idempotency

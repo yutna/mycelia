@@ -203,6 +203,14 @@ Verification tier requirements refine `MYC-CORE-005` and `MYC-CORE-009`. They
 are `MYC-ASR-001` to `MYC-ASR-005` in
 [verification-stack.md](docs/40-assurance/verification-stack.md) §12.
 
+Change-lifecycle and dependency requirements: `MYC-EXE-020` and `MYC-EXE-021`
+(stale base, evidence after a base update) in
+[change-lifecycle.md](docs/30-execution/change-lifecycle.md) §8, refining
+`MYC-CORE-005`; `MYC-ASR-006` (tag identity) in
+[release-and-rollback.md](docs/40-assurance/release-and-rollback.md) §4,
+refining `MYC-CORE-009`; and `MYC-CTL-007` (dependency update risk tier) in
+[supply-chain.md](docs/20-control/supply-chain.md) §12.
+
 ### Failure modes
 
 An unmet core requirement has one of four outcomes:

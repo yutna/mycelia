@@ -99,7 +99,8 @@ A gate is a named set of requirements:
 | `release` | Before a tag or release | Merge gate plus integration, security, provenance |
 | `promotion` | Before raising the autonomy level | Release gate plus readiness, evaluations, incident drills |
 
-A gate evaluates the manifest against the evidence for the current commit.
+A gate evaluates the manifest against the evidence for the current commit,
+including results carried to it under `MYC-EXE-021`.
 
 ## 7. Verification rules
 
@@ -112,7 +113,8 @@ A gate evaluates the manifest against the evidence for the current commit.
 7. Missing, stale, failed, or unverifiable evidence is a failure.
 8. A waiver is a time-bound exception, recorded, and never counted as a pass.
 9. The gate re-runs the evidence in CI where the check is automatable.
-10. Evidence from another commit or another work item is invalid.
+10. Evidence from another commit or another work item is invalid, except a
+    result carried under `MYC-EXE-021` with its record.
 
 ## 8. Gate outcomes
 

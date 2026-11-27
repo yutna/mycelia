@@ -53,6 +53,8 @@ These refine `MYC-CORE-013`; `MYC-EXE-015` to `MYC-EXE-019` also refine
 | `MYC-EXE-017` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Owner answer record | `CTL-14` |
 | `MYC-EXE-018` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded configuration defects | `CTL-14` |
 | `MYC-EXE-019` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded decisions with fence results; review record | `CTL-12`, `CTL-14` |
+| `MYC-EXE-020` | [change lifecycle](docs/30-execution/change-lifecycle.md) §8 | Staleness decision; update record; gate results | `CTL-17` |
+| `MYC-EXE-021` | [change lifecycle](docs/30-execution/change-lifecycle.md) §8 | Carried result records; base-delta re-runs | `CTL-17`, `CTL-19` |
 
 ### Guard requirements
 
@@ -66,6 +68,7 @@ These refine `MYC-CORE-003` and `MYC-CORE-009`.
 | `MYC-CTL-004` | [guard design](docs/20-control/guard-design.md) §5 | Guard canary results | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
 | `MYC-CTL-005` | [guard design](docs/20-control/guard-design.md) §5 | Meta-check output | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
 | `MYC-CTL-006` | [guard design](docs/20-control/guard-design.md) §5 | Loosening approval; exception records | `CTL-12`, `CTL-20` |
+| `MYC-CTL-007` | [supply chain](docs/20-control/supply-chain.md) §12 | Proposed tier with version change; migration work item | `CTL-05`, `CTL-12` |
 
 ### Verification tier requirements
 
@@ -78,6 +81,7 @@ These refine `MYC-CORE-005` and `MYC-CORE-009`.
 | `MYC-ASR-003` | [verification stack](docs/40-assurance/verification-stack.md) §12 | N-1 results on release branches | `CTL-19` |
 | `MYC-ASR-004` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Full-gate counts in the budget ledger | `CTL-15`, `CTL-19` |
 | `MYC-ASR-005` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Skip records with replacement evidence | `CTL-19`, `CTL-20` |
+| `MYC-ASR-006` | [release and rollback](docs/40-assurance/release-and-rollback.md) §4 | Release records; tag protection | `CTL-18`, `CTL-23` |
 
 ## 3. Assessment controls
 

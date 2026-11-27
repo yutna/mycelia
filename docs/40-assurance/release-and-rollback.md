@@ -49,6 +49,22 @@ security or rollback gate.
 The repository uses milestone closure as the release trigger. The release is
 not a separate manual step unless the project has a publish job.
 
+### `MYC-ASR-006` Tag identity
+
+- **Statement:** A release tag MUST name exactly one commit and MUST NOT be
+  moved, deleted, or reused. A release check MUST compute the next version and
+  test whether a tag exists against the current remote tags, not against the
+  branch's base. A "tag already exists" failure on a pull request is a stale
+  base (`MYC-EXE-020`), not a release defect.
+- **Rationale:** A moved tag breaks provenance; a version computed from a stale
+  base collides with a release that already happened.
+- **Applies to:** L1-L4; all risk tiers.
+- **Evidence:** Release records with tag and commit; tag protection settings.
+- **Verification:** Assessor check of tag protection; audit sample of release
+  records against tags.
+- **Failure mode:** The release is blocked; a moved or reused tag is an
+  incident.
+
 ## 5. Progressive delivery
 
 | Technique | Use | Control |
