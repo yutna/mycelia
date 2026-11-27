@@ -60,9 +60,13 @@ It is not:
 
 ## Status
 
-`v1.0.0` is the first stable specification release. It includes the normative
-model, 24 readiness controls, three conformance profiles, 17 schemas, the
-OpenCode profile, the readiness assessment, and the audit record.
+`v2.0.0` is the current specification release. It includes the normative
+model, 50 requirement IDs, the normative runtime contract, the conformance kit
+contract with 25 fixtures, 24 readiness controls, three conformance profiles,
+35 schemas, the OpenCode profile, the readiness assessment, and the audit
+record. The reference runtime follows from `v2.1.0`; until a conformance kit
+implementation exists, the highest claimable level is L1. See
+[CHANGELOG.md](CHANGELOG.md) for the changes from `v1.0.0`.
 
 The specification is not a certification, a complete autonomy guarantee, or
 fitness for a particular regulatory regime. See [SCOPE.md](SCOPE.md) and
@@ -74,12 +78,14 @@ fitness for a particular regulatory regime. See [SCOPE.md](SCOPE.md) and
 - [GLOSSARY.md](GLOSSARY.md) — shared terminology
 - [AUDIT.md](AUDIT.md) — audit method, findings, and limitations
 - [TRACEABILITY.md](TRACEABILITY.md) — requirements, controls, schemas
-- [CONFORMANCE.md](CONFORMANCE.md) — v1.0.0 scope, claims, limitations
+- [CONFORMANCE.md](CONFORMANCE.md) — v2.0.0 scope, claims, limitations
+- [CHANGELOG.md](CHANGELOG.md) — release notes and migration
 - [AGENTS.md](AGENTS.md) — the operating contract for agents
 - [CONTRIBUTING.md](CONTRIBUTING.md) — the human version of the same process
 - [docs/README.md](docs/README.md) — reading paths and the section map
 - [opencode.json](opencode.json) — the OpenCode runtime profile
-- `schemas/` and `examples/` — data contracts and worked examples (planned)
+- `schemas/` and `examples/` — data contracts and worked examples
+- `conformance/fixtures/` — conformance kit fixtures as YAML data
 
 ## Development
 

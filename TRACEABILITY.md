@@ -1,6 +1,6 @@
 # Traceability matrix
 
-Status: Draft (v1.0.0)
+Status: v2.0.0
 
 ## 1. Purpose
 
