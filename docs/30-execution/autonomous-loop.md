@@ -57,6 +57,7 @@ it never falls through to `accepted`.
 | `reviewing` | `blocked` | A recorded decision is rejected (`MYC-EXE-019`) |
 | `accepting` | `merging` | Approval recorded |
 | `accepting` | `blocked` | Approval missing |
+| `accepting` | `blocked` | A recorded decision is rejected (`MYC-EXE-019`) |
 | `merging` | `observing` | Merge gate pass |
 | `merging` | `aborted` | Merge failure or policy stop |
 | `observing` | `accepted` | No regression |

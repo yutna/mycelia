@@ -150,8 +150,8 @@ A recommendation is allowed, but it is not a decision.
 
 One kind of choice is not an ambiguity in this sense: an **implementation
 choice**, a choice the work item leaves open and that none of the conditions
-above describes, such as a name, an internal structure, or which existing
-pattern or algorithm to use. At R0-R2 an agent may make an implementation
+above describes, such as an internal structure, which existing pattern or
+algorithm to use, or a name that follows an existing repository convention. At R0-R2 an agent may make an implementation
 choice itself and record it, within the fences of `MYC-EXE-019`. Every other
 decision belongs to a human
 ([decision-rights.md](../20-control/decision-rights.md) §2) and follows the
@@ -394,48 +394,60 @@ defined by the conformance kit contract.
 ### `MYC-EXE-019` Recorded implementation choices
 
 - **Statement:** An agent MAY make an implementation choice (§5) without
-  blocking only when all of these hold, and the runtime MUST check each one
-  from recorded data, not from the agent's own judgment:
+  blocking only when every fence below holds. The runtime MUST check each
+  fence from recorded data:
   1. The work item is R0, R1, or R2.
-  2. The choice changes none of the work item's goal, acceptance criteria,
-     non-goals, constraints, risk tier, or data class (compared with the work
-     item version in the checkpoint).
-  3. The work item lists `affectedAreas`, the diff stays inside them, and the
-     diff touches no protected file: tests, guard configuration and fixtures
+  2. The work item's goal, acceptance criteria, non-goals, constraints, risk
+     tier, and data class are unchanged from the work item version in the
+     checkpoint.
+  3. The work item lists `affectedAreas` as repository path globs, and the run
+     diff stays inside them. The diff modifies or deletes no protected file:
+     tests, guard configuration and fixtures
      ([guard-design.md](../20-control/guard-design.md) §2), policy and
      permission configuration, schemas, CI workflows, the evidence manifest,
-     the work item, and any path the repository marks protected.
-  4. The choice authorizes or changes no gated side effect (merge, release,
-     external message, data or schema migration); those keep their own gates.
-  5. The record cites evidence that settles the choice (a test, prototype, or
-     measurement) at the current commit.
-  6. The work item has not reached the configured limit of recorded decisions
-     (field added in #109).
+     and the work item. Adding a new test file inside `affectedAreas` is
+     allowed. A repository list of further protected paths is added in #109.
+  4. The record cites an evidence reference of an allowed type (a test
+     result, a prototype run, a measurement, or an existing repository
+     convention cited by path) produced or checked at the current commit.
+  5. The work item has fewer recorded decisions than the configured limit
+     (field added in #109). When no limit is configured, the limit is zero.
 
-  The runtime MUST record each recorded decision in the trace with the
-  options considered, the choice, and the evidence, and MUST list it in the
-  pull request under "Recorded decisions". When a fence fails, the choice is
-  an open question under §5 and the work item ends `blocked`. When the
-  independent reviewer or an accepting human rejects a recorded decision, the
-  work item ends `blocked` with that decision as an open question whose
+  Whether a choice is an implementation choice, and whether its evidence
+  settles it, is judged by the independent reviewer, not by the runtime: a
+  work item with any recorded decision MUST have an independent review
+  ([review-rubric.md](../40-assurance/review-rubric.md)) whatever its risk
+  tier. A recorded decision MUST NOT satisfy or waive any gate; merges,
+  releases, external messages, and data or schema migrations keep their own
+  gates. A need found outside `affectedAreas` is not decided: the agent records
+  it as a proposed new work item and does not change files outside the areas.
+
+  The runtime MUST record each recorded decision in the trace with the options
+  considered, the choice, the evidence, and the fence results, and MUST list it
+  in the pull request under "Recorded decisions". When a fence fails, the
+  choice is an open question under §5 and the work item ends `blocked`. When
+  the independent reviewer or an accepting human rejects a recorded decision,
+  the work item ends `blocked` with that decision as an open question whose
   recommendation is the agent's choice; it resumes through `MYC-EXE-017`.
 - **Rationale:** Blocking on every open choice stops the loop on questions an
-  experiment can settle, while letting an agent decide anything it judges
-  reversible lets it guess on goals, scope, and risk. A narrow class with
-  checks outside the agent keeps the loop moving without trusting a weak
-  model's judgment.
+  experiment or an existing convention can settle, while letting an agent
+  decide anything it judges reversible lets it guess on goals, scope, and risk.
+  A narrow class, fences checked outside the agent, and a mandatory independent
+  review keep the loop moving without trusting a weak model's judgment.
 - **Applies to:** L2-L4; R0-R2 only.
 - **Evidence:** Recorded decision records in the trace and the pull request,
   with the fence results (fields added in #109); the review record that checks
   them.
 - **Verification:** Fixture `recorded-decision` (proposed for #108): an R3 work
-  item, a protected file in the diff, a work item without `affectedAreas`, and
-  a work item over the limit each turn the choice into an open question; a
-  reviewer rejection ends the work item `blocked` with the decision as the
-  recommendation.
+  item, a modified protected file, a work item without path-glob
+  `affectedAreas`, evidence from an older commit, no configured limit, and a
+  work item over the limit each turn the choice into an open question; an R0
+  work item with a recorded decision gets an independent review; a reviewer
+  rejection and an accepting-human rejection each end the work item `blocked`
+  with the decision as the recommendation.
 - **Failure mode:** The work item is `blocked` when a fence fails or a recorded
   decision is rejected; ceiling lowered to L1 when the runtime lets an agent
-  decide outside the fences.
+  decide outside the fences or without an independent review.
 
 ## 12. Related documents
 
