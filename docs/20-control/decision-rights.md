@@ -86,6 +86,7 @@ A blocked decision reports:
 
 - the precise question
 - the options and their consequences
+- a recommendation, when there is one
 - the owner who can answer
 - the blocking condition
 - the work already completed
