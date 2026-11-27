@@ -426,8 +426,8 @@ L3, R3 changes still need human acceptance.
   the runtime's dedicated user from `MYC-EXE-014`), in files the agent cannot
   write (for example a read-only mount or files owned by another user). At
   start, the runtime MUST check that every red-line policy was loaded and denies
-  its action. How the check is built is defined in
-  [#105](https://github.com/yutna/mycelia/issues/105).
+  its action, using the load check in
+  [guard-design.md](../20-control/guard-design.md) §6.
 - **Rationale:** A policy the agent can edit does not bind it. OpenCode drops an
   invalid policy statement with only a log warning, so a typo removes a red line
   silently.

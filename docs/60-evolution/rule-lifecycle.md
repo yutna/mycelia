@@ -117,7 +117,7 @@ The registry lists:
 | Owner | `security-owner` |
 | Review date | `2027-01-31` |
 | Replacement | `RULE-014` |
-| Enforcer | `policy:deny-push-main` or `instruction only` ([guard-design.md](../20-control/guard-design.md) §7) |
+| Enforcer | The guard and guard rule, or `instruction only` ([guard-design.md](../20-control/guard-design.md) §8; format defined in #109) |
 
 The planned location is `rules.yaml` or a section of `mycelia.yaml`. Until the
 schema exists, the registry is a table in the readiness report.
