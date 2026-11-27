@@ -25,6 +25,7 @@ examples.
 | `MYC-CORE-010` | [SPEC.md](SPEC.md) §10 | Readiness report | `CTL-24` |
 | `MYC-CORE-011` | [SPEC.md](SPEC.md) §10 | Exception record | `CTL-12` |
 | `MYC-CORE-012` | [SPEC.md](SPEC.md) §10 | Variance note | `CTL-23` |
+| `MYC-CORE-013` | [SPEC.md](SPEC.md) §10 | Conformance kit result | `CTL-13` |
 
 ## 3. Assessment controls
 

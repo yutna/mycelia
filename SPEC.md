@@ -35,6 +35,10 @@ Conformance is claimed per profile, not globally.
   claims, including the policy gates and terminal states.
 - A **conformant assessment** follows the readiness model, cites evidence for
   every score, and reports unproven controls as unproven.
+- A **conformant runtime** implements the
+  [runtime contract](docs/30-execution/opencode-runtime-contract.md) and passes
+  the conformance kit for the profile it claims. A repository at L2 or higher
+  MUST run on one (`MYC-CORE-013`).
 
 A repository that cannot produce evidence for a control does not conform at
 the level that requires that control, even if the control is described in its
@@ -178,6 +182,7 @@ failure, not a pass. This invariant is the core of the reliability contract in
 | `MYC-CORE-010` | A repository MUST be assessed against the readiness model before its autonomy level is raised. | Readiness report | Assessment review |
 | `MYC-CORE-011` | Every exception MUST be time-bound, owned, and audited. | Exception record | Audit sample |
 | `MYC-CORE-012` | The factory MUST record variance when evidence is not reproducible. | Variance note | Reproducibility check |
+| `MYC-CORE-013` | A repository that claims L2 or higher MUST run its loop on a runtime that conforms to the runtime contract, shown by a passing conformance kit result for its declared profile. | Conformance kit result | Assessor check; the ceiling is L1 without it |
 
 ### Failure modes
 

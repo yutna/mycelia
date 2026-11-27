@@ -72,8 +72,10 @@ Decision Record (ADR):
 - consequences: what becomes easier and what becomes harder
 - status: proposed, accepted, superseded, or rejected
 
-The planned location is `docs/00-foundations/decisions/`. Until the directory
-exists, the pull request description holds the record.
+Records live in
+[docs/00-foundations/decisions/](docs/00-foundations/decisions/README.md),
+numbered `NNNN-short-title.md`. An accepted record is superseded by a new
+record, not rewritten.
 
 ## Rule lifecycle
 

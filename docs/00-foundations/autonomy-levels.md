@@ -38,7 +38,9 @@ manifest before L1 is meaningful.
 
 The agent runs the loop inside a sandbox. A verifier runs the evidence manifest,
 and an independent reviewer checks the change. A human accepts by sampling and
-handles exceptions. The repository needs a trace so the sample can be audited.
+handles exceptions. The repository needs a trace so the sample can be audited,
+and a conformant runtime with a passing conformance kit result
+(`MYC-CORE-013`); without it the ceiling is L1.
 
 ### L3 — Autonomous
 

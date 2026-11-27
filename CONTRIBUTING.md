@@ -5,9 +5,11 @@ is small and the same for every change.
 
 ## What belongs here
 
-Mycelia is a specification repository. Changes are normative documents,
-schemas, examples, OpenCode configuration, and audit records. Product code,
-plugins, and CLI implementations are out of scope.
+Mycelia is a control-plane specification with a reference runtime. Changes
+are normative documents, schemas, examples, conformance fixtures, OpenCode
+configuration, and audit records. From `v2.1.0`, reference runtime code,
+plugins, and CLI are accepted only under `runtime/`. Product code is out of
+scope. See [ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md).
 
 ## How a change gets in
 

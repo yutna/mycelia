@@ -6,8 +6,8 @@
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 <!-- markdownlint-enable MD013 -->
 
-Mycelia is a specification for an evidence-governed AI software factory on
-OpenCode. It defines the roles, permissions, policies, execution loop,
+Mycelia is a control-plane specification for an evidence-governed AI software
+factory on OpenCode, with a reference runtime. It defines the roles, permissions, policies, execution loop,
 assurance, observability, and readiness assessment that let autonomous agents
 do real work in a repository without silent failure.
 
@@ -34,10 +34,15 @@ network of contracts, evidence, and traces is the intelligence.
 - A readiness model that reports the gap between a repository and the next
   safe autonomy level.
 - A public audit trail of the specification itself.
+- From `v2.1.0`, a reference runtime and an executable conformance kit in
+  `runtime/`. See
+  [ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md).
 
 It is not:
 
-- product code, a runtime, or a hosted service
+- product code or a hosted service
+- the only allowed runtime: any runtime that passes the conformance kit may be
+  used
 - a certification, an audit attestation, or legal advice
 - a claim that every change can be fully autonomous
 
