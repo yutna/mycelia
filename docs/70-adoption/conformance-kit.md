@@ -106,7 +106,7 @@ Step vocabulary:
 | `engage-kill-switch` | Engage the kill switch |
 | `consume-budget` | Consume budget in a given dimension |
 | `fail-check`, `flake-check` | Make a check fail, deterministically or once |
-| `attempt-denied-action`, `fail-tool-call` | Attempt an action a policy denies; make a tool call fail |
+| `attempt-denied-action` | Attempt an action a policy denies |
 | `disconnect-trace` | Drop the event stream for a period |
 | `trigger-ask` | Cause a permission evaluation that resolves to `ask` |
 | `block-run` | Make the run end `blocked` with a question |

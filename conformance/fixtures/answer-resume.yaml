@@ -21,7 +21,7 @@ spec:
       expect:
         terminalState: blocked
         runExitCode: 3
-        evidence: [NotificationRecord, OwnerAnswerRecord, TraceEvent]
+        evidence: [NotificationRecord, ReplyRecord, TraceEvent]
         absent: [a new lease, a new run]
     - id: answer-clears-block
       given:

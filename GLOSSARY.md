@@ -52,7 +52,7 @@ used in a normative document.
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
-| **Exit code** | The numeric result of a command: 0 success, 1 policy or kill-switch stop, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance, 7 rejected. |
+| **Exit code** | The numeric result of a command: 0 success, 1 policy or kill switch, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance, 7 rejected. |
 | **Fast gate** | The pull request gate that runs the required layers over the checks a change affects, within a time target (`MYC-ASR-001`). |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **File format** | The serialization and layout of an artifact: YAML, JSON, JSONL, Markdown, or Git. |

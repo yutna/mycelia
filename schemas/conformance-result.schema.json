@@ -258,6 +258,20 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "required": [
+              "fixturesSource"
+            ]
+          },
+          "then": {
+            "properties": {
+              "partial": {
+                "const": true
+              }
+            }
+          }
         }
       ]
     }

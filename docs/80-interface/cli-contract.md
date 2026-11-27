@@ -57,7 +57,7 @@ that a Mycelia implementation must provide.
 | Code | Meaning |
 | --- | --- |
 | `0` | Success |
-| `1` | Policy violation, or a stop by the kill switch |
+| `1` | Policy violation, or a stop or refused start by the kill switch |
 | `2` | Invalid input, config, or schema |
 | `3` | Blocked; a human decision is required |
 | `4` | Budget exhausted |

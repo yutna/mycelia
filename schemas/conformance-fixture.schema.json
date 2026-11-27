@@ -185,8 +185,7 @@
             "place-host-marker",
             "propose-dependency-update",
             "reach-terminal-state",
-            "attempt-denied-action",
-            "fail-tool-call"
+            "attempt-denied-action"
           ]
         },
         "with": {
