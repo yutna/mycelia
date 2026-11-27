@@ -1,6 +1,6 @@
 # Specification
 
-Status: Draft (`v0.1.0`)
+Status: `v2.0.0`
 
 Normative language: RFC 2119 and RFC 8174
 

@@ -27,6 +27,9 @@ OpenCode: the minimum is 2.4.0. This release was tested with OpenCode 2.4.2.
 - `MYC-CORE-013` (added): a repository that claims L2 or higher must run on a
   conformant runtime, shown by a passing conformance result. A repository that
   claimed L2 under `v1.0.0` without one now has a ceiling of L1.
+- Conformance profiles: the Standard profile, and so High-assurance, now
+  requires a conformant runtime with a passing conformance result
+  (`MYC-CORE-013`), as does autonomy level L2.
 - Readiness L2 gate: adds `MYC-CORE-013` evidence and "no unproven red-line
   rule" ([guard-design.md](docs/20-control/guard-design.md) §7).
 - `OC-01`: the minimum OpenCode version rises from 2.2.6 to 2.4.0
@@ -35,7 +38,8 @@ OpenCode: the minimum is 2.4.0. This release was tested with OpenCode 2.4.2.
   conformance.
 - `MYC-CORE-008` (semantic change): an implementation choice recorded under
   `MYC-EXE-019` is not an ambiguity. Only that decision class may be decided
-  by an agent; every other ambiguity still ends in `blocked`.
+  by an agent, at R0-R2 and within the fences of `MYC-EXE-019`; every other
+  ambiguity still ends in `blocked`.
 - `RunState.spec.checkpoints[].workItemVersion` is required. It is a version of
   the work item's contract fields: goal, acceptance criteria, non-goals,
   constraints, risk tier, data class, and affected areas. Recording open
@@ -48,7 +52,8 @@ OpenCode: the minimum is 2.4.0. This release was tested with OpenCode 2.4.2.
   old three values must handle it.
 - CLI contract ([cli-contract.md](docs/80-interface/cli-contract.md)): new exit
   code `7` (rejected); code `1` widened to "policy violation, or a stop or
-  refused start by the kill switch"; a no-progress guard stop exits `3`.
+  refused start by the kill switch"; a no-progress guard stop, and a work
+  cycle that ends blocked-only or newly blocked (`MYC-EXE-016`), exit `3`.
 
 #### Added requirements
 
@@ -140,7 +145,7 @@ refining `MYC-CORE-013`:
   protocol; each entry has a required `owner`.
 - The `mycelia conformance` command in the CLI contract.
 - Worked example §9: one work item from intake through `blocked` and an owner
-  answer to `accepted`, with 21 records in `examples/worked-example/`,
+  answer to `accepted`, with 26 records in `examples/worked-example/`,
   validated by `scripts/check-worked-example.sh`.
 - The OpenCode reference notes (non-normative).
 - Glossary terms for the new concepts.
@@ -169,16 +174,20 @@ conformance kit start in `runtime/` in `v2.1.0`.
 ### Migration from v1.0.0
 
 1. Upgrade OpenCode to 2.4.0 or newer and record the version (`OC-01`).
-2. If you claim L2 or higher, lower the claim to L1 until you have a
-   conformant runtime and a passing conformance result (`MYC-CORE-013`).
+2. If you claim L2 or higher, or the Standard or High-assurance profile, lower
+   the claim to L1 and the Minimal profile until you have a conformant runtime
+   and a passing conformance result (`MYC-CORE-013`).
 3. In `mycelia.yaml`, if the autonomy ceiling is L2 to L4, set the required
    `runtime` loop settings listed above.
 4. In run-state records, add `workItemVersion` to every checkpoint.
 5. In evidence consumers, handle `Evidence.result: skipped`; never treat it as
    `pass`.
 6. In CLI wrappers, handle exit code `7` and the widened meaning of `1`; expect
-   `3` for a no-progress guard stop.
+   `3` for a no-progress guard stop and a blocked-only or newly blocked cycle.
 7. Write durations in ISO 8601.
-8. Review your policies against the guard-design standard: an unproven
+8. Move the rules registry into the `rules` section of `mycelia.yaml`, with an
+   `enforcer` for each rule
+   ([guard-design.md](docs/20-control/guard-design.md) §8).
+9. Review your policies against the guard-design standard: an unproven
    red-line rule blocks the L2 gate.
-9. Re-run the readiness assessment and issue a new conformance claim.
+10. Re-run the readiness assessment and issue a new conformance claim.

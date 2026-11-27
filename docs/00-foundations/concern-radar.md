@@ -9,7 +9,7 @@ exists so the specification does not depend on what the author remembered.
 | --- | --- |
 | **Adopted** | A normative document owns the concern and defines requirements and evidence. |
 | **Adapted** | The concern is adopted with an OpenCode-specific interpretation, recorded in the owning document. |
-| **Watch** | The concern is tracked but has no normative document yet. Review before `v1.0.0`. |
+| **Watch** | The concern is tracked but has no normative document yet. Review before the next major release. |
 | **Out of scope** | The concern is explicitly excluded. Revisit only if the scope changes. |
 
 ## Tier 1 — architecture, security, and acceptance
@@ -80,11 +80,11 @@ exists so the specification does not depend on what the author remembered.
 - After a model, provider, or policy change.
 - After a major OpenCode release.
 - Before raising a repository's autonomy level.
-- Before the `v1.0.0` freeze.
+- Before each major release.
 
 ## Open questions
 
-- Which Tier 3 concerns must become adopted before `v1.0.0`?
+- Which Tier 3 concerns must become adopted before the next major release?
 - How should supply-chain assurance be measured for MCP servers?
 - Should OTel GenAI be mandatory for the Standard profile or only the
   high-assurance profile?

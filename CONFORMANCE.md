@@ -35,7 +35,8 @@ release, not a certification.
 
 An adopter may claim:
 
-- conformance to the Minimal, Standard, or High-assurance profile
+- conformance to the Minimal profile; Standard and High-assurance target L2
+  and higher, so they need a conformance result (below)
 - an autonomy ceiling at L0 or L1
 - the evidence and the exceptions behind the claim
 
@@ -98,7 +99,7 @@ An adopter can use this template:
 
 ```text
 Repository: <owner/repo>
-Profile: <minimal|standard|high-assurance>
+Profile: <minimal> (standard and high-assurance need a conformance result)
 Level: <L0|L1> (L2-L4 need a conformance result)
 Conformance result: <id or none>
 Assessed commit: <sha>
