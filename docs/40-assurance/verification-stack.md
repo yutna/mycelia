@@ -179,8 +179,10 @@ configuration:
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
 - **Evidence:** Fast gate results with the selection map version, the selected
   checks, and the duration (fields added in #109).
-- **Verification:** Assessor sample of fast gate selections against the
-  selection map; overrun metric against the configured target.
+- **Verification:** Fixture `fast-gate`: an empty selection for a required
+  layer runs the whole layer, and a selection that cannot be computed runs the
+  full gate. Assessor sample of fast gate selections against the selection
+  map; overrun metric against the configured target.
 - **Failure mode:** The change is `rejected` when a selected check fails;
   repeated overruns past the configured count open a defect with an owner. A
   required layer with neither a result nor a valid skip record blocks the
@@ -205,8 +207,9 @@ configuration:
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
 - **Evidence:** Full gate results with their trigger; selection-map defect
   records with their fixtures.
-- **Verification:** Assessor check of the schedule and the triggers; audit
-  sample of selection-map defects.
+- **Verification:** Fixture `selection-map-miss`: a full gate failure on an
+  unselected check is recorded as a selection-map defect. Assessor check of the
+  schedule and the triggers; audit sample of selection-map defects.
 - **Failure mode:** A failing scheduled full gate opens a defect with an owner
   and blocks releases from the default branch until it passes; ceiling lowered
   to L1 after the configured number of missed or failing scheduled full gates
@@ -241,8 +244,9 @@ configuration:
   flake; more runs cost time without adding evidence.
 - **Applies to:** L2-L4; all risk tiers.
 - **Evidence:** Full-gate run counts in the budget ledger.
-- **Verification:** Fixture `full-gate-budget` (proposed for #108): request one
-  run over the maximum; it does not start and the loop run ends `aborted`.
+- **Verification:** Fixture `full-gate-budget`: request one run over the
+  maximum; it does not start and the loop run ends `aborted`; a merge queue
+  rebuild caused by another entry does not count.
 - **Failure mode:** The loop run is `aborted` by budget.
 
 ### `MYC-ASR-005` Skip rules and replacement evidence
@@ -270,8 +274,10 @@ configuration:
 - **Applies to:** L2-L4; all risk tiers.
 - **Evidence:** Skip records with rule name and replacement evidence (`skipped`
   status added in #109).
-- **Verification:** Assessor check of the configured skip rules; audit sample
-  of skip records.
+- **Verification:** Fixture `skip-rule`: a skip without replacement evidence
+  blocks the change, and a skip rule added in the same pull request does not
+  apply. Assessor check of the configured skip rules; audit sample of skip
+  records.
 - **Failure mode:** The change is `blocked` when a required layer has neither a
   result nor a valid skip record.
 

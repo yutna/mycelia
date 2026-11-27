@@ -32,7 +32,8 @@ is done, and how to tell what the repository still lacks.
 - Adoption guidance for greenfield and brownfield repositories.
 - JSON Schema data contracts, examples, and an interface contract.
 - The runtime contract that a conformant runtime implements, and the
-  conformance kit contract with its fixtures.
+  [conformance kit contract](docs/70-adoption/conformance-kit.md) with its
+  fixtures in `conformance/fixtures/`.
 - A reference runtime and the executable conformance kit, in `runtime/`, from
   `v2.1.0`.
 

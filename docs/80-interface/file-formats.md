@@ -17,6 +17,7 @@ AGENTS.md                 # operating contract
 CONTRIBUTING.md           # human contribution guide
 schemas/                  # JSON Schemas
 examples/                 # validated examples
+conformance/fixtures/     # conformance kit fixtures (this repository)
 docs/                     # normative specification
 .opencode/
   agents/                 # role definitions
@@ -86,6 +87,8 @@ lower-case kebab-case.
 | `incident-record.schema.json` | `IncidentRecord` | `incident-record.example.yaml` |
 | `mycelia.schema.json` | `MyceliaConfig` | `mycelia.example.yaml` |
 | `readiness-report.schema.json` | `ReadinessReport` | `readiness-report.example.yaml` |
+| `conformance-fixture.schema.json` | `ConformanceFixture` | `conformance/fixtures/*.yaml` |
+| `conformance-result.schema.json` | `ConformanceResult` | `conformance-result.example.yaml` |
 
 ## 6. Validation
 

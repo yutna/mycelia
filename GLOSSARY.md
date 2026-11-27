@@ -31,6 +31,9 @@ used in a normative document.
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
 | **Claim** | A statement in an assurance case that must be supported by an argument and evidence. |
 | **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
+| **Conformance fixture** | One conformance kit scenario as YAML data: requirements, profiles, and cases with input, steps, and expected outcome. |
+| **Conformance kit** | The command, fixtures, and result contract that show a runtime conforms (`MYC-CORE-013`); executed by an implementation of the contract. |
+| **Conformance result** | The record of one kit run against a runtime and profile; valid for a claim only under `MYC-ADP-001`. |
 | **Checkpoint** | A durable record of the run state at a transition: state, commit, role, budget, evidence, and trace. |
 | **CLI contract** | The commands, flags, exit codes, and output formats an implementation must provide. |
 | **Containment** | Stopping the spread of an incident: kill switch, credential revocation, component quarantine, or rollback. |

@@ -30,6 +30,7 @@ that a Mycelia implementation must provide.
 | `mycelia verify` | Run the evidence manifest | Evidence | Evidence records |
 | `mycelia report` | Build an audit or acceptance report | Optional | Report |
 | `mycelia doctor` | Check the runtime and environment | No | Check result |
+| `mycelia conformance` | Run the conformance kit for a profile ([conformance-kit.md](../70-adoption/conformance-kit.md)) | Result only | Conformance result |
 | `mycelia upgrade` | Diff and apply a template upgrade | Yes | Diff, migration |
 
 ## 4. Flags
@@ -56,21 +57,25 @@ that a Mycelia implementation must provide.
 | Code | Meaning |
 | --- | --- |
 | `0` | Success |
-| `1` | Policy violation |
+| `1` | Policy violation, or a stop by the kill switch |
 | `2` | Invalid input, config, or schema |
 | `3` | Blocked; a human decision is required |
 | `4` | Budget exhausted |
 | `5` | Internal error |
 | `6` | Conformance failure |
+| `7` | Rejected; the work item ended `rejected` |
 
 A blocked run exits `3`, never `0`. A work cycle that ends blocked-only or
-newly blocked (`MYC-EXE-016`) exits `3`. A policy denial exits `1`, never `0`.
+newly blocked (`MYC-EXE-016`), or that the no-progress guard stops
+(`MYC-EXE-015`), exits `3`. A policy denial exits `1`, never `0`. A rejected
+work item exits `7`, never `0`. `mycelia conformance` uses the exit codes in
+[conformance-kit.md](../70-adoption/conformance-kit.md) §3.
 
 ## 6. Output
 
 - JSON and YAML output must validate against the matching schema:
   readiness, run state, evidence, review, acceptance, release, incident,
-  trace, provenance, or evaluation.
+  trace, provenance, evaluation, or conformance result.
 - Markdown output is a human summary; scripts must not parse it.
 - Errors include a code, a message, and a remediation hint.
 - No secret, token, or personal data in the output.
@@ -79,6 +84,8 @@ newly blocked (`MYC-EXE-016`) exits `3`. A policy denial exits `1`, never `0`.
 ## 7. Safety and idempotency
 
 - `init`, `validate`, `assess`, `plan`, and `doctor` are read-only.
+- `conformance` writes only its result, and runs fixtures in disposable
+  clones.
 - `run` requires `--yes` for a non-interactive write.
 - `run --dry-run` prints the planned actions and exits `0`.
 - `run` requires a clean worktree or `--worktree`.
@@ -131,5 +138,6 @@ mycelia doctor
 - [readiness-assessment.md](../70-adoption/readiness-assessment.md) — assess
 - [opencode-conformance.md](../70-adoption/opencode-conformance.md) — doctor
 - [evidence-manifest.md](../20-control/evidence-manifest.md) — verify
-- `file-formats.md` — formats (planned)
+- [file-formats.md](file-formats.md) — formats
+- [conformance-kit.md](../70-adoption/conformance-kit.md) — conformance
 - [docs/README.md](../README.md) — documentation map

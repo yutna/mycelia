@@ -36,4 +36,7 @@ run = [
   "pipx run check-jsonschema --schemafile schemas/incident-record.schema.json examples/incident-record.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/mycelia.schema.json examples/mycelia.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/readiness-report.schema.json examples/readiness-report.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/conformance-result.schema.json examples/conformance-result.example.yaml",
+  "pipx run check-jsonschema --schemafile schemas/conformance-fixture.schema.json conformance/fixtures/*.yaml",
+  "bash scripts/check-fixture-names.sh",
 ]

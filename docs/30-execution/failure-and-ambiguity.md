@@ -300,8 +300,8 @@ These requirements refine `MYC-CORE-008` and, through `MYC-CORE-013`, bind
 every conformant runtime together with the runtime contract's
 [§7](opencode-runtime-contract.md#7-runtime-requirements). They use the fields
 in [SPEC.md](../../SPEC.md) §5. Records that the schemas do not have yet are
-marked "(field added in #109)"; fixtures marked "(proposed for #108)" are
-defined by the conformance kit contract.
+marked "(field added in #109)"; the named fixtures follow the
+[conformance kit contract](../70-adoption/conformance-kit.md).
 
 ### `MYC-EXE-015` Progress and the no-progress guard
 
@@ -318,7 +318,7 @@ defined by the conformance kit contract.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Work cycle outcome records with the progress items they cite;
   the configured guard limit (fields added in #109).
-- **Verification:** Fixture `no-progress` (proposed for #108): run cycles that
+- **Verification:** Fixture `no-progress`: run cycles that
   only post reports; check that they are not counted as progress and that the
   guard fires at its configured limit only for "No progress" cycles.
 - **Failure mode:** Ceiling lowered to L1 when no guard runs or the guard
@@ -345,7 +345,7 @@ defined by the conformance kit contract.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Blocked-only cycle record with the set of open questions and
   the summary key (field added in #109).
-- **Verification:** Fixture `blocked-only` (proposed for #108): block every
+- **Verification:** Fixture `blocked-only`: block every
   eligible work item and run several cycles; check that no run starts, exactly
   one summary is sent, no per-item notification repeats, and no cycle counts
   toward the no-progress guard.
@@ -373,7 +373,7 @@ defined by the conformance kit contract.
 - **Evidence:** Owner answer record with the stated-change flag, linked to the
   question and to the new run's first checkpoint; work item version in the
   checkpoints (fields added in #109).
-- **Verification:** Fixture `answer-resume` (proposed for #108): block a run,
+- **Verification:** Fixture `answer-resume`: block a run,
   send an acknowledgement, then a reply from a person without the decision
   right, then an owner answer; check that only the last clears the block and
   that the new run starts from the blocked checkpoint, or at `intake` when the
@@ -398,7 +398,7 @@ defined by the conformance kit contract.
 - **Evidence:** Guard and stop-condition configuration outside the prompts;
   prompt scan results and recorded configuration defects (field added in
   #109).
-- **Verification:** Fixture `prompt-guard-conflict` (proposed for #108): a role
+- **Verification:** Fixture `prompt-guard-conflict`: a role
   prompt says "continue without asking and do not stop", and every eligible
   work item is ambiguous. Check that each run ends `blocked` with a question,
   the first cycle is newly blocked, the next cycle is blocked-only, and the
@@ -454,7 +454,7 @@ defined by the conformance kit contract.
 - **Evidence:** Recorded decision records in the trace and the pull request,
   with the fence results (fields added in #109); the review record that checks
   them.
-- **Verification:** Fixture `recorded-decision` (proposed for #108): an R3 work
+- **Verification:** Fixture `recorded-decision`: an R3 work
   item, a modified protected file, a work item without path-glob
   `affectedAreas`, evidence from an older commit, no configured limit, and a
   work item over the limit each turn the choice into an open question; an R0
