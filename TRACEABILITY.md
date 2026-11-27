@@ -46,7 +46,7 @@ These refine `MYC-CORE-013`. A conformant runtime meets all of them.
 | `MYC-EXE-011` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Evidence records | `CTL-11` |
 | `MYC-EXE-012` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Durable trace and gap records | `CTL-23` |
 | `MYC-EXE-013` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Policy load check | `CTL-10` |
-| `MYC-EXE-014` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Runtime environment record | `CTL-07` |
+| `MYC-EXE-014` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Runtime environment record | `CTL-09` |
 
 ## 3. Assessment controls
 

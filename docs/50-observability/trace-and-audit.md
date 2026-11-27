@@ -129,7 +129,9 @@ The trace must answer:
 
 - If the trace store is unavailable, buffer locally and alert.
 - If the buffer is full, stop the run rather than lose the audit.
-- If a gap is detected, mark the trace unproven and stop R3/R4 work.
+- If a gap is detected, mark the trace unproven and stop R3/R4 work. On a
+  conformant runtime, a gap that cannot be reconciled also stops the work item
+  from reaching `accepted` (`MYC-EXE-012`).
 - If the chain is broken, open an incident.
 - Never continue silently without an audit trail.
 

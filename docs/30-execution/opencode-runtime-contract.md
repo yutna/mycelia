@@ -42,6 +42,10 @@ sections are informative unless they say otherwise.
 
 ## 4. Capability details
 
+This section is informative. Where it says "the contract requires", the
+binding rule is the matching `MYC-EXE-*` requirement in §7 or the owning
+document named in §6.
+
 ### 4.1 Context assembly
 
 OpenCode assembles the system prompt, `AGENTS.md`, configured instructions,
@@ -100,7 +104,7 @@ parent event.
 ### 4.9 Human handoff
 
 The `question` tool, permission prompts, and forms provide a human decision
-path, but each waits for a connected client. In an unattended run the contract
+path, but each waits for a connected client. In a headless run the contract
 requires a blocked state with a precise question, options, owner, and evidence,
 delivered through a notification adapter (`MYC-EXE-009`, `MYC-EXE-010`).
 
@@ -129,7 +133,7 @@ change, and a fallback route.
 ## 6. Required wrappers
 
 This table is normative. OpenCode does not provide these capabilities natively,
-so a conformant runtime MUST provide each wrapper. The "OpenCode mechanism"
+so a conformant runtime MUST provide each wrapper in it. The "OpenCode mechanism"
 column is informative: it records what the
 [reference notes](opencode-reference-notes.md) found, and the mechanisms may
 change between OpenCode versions.
@@ -146,10 +150,16 @@ change between OpenCode versions.
 | Trace | Event stream is live-only | Durable trace sink | `MYC-EXE-012` |
 | Policy red lines | `policies` hard-deny; invalid statements are dropped with a log warning | Placement in a scope the repository cannot loosen; load check | `MYC-EXE-013` |
 | Host isolation | `OPENCODE_DISABLE_CLAUDE_CODE=1`; global config and plugins load by default | Dedicated configuration directory and user | `MYC-EXE-014` |
+
+Controls owned by other documents (informative here). These gaps also need a
+wrapper, but the owning document and the profile decide when it is required:
+
+| Need | OpenCode gap | Wrapper | Owning document |
+| --- | --- | --- | --- |
 | Sandbox | None; shell has host authority | Container, microVM, or remote sandbox | [sandbox-and-isolation.md](../20-control/sandbox-and-isolation.md) §5 |
 | Identity | Session ID is not authentication | Dedicated bot account and credential broker | [roles-and-permissions.md](../20-control/roles-and-permissions.md) |
 | Supply chain | MCP servers and plugins are code | Allowlist, pin, review | [supply-chain.md](../20-control/supply-chain.md) |
-| Model change | No evaluation suite | Golden task suite | `evaluation-and-model-change.md` |
+| Model change | No evaluation suite | Golden task suite | [evaluation-and-model-change.md](../60-evolution/evaluation-and-model-change.md) |
 | Readiness | No assessment | Mycelia assessor | [readiness-assessment.md](../70-adoption/readiness-assessment.md) |
 | Provider data | Data leaves the machine | Classification and provider review | [policy-as-code.md](../20-control/policy-as-code.md) |
 
@@ -166,7 +176,17 @@ configure them; the `mycelia.yaml` runtime section is added in
 [#109](https://github.com/yutna/mycelia/issues/109). Fields that a requirement
 records and that the schemas do not have yet are marked
 "(field added in #109)". The conformance fixtures named under "Verification" are defined by the
-conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
+conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108);
+a verification without a fixture name is an assessor check.
+
+Terms used in this section:
+
+- A **step** is a loop state transition or a prompt sent to OpenCode. A runtime
+  MAY also check at each tool call, but no requirement depends on a per-tool
+  hook.
+- A **headless run** is a run with no person at the OpenCode client: any run
+  started by the scheduler (`MYC-EXE-005`) or by another process.
+- A **lease** is the exclusive claim a run holds on its work item.
 
 ### `MYC-EXE-001` Durable run state and checkpoints
 
@@ -176,7 +196,7 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
   the next side effect.
 - **Rationale:** A session is history, not a workflow engine. A crash between a
   side effect and its record loses work or repeats it.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Run state record with its checkpoints; matching trace events.
 - **Verification:** Fixture `resume`; audit sample of run state against trace.
 - **Failure mode:** Ceiling lowered to L1 by the assessor.
@@ -190,52 +210,59 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
   before it continues.
 - **Rationale:** Session history does not show which gates passed, which
   evidence is still fresh, or which side effects happened.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Trace of the resumed run linking to the checkpoint it resumed
   from.
 - **Verification:** Fixture `resume`: stop the run at each state and resume it.
-- **Failure mode:** The run is `blocked` when the checkpoint is missing or does
-  not match the branch; ceiling lowered to L1 when resume is not implemented.
+- **Failure mode:** The work item is `blocked` when the checkpoint is missing or
+  does not match the branch; ceiling lowered to L1 when resume is not
+  implemented.
 
 ### `MYC-EXE-003` Idempotency keys
 
 - **Statement:** Every external side effect (branch, pull request, comment,
   label, merge, release, notification) MUST carry an idempotency key made of
   the work item, the commit, and the action, as in
-  [autonomous-loop.md](autonomous-loop.md) §8. A repeat with the same key MUST
-  return the original result and MUST NOT repeat the effect.
+  [autonomous-loop.md](autonomous-loop.md) §8. When one action has several
+  targets or rounds (for example each escalation step of `MYC-EXE-009`), the
+  action part MUST name the target or round. A repeat with the same key MUST
+  return the original result and MUST NOT repeat the effect. For an effect the
+  target cannot deduplicate (for example email), the runtime MUST record the key
+  before it sends and MUST NOT send when the record exists.
 - **Rationale:** Execution is at least once. Without keys, a retry creates
   duplicate pull requests, comments, or releases.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Side-effect records with their keys (field added in #109).
-- **Verification:** Fixture `resume` and `retry-limit`: replay a step and check
+- **Verification:** Fixtures `resume` and `retry-limit`: replay a step and check
   that no duplicate effect exists.
-- **Failure mode:** The run is `aborted` on a detected duplicate; ceiling
-  lowered to L1 when keys are absent.
+- **Failure mode:** The work item is `blocked` when a duplicate effect is
+  detected; ceiling lowered to L1 when keys are absent.
 
 ### `MYC-EXE-004` One active run per work item
 
-- **Statement:** The runtime MUST hold an exclusive lease for each work item
-  while a run is active and MUST refuse to start a second run for the same work
-  item. Each run MUST work in its own worktree or branch.
+- **Statement:** The runtime MUST hold a lease for each work item while a run is
+  active and MUST refuse to start a second run for the same work item. Each run
+  MUST work in its own worktree
+  ([multi-agent-concurrency.md](multi-agent-concurrency.md) §4).
 - **Rationale:** Two runs on one work item race on the branch, the evidence,
   and the pull request.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Lease record in the run state (field added in #109); worktree
-  record ([multi-agent-concurrency.md](multi-agent-concurrency.md) §4).
-- **Verification:** Start two runs for one work item; the second is refused and
-  the refusal is traced.
-- **Failure mode:** The second run is `blocked` with the lease holder named.
+  record.
+- **Verification:** Fixture `concurrent-run` (proposed for #108): start two runs
+  for one work item; the second is refused, the refusal is traced, and the work
+  item's state is unchanged.
+- **Failure mode:** Ceiling lowered to L1 when the lease is not enforced.
 
 ### `MYC-EXE-005` Scheduler and heartbeat
 
 - **Statement:** A scheduler outside the OpenCode session MUST start runs. An
   active run MUST write a heartbeat to the run state at the configured
   interval.
-- **Rationale:** A loop that only runs while a person watches is not L2. A run
-  that stops writing heartbeats cannot be told apart from a slow one without a
-  heartbeat.
-- **Applies to:** L2-L4; all risk tiers.
+- **Rationale:** A run that stops writing heartbeats cannot be told apart from
+  a slow one without a heartbeat. A loop that only runs while a person drives
+  each prompt is L1, not L2.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Scheduler configuration; heartbeat timestamps in the run state
   (field added in #109).
 - **Verification:** Audit sample of heartbeat gaps against the configured
@@ -246,31 +273,33 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
 
 - **Statement:** The runtime MUST treat a run whose last heartbeat is older than
   the configured threshold as stale. For a stale run it MUST interrupt any
-  session that still runs, record the event, and then either resume from the
-  last checkpoint (`MYC-EXE-002`) or end the run `aborted`. It MUST NOT release
-  the lease before the record is written.
+  session that still runs and record the event. It MUST NOT release the lease
+  until the record is written and the session is confirmed stopped (an idle or
+  finished execution event, or its server process gone). It then either resumes
+  from the last checkpoint (`MYC-EXE-002`) or ends the work item `blocked`.
 - **Rationale:** A crashed run that keeps its lease blocks the work item. A run
-  that loses its lease while still running creates two active runs.
-- **Applies to:** L2-L4; all risk tiers.
+  that loses its lease while its session still runs creates two active runs.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Stale-run trace event with the decision taken.
-- **Verification:** Kill the runner mid-run; check detection, record, and the
-  decision.
-- **Failure mode:** The run is `aborted` when it cannot be resumed.
+- **Verification:** Fixture `stale-run` (proposed for #108): kill the runner
+  mid-run; check detection, record, lease release, and the decision.
+- **Failure mode:** Ceiling lowered to L1 when stale runs are not detected.
 
 ### `MYC-EXE-007` Budget across restarts
 
 - **Statement:** The runtime MUST record budget consumption durably and count it
   across restarts, resumes, and retries. A restart MUST NOT reset a budget.
   Where a provider allowance is not counted by the workspace budget, the runtime
-  MUST read that allowance itself before each step.
+  MUST read that allowance before each step; when it cannot read it, the run
+  MUST stop as budget exhausted.
 - **Rationale:** A budget kept in process memory resets on every crash, so a
-  crash loop spends without limit. The notes record that Console budgets do not
-  count OpenCode Go in-plan usage.
-- **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Budget ledger in the run state (field added in #109); trace of
-  usage events.
-- **Verification:** Fixture `aborted`: exhaust a budget across a restart; the
-  run ends `aborted` with exit code `4`
+  crash loop spends without limit. The reference notes record that workspace
+  budgets do not count some plan allowances.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Budget ledger in the run state (the schema has `budget`; the
+  ledger fields are added in #109); trace of usage events.
+- **Verification:** Fixture `budget-exhausted` (proposed for #108): exhaust a
+  budget across a restart; the run ends `aborted` with exit code `4`
   ([cli-contract.md](../80-interface/cli-contract.md)).
 - **Failure mode:** The run is `aborted` on exhaustion; ceiling lowered to L1
   when the ledger does not survive a restart.
@@ -283,7 +312,7 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
   sessions. It MUST stay engaged across restarts until a human releases it.
 - **Rationale:** A kill switch that a restart clears, or that is checked only at
   start, does not stop a runaway loop.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Kill-switch drill record and trace
   ([budgets-and-kill-switch.md](../20-control/budgets-and-kill-switch.md) §8,
   §10).
@@ -294,37 +323,42 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
 
 ### `MYC-EXE-009` Notification and escalation adapter
 
-- **Statement:** When a run ends `blocked`, the runtime MUST send a notification
-  to the owner through a configured adapter (for example a GitHub issue or
-  comment, email, or webhook), record the delivery, and wait for an
+- **Statement:** When a work item becomes `blocked`, the runtime MUST send a
+  notification to the owner through a configured adapter (for example a GitHub
+  issue or comment, email, or webhook), record the delivery, and wait for an
   acknowledgement. When the acknowledgement does not arrive before the
-  configured expiry, the runtime MUST escalate to the next target in
-  [failure-and-ambiguity.md](failure-and-ambiguity.md) §6.
+  configured expiry, the runtime MUST notify the next target in the configured
+  escalation chain. The targets in
+  [failure-and-ambiguity.md](failure-and-ambiguity.md) §6 are the default
+  first targets.
 - **Rationale:** A `blocked` state that nobody sees stops the loop silently.
-- **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Notification record with delivery, acknowledgement, and expiry
-  (field added in #109).
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Notification record with delivery, acknowledgement, expiry, and
+  escalation step (field added in #109).
 - **Verification:** Fixture `notification`: block a run, withhold the
   acknowledgement, and check the escalation.
-- **Failure mode:** The work item stays `blocked`; ceiling lowered to L1 when no
-  adapter is configured. How the owner's answer is recorded and how the run
-  resumes is defined in [#104](https://github.com/yutna/mycelia/issues/104).
+- **Failure mode:** Ceiling lowered to L1 when no adapter is configured. How the
+  owner's answer is recorded and how the run resumes is defined in
+  [#104](https://github.com/yutna/mycelia/issues/104).
 
-### `MYC-EXE-010` No waiting approvals in unattended runs
+### `MYC-EXE-010` No waiting approvals in headless runs
 
-- **Statement:** In a run without a person at the client, no permission rule
-  may resolve to `ask` unless a supervisor answers each request with `deny` or an
+- **Statement:** In a headless run, a permission evaluation MUST NOT wait for
+  a person: every evaluation that resolves to `ask`, including defaults and the
+  built-in base rules, MUST be answered by a supervisor with `deny` or an
   escalation within a configured timeout. The `question` tool MUST be denied in
-  such runs.
+  headless runs.
 - **Rationale:** `ask` and `question` wait for a connected client. In a
   headless run they stall until a timeout or forever.
-- **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Effective permission set for each unattended role; supervisor
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Effective permission set for each headless role; supervisor
   decisions in the trace.
-- **Verification:** Trigger an `ask` path in an unattended run; check that it is
-  denied or escalated within the timeout.
-- **Failure mode:** The run is `blocked` with the pending request as the
-  question.
+- **Verification:** Fixture `headless-ask` (proposed for #108): trigger an `ask`
+  path in a headless run; check that it is denied or escalated within the
+  timeout.
+- **Failure mode:** The work item is `blocked` with the pending request as the
+  question; ceiling lowered to L1 when no supervisor exists and `ask` paths
+  remain.
 
 ### `MYC-EXE-011` Evidence collector
 
@@ -334,60 +368,73 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
   for.
 - **Rationale:** Self-reported evidence is not evidence
   ([SPEC.md](../../SPEC.md) §9, no silent success).
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Evidence records with hash and commit
   ([evidence-manifest.md](../20-control/evidence-manifest.md)).
 - **Verification:** Fixture `stale-evidence`: change the commit after
   collection; the gate must fail.
-- **Failure mode:** The work item is `rejected` or `blocked` for missing or
-  stale evidence, never `accepted`.
+- **Failure mode:** The work item is `blocked` for missing or stale evidence,
+  never `accepted`; ceiling lowered to L1 when evidence is self-reported.
 
 ### `MYC-EXE-012` Durable trace sink
 
 - **Statement:** The runtime MUST subscribe to the OpenCode event stream before
-  it sends the first prompt of a run, and MUST write every event to a durable
-  sink. It MUST detect and record a gap in the received events and reconcile the
-  gap from the session export before the run can reach `accepted`.
+  it sends the first prompt of a run, and MUST write every received event to a
+  durable sink. It MUST detect gaps, at least on every disconnect and also by
+  sequence number where the runtime exposes one, and MUST try to reconcile each
+  gap from the session export or the server API. A gap that cannot be
+  reconciled marks the trace unproven.
 - **Rationale:** The event stream is live-only. Events sent before the
   subscription or during a disconnect are lost unless the runtime recovers them.
   Replay support on the target version is not yet verified.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Durable trace ([trace-and-audit.md](../50-observability/trace-and-audit.md));
-  gap records.
-- **Verification:** Drop the event connection mid-run; check that the gap is
-  recorded and reconciled.
-- **Failure mode:** The work item is `blocked` until the gap is reconciled.
+  gap records (field added in #109).
+- **Verification:** Fixture `trace-gap` (proposed for #108): drop the event
+  connection mid-run; check that the gap is recorded and reconciled or marked
+  unproven.
+- **Failure mode:** A work item with an unproven trace cannot reach `accepted`
+  and is `blocked`; ceiling lowered to L1 when no durable sink exists. This
+  tightens [trace-and-audit.md](../50-observability/trace-and-audit.md) §11 for
+  runs on a conformant runtime.
 
 ### `MYC-EXE-013` Policy placement and load check
 
 - **Statement:** Red-line policies MUST live in a configuration scope that the
-  repository cannot loosen (global or system scope). At start, the runtime MUST
-  check that every red-line policy was loaded and denies its action. How the
-  check is built (canaries, exact counts) is defined in
+  repository cannot loosen (managed scope, system scope, or the global scope of
+  the runtime's dedicated user from `MYC-EXE-014`), in files the agent cannot
+  write (for example a read-only mount or files owned by another user). At
+  start, the runtime MUST check that every red-line policy was loaded and denies
+  its action. How the check is built is defined in
   [#105](https://github.com/yutna/mycelia/issues/105).
-- **Rationale:** A policy in the repository can be edited by the agent it
-  binds. OpenCode drops an invalid policy statement with only a log warning, so
-  a typo removes a red line silently.
-- **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Load-check result for each run; policy source paths.
-- **Verification:** Break one policy statement; the runtime must refuse to
-  start.
-- **Failure mode:** The run is `aborted` before the first prompt.
+- **Rationale:** A policy the agent can edit does not bind it. OpenCode drops an
+  invalid policy statement with only a log warning, so a typo removes a red line
+  silently.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
+- **Evidence:** Load-check result for each run; policy source paths and their
+  write permissions.
+- **Verification:** Fixture `policy-load` (proposed for #108): break one policy
+  statement; the runtime must refuse to start.
+- **Failure mode:** The run is `aborted` by policy before the first prompt;
+  ceiling lowered to L1 when the check does not exist.
 
 ### `MYC-EXE-014` Host isolation
 
 - **Statement:** The runtime MUST run OpenCode with a dedicated configuration
-  directory and user, so that the host's global configuration, plugins,
-  instructions, and skills do not load. It MUST disable loading of other agent
-  tools' instruction and skill files (on OpenCode, `OPENCODE_DISABLE_CLAUDE_CODE=1`).
-- **Rationale:** Global configuration on a shared host changes the agent's
+  directory and user, and with a system configuration scope that the factory
+  controls (for example inside the sandbox), so that the host's configuration,
+  plugins, instructions, and skills do not load. It MUST disable loading of
+  other agent tools' instruction and skill files (on OpenCode,
+  `OPENCODE_DISABLE_CLAUDE_CODE=1`).
+- **Rationale:** Configuration on a shared host changes the agent's
   instructions, tools, and permissions without any repository change.
-- **Applies to:** L2-L4; all risk tiers.
+- **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Runtime environment record; loaded agents, skills, and plugins
   listed in the trace.
-- **Verification:** Place a marker skill in the host's global configuration;
-  it must not appear in the run.
-- **Failure mode:** The run is `aborted`; ceiling lowered to L1.
+- **Verification:** Fixture `host-isolation` (proposed for #108): place marker
+  skills in the host's global OpenCode configuration and in `~/.claude`; neither
+  may appear in the run.
+- **Failure mode:** The run is `aborted` by policy; ceiling lowered to L1.
 
 ## 8. Conformance tests
 
@@ -400,7 +447,8 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
 - `session.interrupt` stops a running session.
 - A worktree is created and removed.
 - Evidence is hashed and linked to a commit.
-- A human question or approval round-trip completes.
+- A blocked notification, acknowledgement, and answer round-trip completes
+  (`MYC-EXE-009`).
 - A model route is recorded in the trace.
 - The kill-switch drill succeeds.
 
@@ -423,6 +471,6 @@ conformance kit contract in [#108](https://github.com/yutna/mycelia/issues/108).
 - [sandbox-and-isolation.md](../20-control/sandbox-and-isolation.md) — sandbox
 - [autonomous-loop.md](autonomous-loop.md) — loop and checkpoints
 - [opencode-reference-notes.md](opencode-reference-notes.md) — OpenCode V2 docs findings (non-normative)
-- `trace-and-audit.md` — durable trace (planned)
-- `evaluation-and-model-change.md` — evaluations (planned)
+- [trace-and-audit.md](../50-observability/trace-and-audit.md) — durable trace
+- [evaluation-and-model-change.md](../60-evolution/evaluation-and-model-change.md) — evaluations
 - [docs/README.md](../README.md) — documentation map

@@ -34,6 +34,7 @@ used in a normative document.
 | **Cost per accepted change** | Total cost divided by the number of accepted changes. |
 | **Crosswalk** | A mapping from a concern or framework to the document that owns it. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
+| **Durable trace sink** | The store a conformant runtime writes every received OpenCode event to, so the trace survives disconnects and restarts (`MYC-EXE-012`). |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
 | **Determinism** | The property that a check produces the same result on the same inputs and environment. |
@@ -61,15 +62,20 @@ used in a normative document.
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
+| **Headless run** | A run with no person at the OpenCode client, such as a run started by the scheduler. Not the same as L4 unattended. |
+| **Heartbeat** | A timestamp an active run writes to its run state at a configured interval, so the runtime can tell a live run from a stale one. |
 | **Human in command (HIC)** | A human owns policy, accountability, and incident command at every autonomy level. |
 | **Human in the loop (HITL)** | A human approves a specific action before it happens. |
 | **Human on the loop (HOTL)** | A human monitors sampling and can intervene without approving every action. |
 | **Idempotency** | The property that repeating an action with the same key has the same effect as doing it once. |
+| **Idempotency key** | The key on an external side effect, made of the work item, the commit, and the action, that makes a repeat return the original result instead of a second effect. |
 | **Incident commander** | The human who owns an incident response and its decisions. |
 | **Kill switch** | A control that stops a run or a repository, revokes credentials, disables a component, and preserves the trace. |
+| **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
+| **Notification adapter** | The runtime component that tells the owner a work item is `blocked`, records delivery and acknowledgement, and escalates on expiry (`MYC-EXE-009`). |
 | **OpenTelemetry (OTel)** | An open standard for traces, metrics, and logs; the optional export format for the Mycelia trace. |
 | **pass@k** | The probability that at least one of k attempts succeeds on a task. |
 | **Postmortem** | A blameless review of an incident: timeline, impact, causes, response, and actions. |
@@ -102,6 +108,8 @@ used in a normative document.
 | **SPACE** | A developer productivity framework: satisfaction, performance, activity, communication, and efficiency. |
 | **Span** | A named interval in a trace, with a parent and correlation IDs. |
 | **SLSA** | Supply-chain levels for software artifacts: source integrity, build provenance, and dependency verification. |
+| **Stale run** | An active run whose last heartbeat is older than the configured threshold. |
+| **Supervisor** | The automated responder that answers permission requests in a headless run with deny or an escalation (`MYC-EXE-010`). |
 | **Supply chain** | The models, providers, MCP servers, plugins, skills, packages, actions, and images that the factory depends on. |
 | **Tamper-evident** | A property of a log where any modification or gap can be detected, for example with a hash chain. |
 | **Task DAG** | A directed acyclic graph of tasks and dependencies used to partition concurrent work. |
