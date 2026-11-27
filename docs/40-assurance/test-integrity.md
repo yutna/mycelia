@@ -50,6 +50,8 @@ This is reward hacking. The control is test integrity.
 - A snapshot update requires a review of the diff.
 - The verifier confirms the test change is justified.
 - The guard is enforced by policy or CI, not by convention alone.
+- The guard itself is built and proven as
+  [guard-design.md](../20-control/guard-design.md) requires.
 
 ### Mutation testing
 

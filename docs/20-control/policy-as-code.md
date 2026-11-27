@@ -171,8 +171,11 @@ A permanent exception is not allowed. Change the policy instead.
 
 ## 11. Testing
 
-- Every red line has a negative test: attempt the action, expect a deny.
-- Every allow has a positive test: the action proceeds.
+Policy rules are guards. Their tests follow
+[guard-design.md](guard-design.md) (`MYC-CTL-001` to `MYC-CTL-006`): bypass
+corpus, exact-count guard canaries against the effective rule set, and a
+meta-check. In addition:
+
 - Every obligation has a test that fails when the obligation is missing.
 - Policy changes run the tests before merge.
 - A dry run evaluates the proposed policy against historical decisions.
@@ -224,7 +227,8 @@ The record is append-only and part of the trace.
 - [threat-model.md](../00-foundations/threat-model.md) — threats and controls
 - [autonomy-levels.md](../00-foundations/autonomy-levels.md) — levels and tiers
 - [roles-and-permissions.md](roles-and-permissions.md) — role catalog
-- `evidence-manifest.md` — definition of done (planned)
-- `sandbox-and-isolation.md` — isolation (planned)
-- `supply-chain.md` — supply chain (planned)
+- [guard-design.md](guard-design.md) — how guards are built and proven
+- [evidence-manifest.md](evidence-manifest.md) — definition of done
+- [sandbox-and-isolation.md](sandbox-and-isolation.md) — isolation
+- [supply-chain.md](supply-chain.md) — supply chain
 - [docs/README.md](../README.md) — documentation map

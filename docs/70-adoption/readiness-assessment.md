@@ -69,7 +69,7 @@ Rules:
 | Level | Required controls |
 | --- | --- |
 | L1 | `CTL-01`-`CTL-04`, `CTL-07`, `CTL-08`, `CTL-10`-`CTL-14` at 2 or higher |
-| L2 | L1 plus `CTL-05`, `CTL-06`, `CTL-09`, `CTL-15`-`CTL-17`, `CTL-19`, `CTL-21` at 2 or higher, and `MYC-CORE-013` evidence (a passing conformance result for a conformant runtime) |
+| L2 | L1 plus `CTL-05`, `CTL-06`, `CTL-09`, `CTL-15`-`CTL-17`, `CTL-19`, `CTL-21` at 2 or higher, and `MYC-CORE-013` evidence (a passing conformance result for a conformant runtime), and no unproven red-line rule ([guard-design.md](../20-control/guard-design.md) §6) |
 | L3 | L2 plus `CTL-20`, `CTL-22`, `CTL-23`, `CTL-24` at 3 or higher |
 | L4 | L3 plus `CTL-15`, `CTL-16`, `CTL-17`, `CTL-23`, `CTL-24` at 3 or higher, and the incident and concurrency drills passed |
 
