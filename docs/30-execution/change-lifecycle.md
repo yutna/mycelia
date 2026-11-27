@@ -72,7 +72,10 @@ private reasoning. The author does not approve its own change.
 ## 7. Merge queue and merge
 
 - Merges are serialized through the merge queue.
-- The queue runs CI on the merged result.
+- The queue runs CI on the merged result: the fast gate for R0-R2, unless a
+  full-gate trigger applies, and the full gate for R3-R4
+  ([verification-stack.md](../40-assurance/verification-stack.md) §12). The
+  selection is computed against the queue base.
 - The merge method is squash.
 - The pull request title becomes the commit on `main`.
 - The branch is deleted after the merge.

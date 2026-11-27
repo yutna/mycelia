@@ -27,6 +27,7 @@ undone.
 | Evidence | The release evidence manifest is satisfied |
 | Security | No critical or high finding; review for R3/R4 |
 | Provenance | The artifact and source are attested |
+| Compatibility | N-1 compatibility checks pass ([verification-stack.md](verification-stack.md) `MYC-ASR-003`) |
 | Rollback | The rollback plan is tested |
 | Human | Sign-off for R3/R4 |
 | Notes | Release notes are generated or written |

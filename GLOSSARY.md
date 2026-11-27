@@ -49,12 +49,14 @@ used in a normative document.
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
 | **Exit code** | The numeric result of a command: 0 success, 1 policy, 2 input, 3 blocked, 4 budget, 5 internal, 6 conformance. |
+| **Fast gate** | The pull request gate that runs the required layers over the checks a change affects, within a time target (`MYC-ASR-001`). |
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **File format** | The serialization and layout of an artifact: YAML, JSON, JSONL, Markdown, or Git. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
+| **Full gate** | The gate that runs every required layer over the whole repository, on a schedule, on releases, and on triggers (`MYC-ASR-002`). |
 | **Game day** | A scheduled exercise that injects a failure and measures the human and system response. |
 | **Gap register** | The list of unmet controls with severity, finding, remediation, owner, and effort. |
 | **GSN** | Goal Structuring Notation: a way to draw claims, arguments, and evidence for an assurance case. |
@@ -111,9 +113,11 @@ used in a normative document.
 | **Sampling** | Reviewing a random, risk-weighted subset of changes instead of every change. |
 | **Sandbox** | An isolated environment that contains the filesystem, network, process, and credentials available to a run. |
 | **Schema** | A JSON Schema 2020-12 data contract for a Mycelia record or configuration. |
+| **Selection map** | The versioned mapping from changed paths to the checks they affect, used by the fast gate. |
 | **Secretless** | A design in which the agent never holds a long-lived secret; credentials are brokered per tool and expire quickly. |
 | **Severity** | The review classification of a finding: blocker, major, minor, or nit. |
 | **Sign-off** | The recorded human decision to accept a change, including what was reviewed and any conditions. |
+| **Skip rule** | A named, configured rule that lets a required layer not run for a change and names its replacement evidence (`MYC-ASR-005`). |
 | **SLI** | A service level indicator: a measured signal such as success rate or latency. |
 | **SLO** | A service level objective: a target range for an SLI. |
 | **SPACE** | A developer productivity framework: satisfaction, performance, activity, communication, and efficiency. |

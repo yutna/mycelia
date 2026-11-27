@@ -85,7 +85,7 @@ Every produced evidence item has:
 | `timestamp` | When it was produced |
 | `hash` | SHA-256 of the artifact |
 | `location` | Where the artifact is stored |
-| `result` | `pass`, `fail`, or `blocked` |
+| `result` | `pass`, `fail`, or `blocked`; `skipped` for a layer skipped by rule ([verification-stack.md](../40-assurance/verification-stack.md) `MYC-ASR-005`; schema value added in #109) |
 | `verifiedAt` | When the verifier checked it |
 | `traceEvent` | The trace event that links the evidence to the run |
 
@@ -123,7 +123,10 @@ A gate evaluates the manifest against the evidence for the current commit.
 | `blocked` | Evidence or a verifier is missing | The work item is blocked |
 | `waived` | A human granted a time-bound exception | The transition may proceed with the exception recorded |
 
-There is no implicit pass. An empty gate is a configuration error.
+There is no implicit pass. An empty gate is a configuration error. A `skipped`
+record with valid replacement evidence counts as present
+([verification-stack.md](../40-assurance/verification-stack.md)
+`MYC-ASR-005`).
 
 ## 9. Storage and retention
 
