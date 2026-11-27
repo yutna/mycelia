@@ -27,6 +27,27 @@ examples.
 | `MYC-CORE-012` | [SPEC.md](SPEC.md) §10 | Variance note | `CTL-23` |
 | `MYC-CORE-013` | [SPEC.md](SPEC.md) §10 | Conformance result | L2 gate ([readiness-assessment.md](docs/70-adoption/readiness-assessment.md) §5) |
 
+### Runtime requirements
+
+These refine `MYC-CORE-013`. A conformant runtime meets all of them.
+
+| Requirement | Specification | Evidence | Control |
+| --- | --- | --- | --- |
+| `MYC-EXE-001` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Run state and checkpoints | `CTL-13` |
+| `MYC-EXE-002` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Resume trace | `CTL-13` |
+| `MYC-EXE-003` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Side-effect keys | `CTL-13` |
+| `MYC-EXE-004` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Lease and worktree record | `CTL-16` |
+| `MYC-EXE-005` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Run start and heartbeat | `CTL-13` |
+| `MYC-EXE-006` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Stale-run event | `CTL-13` |
+| `MYC-EXE-007` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Budget ledger | `CTL-15` |
+| `MYC-EXE-008` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Kill-switch drill | `CTL-15` |
+| `MYC-EXE-009` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Notification record | `CTL-14` |
+| `MYC-EXE-010` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Permission set and supervisor decisions | `CTL-08` |
+| `MYC-EXE-011` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Evidence records | `CTL-11` |
+| `MYC-EXE-012` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Durable trace and gap records | `CTL-23` |
+| `MYC-EXE-013` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Policy load check | `CTL-10` |
+| `MYC-EXE-014` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Runtime environment record | `CTL-09` |
+
 ## 3. Assessment controls
 
 | Control | Owning document | Evidence |

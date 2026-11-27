@@ -40,8 +40,8 @@ Conformance is claimed per profile, not globally.
   [runtime contract](docs/30-execution/opencode-runtime-contract.md) that runs
   the loop. It passes the conformance kit for the profile it claims. A
   repository at L2 or higher MUST run on one (`MYC-CORE-013`). The runtime
-  contract's requirement IDs (`MYC-EXE-*`) and the kit contract are added
-  during `v2.0.0`.
+  requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7.
+  The conformance kit contract is added during `v2.0.0`.
 
 A repository that cannot produce evidence for a control does not conform at
 the level that requires that control, even if the control is described in its
@@ -186,6 +186,11 @@ failure, not a pass. This invariant is the core of the reliability contract in
 | `MYC-CORE-011` | Every exception MUST be time-bound, owned, and audited. | Exception record | Audit sample |
 | `MYC-CORE-012` | The factory MUST record variance when evidence is not reproducible. | Variance note | Reproducibility check |
 | `MYC-CORE-013` | A repository that claims L2 or higher MUST run its loop on a runtime that conforms to the runtime contract, shown by a passing conformance result for its declared profile. | Conformance result, as defined by the conformance kit contract, from any implementation of that contract | Assessor check |
+
+Runtime requirements refine `MYC-CORE-013`. They are `MYC-EXE-001` to
+`MYC-EXE-014` in the
+[runtime contract](docs/30-execution/opencode-runtime-contract.md) §7, with
+the required wrappers in §6.
 
 ### Failure modes
 
