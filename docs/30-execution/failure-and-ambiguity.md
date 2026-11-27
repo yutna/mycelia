@@ -22,7 +22,7 @@ ambiguity needs a precise question, not a guess.
 | Transient tool failure | Any state | Retry with backoff | 3 | `aborted` or `blocked` |
 | Model or provider failure | Any state | Retry or fall back | 2 | `aborted` |
 | Merge conflict | Merging | Update the branch from the default branch or re-implement | 2 | `blocked` |
-| Stale base | Verify | Update the branch and re-run (`MYC-EXE-020`) | 1 | Merge conflict or product test failure |
+| Stale base | Verify | Update the branch and re-run (`MYC-EXE-020`) | 1 per failure; total capped by `MYC-EXE-020` | Merge conflict or product test failure |
 | Breaking dependency update | Verify | Stop; propose a migration work item (`MYC-CTL-007`) | 0 | `rejected` |
 | Security finding | Verify or review | Reject and open an incident | 0 | `rejected` |
 | Missing or stale evidence | Verify | Reproduce or ask | 0 | `blocked` |

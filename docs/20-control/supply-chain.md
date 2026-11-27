@@ -214,9 +214,10 @@ Defaults (fields added in #109):
   NOT apply in the pull request that makes it.
 
   When a dependency update whose change patch touches only dependency
-  manifests and lockfiles fails a compile, type, or test check, the update
-  MUST NOT be retried as a product failure: it ends `rejected` and the runtime
-  proposes a migration work item
+  manifests and lockfiles fails a compile, type, or test check after the flake
+  check of [verification-stack.md](../40-assurance/verification-stack.md) §4,
+  the update MUST NOT be retried as a product failure: it ends `rejected` and
+  the runtime proposes a migration work item
   ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §2).
   Updates opened by a bot follow the same rules.
 - **Rationale:** A major upgrade that needed an API migration was treated as a

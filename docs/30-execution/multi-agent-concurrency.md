@@ -108,7 +108,7 @@ exceeded is a capacity problem.
 | Stale lock | Report to the owner; do not steal silently |
 | Clean merge, semantic conflict | Review finding; rework or split the task |
 | Queue failure | Return to implementing or blocked |
-| Rebase conflict | Re-implement small, or ask |
+| Merge conflict | Re-implement small, or ask |
 
 A semantic conflict is the dangerous one. Tests and review are the detection.
 
