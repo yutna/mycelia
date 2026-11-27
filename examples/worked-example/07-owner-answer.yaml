@@ -14,4 +14,4 @@ spec:
   blockedCheckpoint: "RUN-201#4"
   newRunID: RUN-202
   newRunFirstCheckpoint: "RUN-202#1"
-  traceEvent: EVT-202-ANSWER
+  traceEvent: EVT-201-ANSWER

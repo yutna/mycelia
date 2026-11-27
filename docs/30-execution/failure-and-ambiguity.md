@@ -147,7 +147,8 @@ The protocol:
 2. Write the precise question.
 3. List the options, their consequences, and a recommendation when there is one.
 4. Name the owner who can answer.
-5. Record the question in the trace and the work item.
+5. Record the question in the trace and the work item (`openQuestions` in the
+   [work item schema](../../schemas/work-item.schema.json)).
 6. End in `blocked`.
 7. Resume only after the answer is recorded.
 

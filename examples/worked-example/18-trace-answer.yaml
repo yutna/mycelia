@@ -1,12 +1,12 @@
 apiVersion: mycelia/v1
 kind: TraceEvent
 metadata:
-  id: EVT-202-ANSWER
+  id: EVT-201-ANSWER
   createdAt: 2026-12-01T11:00:00Z
 spec:
   traceID: trace-200
-  spanID: evt-202-answer
-  runID: RUN-202
+  spanID: evt-201-answer
+  runID: RUN-201
   workItemID: MYC-200
   eventType: state
   actor:
