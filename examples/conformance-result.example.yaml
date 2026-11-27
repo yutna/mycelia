@@ -12,6 +12,7 @@ spec:
     version: v2.0.0
     commit: 0123456789abcdef0123456789abcdef01234567
   profile: standard
+  partial: false
   repository:
     url: https://github.com/example/app
     commit: 89abcdef0123456789abcdef0123456789abcdef

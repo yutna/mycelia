@@ -35,3 +35,5 @@ spec:
         terminalState: accepted
         runExitCode: 0
         evidence: [Evidence, TraceEvent]
+        trace:
+          - { eventType: evidence, action: full-gate }

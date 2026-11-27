@@ -21,3 +21,4 @@ spec:
         terminalState: accepted
         runExitCode: 0
         evidence: [SelectionMapDefect, Evidence, TraceEvent]
+        absent: [a selection map fix before its fixture was shown unselected]

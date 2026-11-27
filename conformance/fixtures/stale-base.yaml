@@ -15,7 +15,7 @@ spec:
       when:
         - step: start-run
         - step: fail-check
-          with: { check: release, message: "release: v0.29.0 already exists" }
+          with: { check: release, message: "release: v0.29.0 already exists", once: true }
         - step: reach-terminal-state
           with: { gates: all-pass }
       expect:
@@ -30,8 +30,23 @@ spec:
       when:
         - step: start-run
         - step: advance-base
-          with: { count: 4, touchesSelectedInput: true }
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
+        - step: advance-base
+          with: { touchesSelectedInput: true }
+        - step: fail-check
+          with: { layer: integration, once: true }
       expect:
         terminalState: aborted
         runExitCode: 4
         evidence: [BudgetLedger, UpdateRecord]
+        absent: [a fourth runtime base update]

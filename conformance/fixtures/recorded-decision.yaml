@@ -23,6 +23,8 @@ spec:
         runExitCode: 0
         evidence: [RecordedDecision, ReviewRecord, TraceEvent]
     - id: r3-refused
+      description: R3 work runs only from L3, so this case applies to high-assurance only.
+      profiles: [high-assurance]
       given:
         workItem: { riskTier: R3, affectedAreas: ["src/auth/**"] }
         config: { recordedDecisionLimit: 2 }

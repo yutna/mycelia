@@ -79,12 +79,14 @@ fixture, and validates against `schemas/conformance-fixture.schema.json`.
 | `metadata.id` | Fixture name; equals the file name and the name in "Verification" |
 | `spec.requirements` | The requirement IDs the fixture verifies |
 | `spec.profiles` | The profiles the fixture applies to |
+| `spec.cases[].profiles` | Optional; narrows the profiles for one case, for example an R3 case that runs only from L3 |
 | `spec.cases[].given` | Starting conditions: work item, run state, repository, configuration, runtime |
 | `spec.cases[].when` | Ordered steps from the step vocabulary below |
 | `spec.cases[].expect.terminalState` | `accepted`, `rejected`, `blocked`, `aborted`, or `none` when no run starts |
 | `spec.cases[].expect.runExitCode` | The exit code of the run or work cycle under test |
 | `spec.cases[].expect.cycleOutcome` | The work cycle outcome, for cycle-level cases ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §10) |
 | `spec.cases[].expect.stateAfter` | The loop state a resumed or restarted run continues in |
+| `spec.cases[].expect.proposedTier` | The minimum risk tier the runtime proposes (`MYC-CTL-007`) |
 | `spec.cases[].expect.evidence` | The record kinds the run must produce |
 | `spec.cases[].expect.trace` | Trace events that must appear |
 | `spec.cases[].expect.absent` | Effects that must not happen |
@@ -104,6 +106,7 @@ Step vocabulary:
 | `engage-kill-switch` | Engage the kill switch |
 | `consume-budget` | Consume budget in a given dimension |
 | `fail-check`, `flake-check` | Make a check fail, deterministically or once |
+| `attempt-denied-action`, `fail-tool-call` | Attempt an action a policy denies; make a tool call fail |
 | `disconnect-trace` | Drop the event stream for a period |
 | `trigger-ask` | Cause a permission evaluation that resolves to `ask` |
 | `block-run` | Make the run end `blocked` with a question |
@@ -122,19 +125,19 @@ Step vocabulary:
 
 | Fixture | Verifies | Expected outcomes |
 | --- | --- | --- |
-| `terminal-states` | `MYC-CORE-004`, `MYC-CORE-005` | `accepted` 0, `rejected` 7, `blocked` 3, `aborted` by policy 1 |
+| `terminal-states` | `MYC-CORE-004`, `MYC-CORE-005` | `accepted` 0; `rejected` 7 on a blocking review finding; `blocked` 3 at intake; `aborted` by policy 1 |
 | `resume` | `MYC-EXE-001`, `-002`, `-003` | `accepted` 0 after a stop in each state; `blocked` 3 on a checkpoint mismatch |
-| `retry-limit` | `MYC-EXE-003` | `blocked` 3 past the retry limit; no duplicate effect on replay |
+| `retry-limit` | `MYC-EXE-003` | No duplicate effect on replay; `accepted` 0 |
 | `concurrent-run` | `MYC-EXE-004` | Second run refused; the first ends `accepted` 0 |
 | `stale-run` | `MYC-EXE-006` | Detected, recorded, resumed to `accepted` 0 |
 | `budget-exhausted` | `MYC-EXE-007` | `aborted` 4 across a restart |
-| `kill-switch` | `MYC-EXE-008` | `aborted` 1; no run starts after a restart |
+| `kill-switch` | `MYC-EXE-008` | `aborted` 1 mid-run; after a restart no run starts (exit 1) |
 | `notification` | `MYC-EXE-009` | `blocked` 3 with escalation on expiry |
 | `headless-ask` | `MYC-EXE-010` | `blocked` 3; the `ask` is denied |
-| `stale-evidence` | `MYC-EXE-011` | `blocked` 3; never `accepted` |
+| `stale-evidence` | `MYC-EXE-011` | `blocked` 3 when the evidence cannot be reproduced; never `accepted` |
 | `trace-gap` | `MYC-EXE-012` | `blocked` 3 on an unreconciled gap |
 | `policy-load` | `MYC-EXE-013` | `aborted` 1 before the first prompt |
-| `host-isolation` | `MYC-EXE-014` | Markers absent and `accepted` 0; a loaded marker gives `aborted` 1 |
+| `host-isolation` | `MYC-EXE-014` | Markers absent; `accepted` 0 |
 | `no-progress` | `MYC-EXE-015` | Guard stops at its limit (exit 3); progress resets it |
 | `blocked-only` | `MYC-EXE-016` | No run, one summary, exit 3 |
 | `answer-resume` | `MYC-EXE-017` | Only the owner answer clears the block; resume state |
@@ -146,7 +149,7 @@ Step vocabulary:
 | `selection-map-miss` | `MYC-ASR-002` | Miss recorded as a selection-map defect |
 | `full-gate-budget` | `MYC-ASR-004` | `aborted` 4 over the maximum; queue rebuilds not counted |
 | `skip-rule` | `MYC-ASR-005` | `blocked` 3 without replacement evidence or with a self-added rule |
-| `dependency-tier` | `MYC-CTL-007` | Tier per rule; failing major update `rejected` 7 |
+| `dependency-tier` | `MYC-CTL-007` | Proposed tier per rule; failing major update `rejected` 7 with a proposed migration work item |
 
 ### `MYC-ADP-002` Kit coverage
 
@@ -173,10 +176,11 @@ the status of every fixture case (`pass`, `fail`, `error`, or
 
 - **Statement:** A conformance result supports a claim (`MYC-CORE-013`) only
   when all of these hold: it validates against the result schema; it was
-  produced from a pinned kit version (tag or commit) that is the current kit
-  version or one the claim names; every fixture case that applies to the
-  claimed profile has status `pass`; `not-applicable` appears only for cases
-  whose fixture does not list the profile; and the runtime version, the
+  produced from the kit version that the Mycelia release the claim is made
+  against pins; it is not partial (no `--only` and no `--fixtures` override);
+  every fixture case that applies to the claimed profile has status `pass`;
+  `not-applicable` appears only for cases whose fixture or case profiles do not
+  list the claimed profile; and the runtime version, the
   OpenCode version, the kit version, and the profile match the runtime the
   repository actually runs. A result MUST be produced again when any of these
   change. A result from an older kit does not cover fixtures added later.
@@ -198,7 +202,9 @@ the status of every fixture case (`pass`, `fail`, `error`, or
 | `high-assurance` | Every fixture that lists `high-assurance` |
 
 Every fixture in this version lists both `standard` and `high-assurance`,
-because every requirement it verifies applies from L2.
+because every requirement it verifies applies from L2. A case that needs work
+the runtime runs only from L3, such as an R3 work item, narrows its own
+profiles to `high-assurance`.
 
 ## 8. Anti-patterns
 

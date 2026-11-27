@@ -6,7 +6,7 @@ metadata:
 spec:
   requirements: [MYC-EXE-008]
   profiles: [standard, high-assurance]
-  description: Engage the kill switch mid-run, restart the runtime, and try to start a run.
+  description: Engage the kill switch mid-run, then restart the runtime and try to start a run.
   cases:
     - id: engaged-mid-run
       given:
@@ -14,10 +14,19 @@ spec:
       when:
         - step: start-run
         - step: engage-kill-switch
-        - step: restart-runtime
-        - step: start-run
       expect:
         terminalState: aborted
         runExitCode: 1
         evidence: [KillSwitchRecord, RunState, TraceEvent]
+    - id: no-start-after-restart
+      given:
+        workItem: { riskTier: R2 }
+        runtime: { killSwitch: engaged }
+      when:
+        - step: restart-runtime
+        - step: start-run
+      expect:
+        terminalState: none
+        runExitCode: 1
+        evidence: [KillSwitchRecord, TraceEvent]
         absent: [a new run starting while the switch is engaged]

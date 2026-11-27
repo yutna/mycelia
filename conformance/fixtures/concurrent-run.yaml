@@ -20,4 +20,6 @@ spec:
         terminalState: accepted
         runExitCode: 0
         evidence: [LeaseRecord, TraceEvent]
+        trace:
+          - { eventType: state, action: lease-refused }
         absent: [second worktree, change to the work item state by the second run]

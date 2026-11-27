@@ -19,4 +19,4 @@ spec:
         runExitCode: 3
         cycleOutcome: blocked-only
         evidence: [WorkCycleRecord, NotificationRecord, IdempotencyRecord]
-        absent: [a started run, a second summary notification, a repeated per-item notification]
+        absent: [a started run, a second summary notification, a repeated per-item notification, a cycle counted by the no-progress guard]

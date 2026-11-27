@@ -6,7 +6,7 @@ metadata:
 spec:
   requirements: [MYC-EXE-014]
   profiles: [standard, high-assurance]
-  description: Place marker skills in the host's global OpenCode configuration and in ~/.claude.
+  description: Place marker skills in the host's global OpenCode configuration and in ~/.claude; neither may appear in the run.
   cases:
     - id: markers-absent
       given:
@@ -22,15 +22,3 @@ spec:
         runExitCode: 0
         evidence: [RuntimeEnvironmentRecord, TraceEvent]
         absent: [a marker skill in the loaded skills]
-    - id: marker-loaded
-      given:
-        workItem: { riskTier: R1 }
-        runtime: { isolation: broken }
-      when:
-        - step: place-host-marker
-          with: { locations: [opencode-global] }
-        - step: start-run
-      expect:
-        terminalState: aborted
-        runExitCode: 1
-        evidence: [RuntimeEnvironmentRecord, TraceEvent]

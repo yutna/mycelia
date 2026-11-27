@@ -8,7 +8,7 @@ spec:
   profiles: [standard, high-assurance]
   description: Block a run, then send an acknowledgement, a reply without the decision right, and an owner answer.
   cases:
-    - id: answer-clears-block
+    - id: ack-and-reply-do-not-clear
       given:
         workItem: { riskTier: R2 }
       when:
@@ -18,6 +18,18 @@ spec:
         - step: send-acknowledgement
         - step: send-reply
           with: { decisionRight: false }
+      expect:
+        terminalState: blocked
+        runExitCode: 3
+        evidence: [NotificationRecord, OwnerAnswerRecord, TraceEvent]
+        absent: [a new lease, a new run]
+    - id: answer-clears-block
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: block-run
+          with: { inState: planned }
         - step: send-owner-answer
           with: { changesWorkItem: false }
         - step: reach-terminal-state

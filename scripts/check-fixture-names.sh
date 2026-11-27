@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # Meta-check for the conformance kit (MYC-ADP-002): every fixture named in a
 # Verification field has a file, every file is named somewhere, and each
-# file's metadata.id equals its file name.
+# file's metadata.id equals its file name. Names are cited as
+# Fixture `name`, Fixtures `a` and `b`, or a comma list, and may wrap lines.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-named=$(grep -rhoE 'Fixtures? `[a-z0-9-]+`( and `[a-z0-9-]+`)?' --include='*.md' docs SPEC.md \
+named=$(find docs -name '*.md' -print0 | xargs -0 cat SPEC.md | tr '\n' ' ' | tr -s ' ' \
+  | grep -oE 'Fixtures? `[a-z0-9-]+`((, | and |, and )`[a-z0-9-]+`)*' \
   | grep -oE '`[a-z0-9-]+`' | tr -d '`' | sort -u)
-files=$(find conformance/fixtures -name '*.yaml' -printf '%f\n' | sed 's/\.yaml$//' | sort -u)
+files=$(for f in conformance/fixtures/*.yaml; do basename "$f" .yaml; done | sort -u)
 
 status=0
 missing=$(comm -23 <(echo "$named") <(echo "$files"))

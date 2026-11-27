@@ -5,51 +5,113 @@
   "description": "The result of running the conformance kit against a runtime for one profile.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
   "properties": {
-    "apiVersion": { "const": "mycelia/v1" },
-    "kind": { "const": "ConformanceResult" },
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "ConformanceResult"
+    },
     "metadata": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "createdAt"],
+      "required": [
+        "id",
+        "createdAt"
+      ],
       "properties": {
-        "id": { "type": "string", "pattern": "^CONF-[A-Z0-9-]+$" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string",
+          "pattern": "^CONF-[A-Z0-9-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       }
     },
     "spec": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["runtime", "opencodeVersion", "kit", "profile", "repository", "results", "summary", "outcome"],
+      "required": [
+        "runtime",
+        "opencodeVersion",
+        "kit",
+        "profile",
+        "repository",
+        "results",
+        "summary",
+        "outcome",
+        "partial"
+      ],
       "properties": {
         "runtime": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["name", "version"],
+          "required": [
+            "name",
+            "version"
+          ],
           "properties": {
-            "name": { "type": "string", "minLength": 1 },
-            "version": { "type": "string", "minLength": 1 }
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         },
-        "opencodeVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+" },
+        "opencodeVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+"
+        },
         "kit": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["version", "commit"],
+          "required": [
+            "version",
+            "commit"
+          ],
           "properties": {
-            "version": { "type": "string", "minLength": 1 },
-            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+            "version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            }
           }
         },
-        "profile": { "enum": ["minimal", "standard", "high-assurance"] },
+        "profile": {
+          "enum": [
+            "minimal",
+            "standard",
+            "high-assurance"
+          ]
+        },
         "repository": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["commit"],
+          "required": [
+            "commit"
+          ],
           "properties": {
-            "url": { "type": "string" },
-            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+            "url": {
+              "type": "string"
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            }
           }
         },
         "results": {
@@ -58,44 +120,146 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["fixture", "case", "status"],
+            "required": [
+              "fixture",
+              "case",
+              "status"
+            ],
             "properties": {
-              "fixture": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-              "case": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-              "status": { "enum": ["pass", "fail", "error", "not-applicable"] },
+              "fixture": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "case": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "status": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "error",
+                  "not-applicable"
+                ]
+              },
               "observed": {
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
-                  "terminalState": { "enum": ["accepted", "rejected", "blocked", "aborted", "none"] },
-                  "runExitCode": { "type": "integer", "minimum": 0 },
+                  "terminalState": {
+                    "enum": [
+                      "accepted",
+                      "rejected",
+                      "blocked",
+                      "aborted",
+                      "none"
+                    ]
+                  },
+                  "runExitCode": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
                   "cycleOutcome": {
-                    "enum": ["progress", "stopped", "no-progress", "newly-blocked", "blocked-only", "idle"]
+                    "enum": [
+                      "progress",
+                      "stopped",
+                      "no-progress",
+                      "newly-blocked",
+                      "blocked-only",
+                      "idle"
+                    ]
                   }
                 }
               },
               "evidence": {
                 "type": "array",
-                "items": { "type": "string", "minLength": 1 }
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
               },
-              "reason": { "type": "string" }
+              "reason": {
+                "type": "string"
+              }
             }
           }
         },
         "summary": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["total", "passed", "failed", "errors", "notApplicable"],
+          "required": [
+            "total",
+            "passed",
+            "failed",
+            "errors",
+            "notApplicable"
+          ],
           "properties": {
-            "total": { "type": "integer", "minimum": 0 },
-            "passed": { "type": "integer", "minimum": 0 },
-            "failed": { "type": "integer", "minimum": 0 },
-            "errors": { "type": "integer", "minimum": 0 },
-            "notApplicable": { "type": "integer", "minimum": 0 }
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "passed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "failed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "errors": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "notApplicable": {
+              "type": "integer",
+              "minimum": 0
+            }
           }
         },
-        "outcome": { "enum": ["pass", "fail"] }
-      }
+        "outcome": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "partial": {
+          "type": "boolean",
+          "description": "True when the run used --only or a --fixtures override; a partial result never supports a claim."
+        },
+        "fixturesSource": {
+          "type": "string",
+          "description": "Where the fixtures came from when not the pinned kit."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "pass"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "partial": {
+                "const": false
+              },
+              "summary": {
+                "properties": {
+                  "failed": {
+                    "const": 0
+                  },
+                  "errors": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

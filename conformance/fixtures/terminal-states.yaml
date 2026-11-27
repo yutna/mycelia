@@ -6,7 +6,7 @@ metadata:
 spec:
   requirements: [MYC-CORE-004, MYC-CORE-005]
   profiles: [standard, high-assurance]
-  description: Drive one R2 work item to each terminal state and check the state, exit code, and evidence.
+  description: Drive one R2 work item to each terminal state through a transition the loop defines, and check the state, exit code, and evidence.
   cases:
     - id: accepted
       given:
@@ -22,17 +22,19 @@ spec:
         trace:
           - { eventType: state, action: accepted }
     - id: rejected
+      description: reviewing -> rejected on a blocking review finding.
       given:
         workItem: { riskTier: R2 }
       when:
         - step: start-run
         - step: fail-check
-          with: { layer: unit, attempts: exhausted }
+          with: { kind: blocking-review-finding }
       expect:
         terminalState: rejected
         runExitCode: 7
-        evidence: [RunState, Evidence, TraceEvent]
+        evidence: [RunState, ReviewRecord, TraceEvent]
     - id: blocked
+      description: intake -> blocked on contradictory acceptance criteria.
       given:
         workItem: { riskTier: R2, acceptanceCriteria: contradictory }
       when:
@@ -46,8 +48,8 @@ spec:
         workItem: { riskTier: R2 }
       when:
         - step: start-run
-        - step: fail-check
-          with: { kind: policy-denial, action: "shell:git push --force origin main" }
+        - step: attempt-denied-action
+          with: { action: "shell:git push --force origin main" }
       expect:
         terminalState: aborted
         runExitCode: 1

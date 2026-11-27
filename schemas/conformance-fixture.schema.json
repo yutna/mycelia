@@ -5,45 +5,79 @@
   "description": "One conformance kit scenario: the requirements it verifies, the profiles it applies to, and cases with their input, steps, and expected outcome.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["apiVersion", "kind", "metadata", "spec"],
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
   "properties": {
-    "apiVersion": { "const": "mycelia/v1" },
-    "kind": { "const": "ConformanceFixture" },
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "ConformanceFixture"
+    },
     "metadata": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "title"],
+      "required": [
+        "id",
+        "title"
+      ],
       "properties": {
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
           "description": "Fixture name; equals the file name without .yaml and the name used in Verification fields."
         },
-        "title": { "type": "string", "minLength": 1 }
+        "title": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "spec": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["requirements", "profiles", "description", "cases"],
+      "required": [
+        "requirements",
+        "profiles",
+        "description",
+        "cases"
+      ],
       "properties": {
         "requirements": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "pattern": "^MYC-[A-Z]+-[0-9]{3}$" }
+          "items": {
+            "type": "string",
+            "pattern": "^MYC-[A-Z]+-[0-9]{3}$"
+          }
         },
         "profiles": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "enum": ["minimal", "standard", "high-assurance"] }
+          "items": {
+            "enum": [
+              "minimal",
+              "standard",
+              "high-assurance"
+            ]
+          }
         },
-        "description": { "type": "string", "minLength": 1 },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
         "cases": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/case" }
+          "items": {
+            "$ref": "#/$defs/case"
+          }
         }
       }
     }
@@ -52,34 +86,73 @@
     "case": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "given", "when", "expect"],
+      "required": [
+        "id",
+        "given",
+        "when",
+        "expect"
+      ],
       "properties": {
-        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-        "description": { "type": "string" },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "description": {
+          "type": "string"
+        },
         "given": {
           "type": "object",
           "additionalProperties": false,
           "description": "Starting conditions. Sub-objects are open until the runtime data contracts are complete.",
           "properties": {
-            "workItem": { "type": "object" },
-            "runState": { "type": "object" },
-            "repository": { "type": "object" },
-            "config": { "type": "object" },
-            "runtime": { "type": "object" }
+            "workItem": {
+              "type": "object"
+            },
+            "runState": {
+              "type": "object"
+            },
+            "repository": {
+              "type": "object"
+            },
+            "config": {
+              "type": "object"
+            },
+            "runtime": {
+              "type": "object"
+            }
           }
         },
         "when": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/step" }
+          "items": {
+            "$ref": "#/$defs/step"
+          }
         },
-        "expect": { "$ref": "#/$defs/expect" }
+        "expect": {
+          "$ref": "#/$defs/expect"
+        },
+        "profiles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "minimal",
+              "standard",
+              "high-assurance"
+            ]
+          },
+          "description": "Profiles this case applies to when narrower than the fixture's; a case is not-applicable for other profiles."
+        }
       }
     },
     "step": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["step"],
+      "required": [
+        "step"
+      ],
       "properties": {
         "step": {
           "enum": [
@@ -111,7 +184,9 @@
             "break-policy-statement",
             "place-host-marker",
             "propose-dependency-update",
-            "reach-terminal-state"
+            "reach-terminal-state",
+            "attempt-denied-action",
+            "fail-tool-call"
           ]
         },
         "with": {
@@ -123,19 +198,44 @@
     "expect": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["terminalState", "runExitCode", "evidence"],
+      "required": [
+        "terminalState",
+        "runExitCode",
+        "evidence"
+      ],
       "properties": {
         "terminalState": {
-          "enum": ["accepted", "rejected", "blocked", "aborted", "none"],
-          "description": "Terminal state of the work item; none when no run starts."
+          "enum": [
+            "accepted",
+            "rejected",
+            "blocked",
+            "aborted",
+            "none"
+          ],
+          "description": "Terminal state of the work item; none when the case ends with no work item in a terminal state."
         },
         "runExitCode": {
           "type": "integer",
-          "enum": [0, 1, 2, 3, 4, 5, 7],
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+          ],
           "description": "Exit code of the run or work cycle under test (cli-contract.md section 5)."
         },
         "cycleOutcome": {
-          "enum": ["progress", "stopped", "no-progress", "newly-blocked", "blocked-only", "idle"]
+          "enum": [
+            "progress",
+            "stopped",
+            "no-progress",
+            "newly-blocked",
+            "blocked-only",
+            "idle"
+          ]
         },
         "stateAfter": {
           "type": "string",
@@ -145,7 +245,10 @@
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "string", "pattern": "^[A-Z][A-Za-z]+$" },
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Za-z]+$"
+          },
           "description": "Record kinds the run must produce; schema kinds or records added with the runtime data contracts."
         },
         "trace": {
@@ -153,20 +256,56 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["eventType"],
+            "required": [
+              "eventType"
+            ],
             "properties": {
               "eventType": {
-                "enum": ["session", "tool", "permission", "policy", "evidence", "state", "review", "acceptance", "release", "incident"]
+                "enum": [
+                  "session",
+                  "tool",
+                  "permission",
+                  "policy",
+                  "evidence",
+                  "state",
+                  "review",
+                  "acceptance",
+                  "release",
+                  "incident"
+                ]
               },
-              "action": { "type": "string" },
-              "result": { "enum": ["ok", "error", "denied", "blocked"] }
+              "action": {
+                "type": "string"
+              },
+              "result": {
+                "enum": [
+                  "ok",
+                  "error",
+                  "denied",
+                  "blocked"
+                ]
+              }
             }
           }
         },
         "absent": {
           "type": "array",
-          "items": { "type": "string", "minLength": 1 },
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
           "description": "Effects that must not happen, for example a second notification or a duplicate pull request."
+        },
+        "proposedTier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "migration"
+          ],
+          "description": "The minimum risk tier the runtime proposes (MYC-CTL-007)."
         }
       }
     }

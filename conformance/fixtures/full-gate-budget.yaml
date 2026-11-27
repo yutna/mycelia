@@ -6,16 +6,16 @@ metadata:
 spec:
   requirements: [MYC-ASR-004]
   profiles: [standard, high-assurance]
-  description: Request one counted full-gate run over the maximum, and check that uncounted runs do not consume the budget.
+  description: An R2 change to a lockfile triggers the full gate on each new head; request one counted run over the maximum, and check that a merge queue rebuild caused by another entry is not counted.
   cases:
     - id: over-maximum
       given:
-        workItem: { riskTier: R3 }
+        workItem: { riskTier: R2 }
         config: { maxFullGateRuns: 3 }
       when:
         - step: start-run
         - step: push-change
-          with: { triggersFullGate: true, count: 4 }
+          with: { paths: [package-lock.json], newHeads: 4, markReadyEachHead: true }
       expect:
         terminalState: aborted
         runExitCode: 4
@@ -23,11 +23,13 @@ spec:
         absent: [a fourth counted full-gate run]
     - id: queue-rebuild-not-counted
       given:
-        workItem: { riskTier: R3 }
-        config: { maxFullGateRuns: 3 }
+        workItem: { riskTier: R2 }
+        config: { maxFullGateRuns: 1 }
       when:
         - step: start-run
-        - step: enter-merge-queue
+        - step: push-change
+          with: { paths: [package-lock.json] }
+        - step: mark-ready
         - step: enter-merge-queue
           with: { causedBy: another-entry }
         - step: reach-terminal-state
@@ -36,3 +38,4 @@ spec:
         terminalState: accepted
         runExitCode: 0
         evidence: [BudgetLedger, Evidence]
+        absent: [the queue rebuild counted against the budget]

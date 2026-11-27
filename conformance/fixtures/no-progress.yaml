@@ -6,11 +6,11 @@ metadata:
 spec:
   requirements: [MYC-EXE-015]
   profiles: [standard, high-assurance]
-  description: Run cycles whose runs only post reports, then cycles that make progress.
+  description: Run cycles whose runs only post reports, with and without progress between them.
   cases:
-    - id: report-only-cycles
+    - id: guard-fires-at-limit
       given:
-        workItem: { riskTier: R2 }
+        repository: { eligibleWorkItems: 1 }
         config: { noProgressLimit: 3 }
       when:
         - step: start-cycle
@@ -20,11 +20,16 @@ spec:
         runExitCode: 3
         cycleOutcome: no-progress
         evidence: [WorkCycleRecord, NotificationRecord, TraceEvent]
+        absent: [a run started after the guard fired]
     - id: progress-resets
       given:
-        workItem: { riskTier: R2 }
+        repository: { eligibleWorkItems: 3 }
         config: { noProgressLimit: 3 }
       when:
+        - step: start-cycle
+          with: { count: 2, runOutcome: report-only }
+        - step: start-cycle
+          with: { runOutcome: merged }
         - step: start-cycle
           with: { count: 2, runOutcome: report-only }
         - step: start-cycle
@@ -34,3 +39,4 @@ spec:
         runExitCode: 0
         cycleOutcome: progress
         evidence: [WorkCycleRecord, TraceEvent]
+        absent: [the no-progress guard firing]

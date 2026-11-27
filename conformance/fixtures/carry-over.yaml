@@ -23,20 +23,83 @@ spec:
         runExitCode: 0
         stateAfter: verifying
         evidence: [CarriedResult, Evidence, TraceEvent]
-    - id: nothing-carries
-      description: Each variant must re-run every check.
+    - id: patch-identity-changed
       given:
         workItem: { riskTier: R2 }
       when:
         - step: start-run
         - step: advance-base
-          with:
-            variants: [patch-identity-changed, touches-trigger-path, touches-change-patch-path, multiple-merge-bases, lockfile-both-sides]
+          with: { variant: patch-identity-changed }
         - step: update-base
         - step: reach-terminal-state
           with: { gates: all-pass }
       expect:
         terminalState: accepted
         runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-trigger-path
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-trigger-path }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-change-patch-path
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-change-patch-path }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: multiple-merge-bases
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: multiple-merge-bases }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
+        evidence: [Evidence, TraceEvent]
+        absent: [a carried result]
+    - id: touches-lockfile
+      given:
+        workItem: { riskTier: R2 }
+      when:
+        - step: start-run
+        - step: advance-base
+          with: { variant: touches-lockfile }
+        - step: update-base
+        - step: reach-terminal-state
+          with: { gates: all-pass }
+      expect:
+        terminalState: accepted
+        runExitCode: 0
+        stateAfter: verifying
         evidence: [Evidence, TraceEvent]
         absent: [a carried result]

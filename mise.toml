@@ -4,8 +4,8 @@ node = "26"
 "aqua:rhysd/actionlint" = "1.7.12"
 
 [tasks.lint]
-description = "Run markdownlint and local link checks"
-run = ["npm run lint:md", "npm run lint:links"]
+description = "Run markdownlint, local link checks, and the fixture-name meta-check"
+run = ["npm run lint:md", "npm run lint:links", "bash scripts/check-fixture-names.sh"]
 
 [tasks."lint:actions"]
 description = "Run actionlint"
@@ -38,5 +38,4 @@ run = [
   "pipx run check-jsonschema --schemafile schemas/readiness-report.schema.json examples/readiness-report.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/conformance-result.schema.json examples/conformance-result.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/conformance-fixture.schema.json conformance/fixtures/*.yaml",
-  "bash scripts/check-fixture-names.sh",
 ]
