@@ -23,7 +23,9 @@ is done, and how to tell what the repository still lacks.
 
 - OpenCode V2 as the only harness, version 2.4.0 or newer
   ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md)). This
-  release was tested with 2.2.6; the 2.4.x test happens before `v2.0.0`.
+  release was tested with 2.4.2: the configuration validates, the agents,
+  commands, skills, and permissions load as configured, and a headless run
+  completes. The runtime fixtures need the `v2.1.0` kit.
 - Role and permission contracts expressed through OpenCode agents, permissions,
   and policies.
 - Policy-as-code, evidence manifests, and decision rights.

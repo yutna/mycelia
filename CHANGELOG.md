@@ -15,7 +15,9 @@ contract and fixtures define how a runtime proves it. This release ships no
 runtime code, so the highest claimable level is L1 until a kit implementation
 exists.
 
-OpenCode: the minimum is 2.4.0. This release was tested with OpenCode 2.4.2.
+OpenCode: the minimum is 2.4.0. This release was tested with OpenCode 2.4.2:
+the configuration validates, the agents, commands, skills, and permissions load
+as configured, and a headless run completes.
 
 ### Specification
 

@@ -66,7 +66,7 @@ Method:
 | `AUD-18` | Low | The self-assessment is not independent | Open: an independent assessor is required for a conformance claim |
 | `AUD-19` | Medium | The conformance kit contract has fixtures but no implementation; the fixture `given` sub-objects are loosely typed | Open: implement and tighten with the reference runtime in `v2.1.0` |
 | `AUD-20` | Low | `TraceEvent` has no notification event type; notifications, replies, and answers are recorded as `state` events | Open: the notification record is the primary record; consider a dedicated type in `v2.1.0` |
-| `AUD-21` | Medium | The stated OpenCode floor (2.4.0) was newer than the tested version (2.2.6) | Fixed: tested with OpenCode 2.4.2 before the `v2.0.0` release |
+| `AUD-21` | Medium | The stated OpenCode floor (2.4.0) was newer than the tested version (2.2.6) | Fixed: tested with OpenCode 2.4.2 before the `v2.0.0` release (configuration, agents, commands, skills, permissions, and a headless run; see [SCOPE.md](SCOPE.md)) |
 
 ## 5. Adversarial review
 
