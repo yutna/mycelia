@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/selection-map-defect.schema.json",
+  "title": "Mycelia Selection Map Defect",
+  "description": "A full gate failure on a check the fast gate did not select for the same code (MYC-ASR-002).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "SelectionMapDefect"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^SMD-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example SMD-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "check",
+        "commit",
+        "selectionMapVersion",
+        "fullGateEvidence",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "check": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "selectionMapVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fastGateEvidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fullGateEvidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fixture": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The fixture that reproduces the miss."
+        },
+        "shownUnselectedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the fixture was shown to go unselected, before the map fix."
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "open",
+            "fixed"
+          ]
+        }
+      }
+    }
+  }
+}

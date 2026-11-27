@@ -1,0 +1,15 @@
+apiVersion: mycelia/v1
+kind: SelectionMapDefect
+metadata:
+  id: SMD-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  check: integration/api
+  commit: 0123456789abcdef0123456789abcdef01234567
+  selectionMapVersion: "4"
+  fastGateEvidence: EVD-FAST-001
+  fullGateEvidence: EVD-FULL-002
+  fixture: tests/selection/api-config.yaml
+  shownUnselectedAt: 2026-11-13T12:00:00Z
+  owner: platform-owner
+  status: open

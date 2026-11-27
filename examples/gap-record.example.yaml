@@ -1,0 +1,15 @@
+apiVersion: mycelia/v1
+kind: GapRecord
+metadata:
+  id: GAP-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  runID: RUN-001
+  detectedBy: disconnect
+  from: 2026-11-13T09:10:00Z
+  to: 2026-11-13T09:10:30Z
+  reconciliation:
+    status: reconciled
+    source: session-export
+    at: 2026-11-13T09:11:00Z
+    recoveredEvents: 7

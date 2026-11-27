@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/yutna/mycelia/schemas/work-cycle-record.schema.json",
+  "title": "Mycelia Work Cycle Record",
+  "description": "The outcome of one work cycle, with the progress items it cites and, for a blocked-only cycle, the open questions and summary key (MYC-EXE-015, MYC-EXE-016). Not a run terminal state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "mycelia/v1"
+    },
+    "kind": {
+      "const": "WorkCycleRecord"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CYC-[A-Z0-9-]+$",
+          "description": "Stable identifier, for example CYC-001."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startedAt",
+        "outcome",
+        "noProgressCount",
+        "guardFired"
+      ],
+      "properties": {
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "startedBy": {
+          "enum": [
+            "scheduler",
+            "operator"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "progress",
+            "stopped",
+            "no-progress",
+            "newly-blocked",
+            "blocked-only",
+            "idle"
+          ]
+        },
+        "progressItems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "ref"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "merged-change",
+                  "closed-issue"
+                ]
+              },
+              "ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "description": "Only merged changes and closed issues count as progress."
+        },
+        "runIDs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "noProgressCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Consecutive no-progress cycles after this one; resets on progress."
+        },
+        "noProgressLimit": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "guardFired": {
+          "type": "boolean"
+        },
+        "openQuestionIDs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "The set of open questions at a blocked-only cycle."
+        },
+        "summaryKey": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "workItemID": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "repository": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Used in place of the work item and commit for an effect that belongs to no single work item."
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "target": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The target or round, when one action has several (MYC-EXE-003)."
+            }
+          },
+          "description": "Idempotency key parts (MYC-EXE-003): work item, commit, and action, or repository and action.",
+          "oneOf": [
+            {
+              "required": [
+                "workItemID",
+                "commit"
+              ],
+              "not": {
+                "required": [
+                  "repository"
+                ]
+              }
+            },
+            {
+              "required": [
+                "repository"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "workItemID"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "commit"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "summarySent": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "progress"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "progressItems"
+            ],
+            "properties": {
+              "progressItems": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "blocked-only"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "openQuestionIDs",
+              "summaryKey",
+              "summarySent"
+            ],
+            "properties": {
+              "summaryKey": {
+                "properties": {
+                  "action": {
+                    "const": "blocked-summary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

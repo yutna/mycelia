@@ -13,6 +13,14 @@ spec:
   role: implementer
   model: provider/model
   policyVersion: "1.0.0"
+  startedBy: operator
+  lease:
+    acquiredAt: 2026-11-13T09:00:00Z
+    worktree: .worktrees/docs-123-example
+  heartbeat:
+    interval: PT1M
+    lastAt: 2026-11-13T09:30:00Z
+  budgetLedgerRef: LDG-001
   budget:
     steps: 12
     tokens: 145000
@@ -21,18 +29,34 @@ spec:
     - state: intake
       at: 2026-11-13T09:00:00Z
       commit: 0123456789abcdef0123456789abcdef01234567
+      workItemVersion: "sha256:5f0c9e2a"
       note: Work item validated.
     - state: planned
       at: 2026-11-13T09:05:00Z
       commit: 0123456789abcdef0123456789abcdef01234567
+      workItemVersion: "sha256:5f0c9e2a"
       note: Plan approved.
     - state: implementing
       at: 2026-11-13T09:10:00Z
       commit: 0123456789abcdef0123456789abcdef01234567
+      workItemVersion: "sha256:5f0c9e2a"
       note: Change produced.
     - state: verifying
       at: 2026-11-13T09:30:00Z
       commit: 0123456789abcdef0123456789abcdef01234567
+      workItemVersion: "sha256:5f0c9e2a"
+      branch: docs/123-example
+      role: verifier
+      model: provider/model
+      policyVersion: "1.0.0"
+      budgetConsumed:
+        steps: 12
+        tokens: 145000
+        costUSD: 1.25
+      evidenceRefs:
+        - EVD-LINT-001
+      openQuestions: []
+      traceEvent: "trace/run-001.jsonl#span-12"
       note: Evidence manifest started.
   evidenceRefs:
     - EVD-LINT-001

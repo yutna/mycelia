@@ -51,7 +51,203 @@
               "type": "string",
               "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
             },
-            "config": { "type": "string" }
+            "config": { "type": "string" },
+            "heartbeatInterval": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "ISO 8601 duration between heartbeats of an active run (MYC-EXE-005)."
+            },
+            "staleRunThreshold": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "A run whose last heartbeat is older than this is stale (MYC-EXE-006)."
+            },
+            "acknowledgementExpiry": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "Time a notification waits for an acknowledgement before the next escalation target is notified (MYC-EXE-009)."
+            },
+            "supervisorTimeout": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "Time within which the supervisor answers an ask evaluation in a headless run (MYC-EXE-010)."
+            },
+            "notificationAdapter": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The adapter that delivers notifications, for example github-issue-comment, email, or webhook (MYC-EXE-009)."
+            },
+            "escalationChain": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Notification targets in order; the first is the owner (MYC-EXE-009, failure-and-ambiguity.md section 6)."
+            },
+            "noProgressLimit": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Consecutive no-progress work cycles before the guard stops starting runs (MYC-EXE-015)."
+            },
+            "recordedDecisionLimit": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Maximum recorded decisions per work item (MYC-EXE-019 fence 5); zero when unset."
+            },
+            "protectedPaths": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Path globs protected in addition to the fixed list of MYC-EXE-019 fence 3."
+            },
+            "maxBaseUpdates": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 3,
+              "description": "Maximum runtime base updates per work item, counted in the budget ledger (MYC-EXE-020)."
+            },
+            "maxBranchAge": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "Maximum age of the merge base before a branch is stale (MYC-EXE-020).",
+              "default": "P7D"
+            }
+          }
+        },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Verification tier settings (verification-stack.md section 12).",
+          "properties": {
+            "fastGateTarget": {
+              "type": "string",
+              "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+              "description": "Fast gate target, job start to verdict on the reference runner (MYC-ASR-001).",
+              "default": "PT5M"
+            },
+            "fastGateOverruns": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Fast gate overruns within the window before a defect is opened.",
+              "properties": {
+                "count": { "type": "integer", "minimum": 1, "default": 3 },
+                "window": {
+                  "type": "string",
+                  "pattern": "^P(?=[0-9T])([0-9]+D)?(T(?=[0-9])([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$",
+                  "description": "ISO 8601 duration of the counting window.",
+                  "default": "P7D"
+                }
+              }
+            },
+            "fullGateSchedule": {
+              "type": "string",
+              "minLength": 1,
+              "default": "nightly",
+              "description": "Full gate schedule on the default branch: nightly or a cron expression (MYC-ASR-002)."
+            },
+            "fullGateFailuresBeforeCeiling": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 3,
+              "description": "Missed or failing scheduled full gates in a row before the ceiling is lowered (MYC-ASR-002)."
+            },
+            "maxFullGateRuns": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 3,
+              "description": "Maximum counted pre-merge full-gate runs per work item (MYC-ASR-004)."
+            },
+            "releaseBranchPattern": {
+              "type": "string",
+              "minLength": 1,
+              "default": "release/*",
+              "description": "Release branches that run N-1 compatibility checks (MYC-ASR-003)."
+            },
+            "selectionMap": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Path of the versioned selection map."
+            },
+            "skipRules": {
+              "type": "array",
+              "description": "Named skip rules (MYC-ASR-005); adding or changing one is a guard loosening (MYC-CTL-006).",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "paths", "skips", "replacementEvidence"],
+                "properties": {
+                  "name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+                  "paths": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "type": "string", "minLength": 1 },
+                    "description": "Path globs; every changed path must match for the rule to apply."
+                  },
+                  "skips": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "type": "string", "minLength": 1 },
+                    "description": "Layers the rule skips."
+                  },
+                  "replacementEvidence": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "type": "string", "minLength": 1 },
+                    "description": "Evidence types that replace the skipped layers."
+                  },
+                  "approvedBy": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Lists for the dependency update risk tier (MYC-CTL-007); adding to testOnlyPackages or removing from r3Packages is a guard loosening.",
+          "properties": {
+            "testOnlyPackages": {
+              "type": "array",
+              "default": [],
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Package names or patterns whose patch and minor updates are R1."
+            },
+            "r3Packages": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "description": "Package names or patterns whose updates are at least R3; seed from authentication, cryptography, payments, database drivers, and infrastructure."
+            }
+          }
+        },
+        "rules": {
+          "type": "array",
+          "description": "Rule registry (rule-lifecycle.md section 10).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "version", "status", "owner", "reviewDate", "enforcer"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^RULE-[0-9]+$" },
+              "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+              "status": { "enum": ["draft", "active", "deprecated", "retired"] },
+              "owner": { "type": "string", "minLength": 1 },
+              "reviewDate": { "type": "string", "format": "date" },
+              "replacement": { "type": "string", "pattern": "^RULE-[0-9]+$" },
+              "enforcer": {
+                "description": "The guard and guard rule that blocks the rule, or instruction only (guard-design.md section 8).",
+                "oneOf": [
+                  { "const": "instruction only" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["guard", "rule"],
+                    "properties": {
+                      "guard": { "type": "string", "minLength": 1 },
+                      "rule": { "type": "string", "minLength": 1 }
+                    }
+                  }
+                ]
+              }
+            }
           }
         },
         "riskTiers": {
@@ -97,7 +293,29 @@
           "type": "array",
           "items": { "enum": ["public", "internal", "confidential", "secret"] }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "autonomy": { "properties": { "ceiling": { "enum": ["L2", "L3", "L4"] } } } }
+          },
+          "then": {
+            "properties": {
+              "runtime": {
+                "required": [
+                  "heartbeatInterval",
+                  "staleRunThreshold",
+                  "acknowledgementExpiry",
+                  "supervisorTimeout",
+                  "notificationAdapter",
+                  "escalationChain",
+                  "noProgressLimit"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

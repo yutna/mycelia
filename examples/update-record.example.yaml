@@ -1,0 +1,26 @@
+apiVersion: mycelia/v1
+kind: UpdateRecord
+metadata:
+  id: UPD-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  workItemID: MYC-123
+  runID: RUN-001
+  staleness:
+    stale: true
+    reasons:
+      - release-tag-after-merge-base
+    detail: Tag v1.4.0 was created after the merge base.
+  method: merge
+  fromCommit: 0123456789abcdef0123456789abcdef01234567
+  toCommit: 89abcdef0123456789abcdef0123456789abcdef
+  fromMergeBase: fedcba9876543210fedcba9876543210fedcba98
+  toMergeBase: 76543210fedcba9876543210fedcba9876543210
+  idempotencyKey:
+    workItemID: MYC-123
+    commit: 0123456789abcdef0123456789abcdef01234567
+    action: base-update
+  conflict: false
+  gateBefore: EVD-FAST-001
+  gateAfter: EVD-FAST-002
+  baseUpdatesAfter: 1

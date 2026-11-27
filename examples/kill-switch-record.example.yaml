@@ -1,0 +1,19 @@
+apiVersion: mycelia/v1
+kind: KillSwitchRecord
+metadata:
+  id: KSW-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  scope: repository
+  target: example/repo
+  trigger: drill
+  engagedBy: owner
+  engagedAt: 2026-11-13T09:00:00Z
+  interruptedSessions:
+    - ses_001
+  stoppedAt: 2026-11-13T09:00:20Z
+  releasedBy: owner
+  releasedAt: 2026-11-13T09:15:00Z
+  drill: true
+  traceRefs:
+    - "trace/run-001.jsonl#span-20"

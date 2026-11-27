@@ -16,5 +16,13 @@ spec:
   hash: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   location: https://github.com/yutna/mycelia/actions/runs/43416808195
   result: pass
+  gate:
+    name: fast
+    trigger: push
+    selectionMapVersion: "4"
+    selectedChecks:
+      - markdownlint
+      - lychee
+    duration: PT1M40S
   verifiedAt: 2026-11-13T09:10:00Z
   traceEvent: evt_01

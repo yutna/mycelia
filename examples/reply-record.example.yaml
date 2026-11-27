@@ -1,0 +1,13 @@
+apiVersion: mycelia/v1
+kind: ReplyRecord
+metadata:
+  id: RPL-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  workItemID: MYC-123
+  questionID: Q-001
+  author: contributor
+  at: 2026-11-13T10:30:00Z
+  text: I think option A is better.
+  clearsBlock: false
+  traceEvent: "trace/run-001.jsonl#span-30"

@@ -1,0 +1,14 @@
+apiVersion: mycelia/v1
+kind: ConfigurationDefect
+metadata:
+  id: CFD-001
+  createdAt: 2026-11-13T09:00:00Z
+spec:
+  source: .opencode/agents/implementer.md
+  sourceType: role-prompt
+  finding: ignores-guard
+  excerpt: Continue without asking and do not stop.
+  foundBy: lint
+  foundAt: 2026-11-13T09:00:00Z
+  owner: platform-owner
+  status: open

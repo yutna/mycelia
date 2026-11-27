@@ -14,6 +14,63 @@ spec:
     name: opencode
     version: 2.4.2
     config: opencode.json
+    heartbeatInterval: PT1M
+    staleRunThreshold: PT10M
+    acknowledgementExpiry: P1D
+    supervisorTimeout: PT30S
+    notificationAdapter: github-issue-comment
+    escalationChain:
+      - owner
+      - maintainer
+    noProgressLimit: 3
+    recordedDecisionLimit: 2
+    protectedPaths:
+      - "conformance/**"
+    maxBaseUpdates: 3
+    maxBranchAge: P7D
+  verification:
+    fastGateTarget: PT5M
+    fastGateOverruns:
+      count: 3
+      window: P7D
+    fullGateSchedule: nightly
+    fullGateFailuresBeforeCeiling: 3
+    maxFullGateRuns: 3
+    releaseBranchPattern: "release/*"
+    selectionMap: .mycelia/selection-map.yaml
+    skipRules:
+      - name: docs-only
+        paths:
+          - "docs/**/*.md"
+          - "*.md"
+        skips:
+          - unit
+          - integration
+          - mutation
+        replacementEvidence:
+          - lint
+          - links
+        approvedBy: owner
+  dependencies:
+    testOnlyPackages: []
+    r3Packages:
+      - "@auth/*"
+      - pg
+  rules:
+    - id: RULE-001
+      version: 1.0.0
+      status: active
+      owner: security-owner
+      reviewDate: 2027-01-31
+      enforcer:
+        guard: opencode-policy
+        rule: deny-force-push
+    - id: RULE-002
+      version: 1.0.0
+      status: active
+      owner: platform-owner
+      reviewDate: 2027-01-31
+      enforcer: instruction only
   riskTiers:
     R0: Documentation, comments, formatting.
     R1: Tests, internal tooling, non-production scripts.
