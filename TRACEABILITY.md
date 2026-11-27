@@ -67,6 +67,18 @@ These refine `MYC-CORE-003` and `MYC-CORE-009`.
 | `MYC-CTL-005` | [guard design](docs/20-control/guard-design.md) §5 | Meta-check output | `CTL-08`, `CTL-10`, `CTL-19`, `CTL-20` |
 | `MYC-CTL-006` | [guard design](docs/20-control/guard-design.md) §5 | Loosening approval; exception records | `CTL-12`, `CTL-20` |
 
+### Verification tier requirements
+
+These refine `MYC-CORE-005` and `MYC-CORE-009`.
+
+| Requirement | Specification | Evidence | Control |
+| --- | --- | --- | --- |
+| `MYC-ASR-001` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Fast gate results with selection map version and duration | `CTL-19` |
+| `MYC-ASR-002` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Full gate results; selection-map defects | `CTL-17`, `CTL-19` |
+| `MYC-ASR-003` | [verification stack](docs/40-assurance/verification-stack.md) §12 | N-1 results on release branches | `CTL-19` |
+| `MYC-ASR-004` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Full-gate counts in the budget ledger | `CTL-15`, `CTL-19` |
+| `MYC-ASR-005` | [verification stack](docs/40-assurance/verification-stack.md) §12 | Skip records with replacement evidence | `CTL-19`, `CTL-20` |
+
 ## 3. Assessment controls
 
 | Control | Owning document | Evidence |

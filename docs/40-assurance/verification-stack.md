@@ -111,7 +111,8 @@ Thresholds:
 - Cache dependencies, not test results.
 - Keep local commands and CI commands the same.
 - Pin the runner image or container.
-- Keep the feedback loop fast; a slow check invites bypass.
+- Keep the feedback loop fast; a slow check invites bypass. The tiers in §12
+  set where each layer runs.
 
 ## 11. Risk matrix
 
@@ -123,7 +124,137 @@ Thresholds:
 | R3 | R2 plus end-to-end or performance where relevant, migration dry run, security review, human acceptance |
 | R4 | R3 plus rollback drill, provenance attestation, human sign-off |
 
-## 12. Evidence
+## 12. Verification tiers
+
+The risk matrix in §11 decides which layers a work item needs. The tiers below
+decide where those layers run and over what scope, so that a one-line change
+does not pay for a full release matrix on every push.
+
+| Tier | Runs on | Scope |
+| --- | --- | --- |
+| Fast gate | Every push to a pull request; the merge queue for R0-R2 | The layers the risk matrix requires, over the checks the change affects |
+| Full gate | The default branch on a schedule; release branches and release candidates; the merge queue for R3-R4; a pull request when a trigger in `MYC-ASR-002` applies | Every layer the risk matrix requires, over the whole repository |
+| N-1 compatibility | Release branches and release candidates | Upgrade, adoption, or migration from the previous supported release |
+
+Terms:
+
+- The **selection map** is the recorded mapping from changed paths to the
+  checks they affect. It is versioned, and its version is part of the
+  evidence, so the selection can be reproduced (§3).
+- A **skip rule** is a named rule that lets a layer not run for a change and
+  names the evidence that replaces it.
+
+Defaults (fields added in #109); a repository MAY change them in its
+configuration:
+
+| Setting | Default |
+| --- | --- |
+| Fast gate target, push to verdict on the reference runner | 5 minutes |
+| Fast gate overruns before a defect is opened | 3 in 7 days |
+| Full gate schedule on the default branch | Nightly |
+| Maximum pre-merge full-gate runs per work item | 3 |
+| Release branch pattern for N-1 compatibility | `release/*` |
+
+### `MYC-ASR-001` Fast gate
+
+- **Statement:** Every push to a pull request MUST run a fast gate: the layers
+  the risk matrix (§11) requires for the work item's risk tier, over the checks
+  the selection map links to the changed paths. The fast gate MUST always
+  include static analysis, docs and schema checks for changed files, and the
+  guard canaries of any changed guard
+  ([guard-design.md](../20-control/guard-design.md)). When the selection map
+  cannot compute a selection, the full gate MUST run instead. The runtime MUST
+  record the selection map version and the time from push to verdict; a run
+  over the target MUST still finish and MUST NOT be cut short into a pass.
+- **Rationale:** A loop that waits 15-20 minutes per pull request runs few
+  iterations and invites people and agents to bypass slow checks.
+- **Applies to:** L2-L4; all risk tiers. Recommended at L1.
+- **Evidence:** Fast gate results with the selection map version, the selected
+  checks, and the duration (fields added in #109).
+- **Verification:** Assessor sample of fast gate selections against the
+  selection map; overrun metric against the configured target.
+- **Failure mode:** The change is `rejected` when a selected check fails;
+  repeated overruns past the configured count open a defect with an owner;
+  ceiling lowered to L1 when the gate passes with a required layer missing.
+
+### `MYC-ASR-002` Full gate
+
+- **Statement:** The full gate MUST run every layer the risk matrix requires
+  over the whole repository on the default branch at the configured schedule,
+  on release branches and release candidates, and in the merge queue for R3
+  and R4. It MUST also run on a pull request that changes the build, CI
+  configuration, a lockfile, the toolchain, shared test infrastructure, or the
+  selection map. When the full gate fails on a check that a fast gate passed
+  for the same code, the miss MUST be recorded as a selection-map defect, and a
+  fixture that reproduces the miss MUST be added before the map is fixed.
+- **Rationale:** Affected-only selection is only as good as its map. The full
+  gate catches what the map misses and turns each miss into a fixed map.
+- **Applies to:** L2-L4; all risk tiers. Recommended at L1.
+- **Evidence:** Full gate results with their trigger; selection-map defect
+  records with their fixtures.
+- **Verification:** Assessor check of the schedule and the triggers; audit
+  sample of selection-map defects.
+- **Failure mode:** A failing scheduled full gate blocks releases from the
+  default branch until it passes; ceiling lowered to L1 when no full gate runs.
+
+### `MYC-ASR-003` N-1 compatibility on release branches
+
+- **Statement:** Compatibility checks against the previous supported release
+  (upgrade, adoption, or migration from N-1) MUST run on release branches and
+  release candidates. They MUST NOT be required on pull requests to other
+  branches unless the work item declares a compatibility risk in its
+  constraints.
+- **Rationale:** N-1 checks take the longest and matter at release time; on
+  every pull request they make each change pay for a release.
+- **Applies to:** L2-L4; all risk tiers.
+- **Evidence:** N-1 results on each release branch and release candidate.
+- **Verification:** Assessor check of release records.
+- **Failure mode:** The release is blocked until the N-1 checks pass.
+
+### `MYC-ASR-004` Full-gate run budget
+
+- **Statement:** Each pre-merge full-gate run on a work item's pull request,
+  including a flake re-run (§4), MUST count against the configured maximum in
+  the durable budget ledger (`MYC-EXE-007`). Scheduled and release runs do not
+  count. When the maximum is reached, the run MUST end `aborted` as budget
+  exhaustion
+  ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §2); a
+  human may grant a new budget in a new run.
+- **Rationale:** A change that needs many full runs is thrashing or hiding a
+  flake; more runs cost time without adding evidence.
+- **Applies to:** L2-L4; all risk tiers.
+- **Evidence:** Full-gate run counts in the budget ledger.
+- **Verification:** Fixture `full-gate-budget` (proposed for #108): exceed the
+  maximum; the run ends `aborted`.
+- **Failure mode:** The run is `aborted` by budget.
+
+### `MYC-ASR-005` Skip rules and replacement evidence
+
+- **Statement:** A layer the risk matrix requires MAY be skipped for a change
+  only by a named skip rule that the repository configures, and only at the
+  same commit as the rest of the evidence. A skipped layer MUST be recorded as
+  `skipped` with the rule name and the replacement evidence, never as `pass`;
+  a skip without its replacement evidence fails the gate. These MUST NOT be
+  skipped: the secret scan, red-line guard canaries, the test-diff guard on a
+  changed test ([test-integrity.md](test-integrity.md) §4), and any layer for
+  R3 or R4. A skip is not a quarantine: a quarantined check is a time-bound
+  exception and is reported as `blocked` (§4). Carrying evidence from an
+  earlier commit is a base-freshness question, defined in #107.
+- **Rationale:** Skipping by rule makes the shortcut auditable; skipping by
+  judgment makes it a bypass.
+- **Applies to:** L2-L4; all risk tiers.
+- **Evidence:** Skip records with rule name and replacement evidence (`skipped`
+  status added in #109).
+- **Verification:** Assessor check of the configured skip rules; audit sample
+  of skip records.
+- **Failure mode:** The change is `blocked` when a required layer has neither a
+  result nor a valid skip record.
+
+Example skip rule: a change whose paths all match the repository's docs globs
+skips the unit, integration, and mutation layers, and the docs and schema
+checks are its replacement evidence.
+
+## 13. Evidence
 
 Every check records:
 
@@ -137,7 +268,7 @@ Every check records:
 
 The evidence manifest decides which checks are required for the work item.
 
-## 13. Anti-patterns
+## 14. Anti-patterns
 
 - A 100 percent global coverage goal with weak assertions.
 - Automatic retries that hide flakes.
@@ -148,7 +279,7 @@ The evidence manifest decides which checks are required for the work item.
 - Skipping docs and schema checks because "they are not code".
 - A gate that passes when a check is missing.
 
-## 14. Related documents
+## 15. Related documents
 
 - [README.md](../../README.md) — project identity and map
 - [SCOPE.md](../../SCOPE.md) — boundaries, claims, limitations
@@ -157,6 +288,7 @@ The evidence manifest decides which checks are required for the work item.
 - [autonomy-levels.md](../00-foundations/autonomy-levels.md) — risk tiers
 - [evidence-manifest.md](../20-control/evidence-manifest.md) — evidence
 - [autonomous-loop.md](../30-execution/autonomous-loop.md) — loop
-- `test-integrity.md` — mutation and test weakening (planned)
-- `review-rubric.md` — review (planned)
+- [test-integrity.md](test-integrity.md) — mutation and test weakening
+- [review-rubric.md](review-rubric.md) — review
+- [guard-design.md](../20-control/guard-design.md) — guards and canaries
 - [docs/README.md](../README.md) — documentation map

@@ -199,6 +199,10 @@ Guard requirements refine `MYC-CORE-003` and `MYC-CORE-009`. They are
 `MYC-CTL-001` to `MYC-CTL-006` in
 [guard-design.md](docs/20-control/guard-design.md) §5.
 
+Verification tier requirements refine `MYC-CORE-005` and `MYC-CORE-009`. They
+are `MYC-ASR-001` to `MYC-ASR-005` in
+[verification-stack.md](docs/40-assurance/verification-stack.md) §12.
+
 ### Failure modes
 
 An unmet core requirement has one of four outcomes:
