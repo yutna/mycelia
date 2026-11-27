@@ -151,9 +151,9 @@ A recommendation is allowed, but it is not a decision.
 One kind of choice is not an ambiguity in this sense: an **implementation
 choice**, a choice the work item leaves open and that none of the conditions
 above describes, such as an internal structure, which existing pattern or
-algorithm to use, or a name that follows an existing repository convention. At R0-R2 an agent may make an implementation
-choice itself and record it, within the fences of `MYC-EXE-019`. Every other
-decision belongs to a human
+algorithm to use, or a name that follows an existing repository convention.
+At R0-R2 an agent may make an implementation choice itself and record it,
+within the fences of `MYC-EXE-019`. Every other decision belongs to a human
 ([decision-rights.md](../20-control/decision-rights.md) §2) and follows the
 protocol above.
 

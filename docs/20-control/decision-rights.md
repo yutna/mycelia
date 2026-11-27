@@ -135,7 +135,8 @@ missing control.
 - The approver is not the author for R3 and R4.
 - The security review for R4 is independent.
 - A single agent cannot hold both the implementer and reviewer role for R2 and
-  above.
+  above, or at any tier for a work item with a recorded decision
+  (`MYC-EXE-019`).
 - The reviewer sees the diff and the evidence, not the author's private
   reasoning.
 
