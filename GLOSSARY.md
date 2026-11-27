@@ -23,14 +23,17 @@ used in a normative document.
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Brownfield** | An existing repository with legacy code, checks, and ownership that must be adopted incrementally. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
+| **Budget ledger** | The durable, per-work-item record of budget use, linked from the run state, that survives restarts and counts full-gate runs (`MYC-EXE-007`, `MYC-ASR-004`). |
 | **Bypass corpus** | The fixtures, per guard rule, that each try a known bypass form and must be caught (`MYC-CTL-003`). |
 | **Canary** | A limited release to a small audience or traffic share before a full rollout. Not a guard canary. |
+| **Carried result** | A check result kept after a base update without a re-run, because the patch identity is equal and every condition in `MYC-EXE-021` holds; it records both commits, merge bases, patch identities, and the selection map version. |
 | **Capacity planning** | Sizing concurrency, review, and incident capacity to the expected demand. |
 | **Chaos engineering** | Deliberately injecting failures to test whether the system contains them and recovers. |
 | **Change request** | A pull request or equivalent proposal to change the repository, linked to a work item. |
 | **Chargeback** | Allocating cost to the team or work item that incurred it. |
 | **Claim** | A statement in an assurance case that must be supported by an argument and evidence. |
 | **Conformance claim** | A statement that a repository meets a profile at a level, backed by a readiness report and evidence. |
+| **Conformant runtime** | A runtime that implements the runtime contract and passes the conformance kit for the declared profile. Required from L2 (`MYC-CORE-013`). |
 | **Conformance fixture** | One conformance kit scenario as YAML data: requirements, profiles, and cases with input, steps, and expected outcome. |
 | **Conformance kit** | The command, fixtures, and result contract that show a runtime conforms (`MYC-CORE-013`); executed by an implementation of the contract. |
 | **Conformance result** | The record of one kit run against a runtime and profile; valid for a claim only under `MYC-ADP-001`. |
@@ -40,6 +43,7 @@ used in a normative document.
 | **Cost per accepted change** | Total cost divided by the number of accepted changes. |
 | **Crosswalk** | A mapping from a concern or framework to the document that owns it. |
 | **Concern radar** | A living catalog of industry concerns with a status of adopted, adapted, watch, or out of scope, plus an owner and a review cadence. |
+| **Control-plane specification** | The normative part of Mycelia: documents, schemas, examples, the OpenCode profile, and the conformance kit contract. It ships no runtime code ([ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md)). |
 | **Durable trace sink** | The store a conformant runtime writes every received OpenCode event to, so the trace survives disconnects and restarts (`MYC-EXE-012`). |
 | **Evidence** | An artifact that proves a requirement was met: a test log, mutation score, trace, review, screenshot, or sign-off. |
 | **Deprecation** | The state of a rule that is still enforced but scheduled for removal, with a replacement or reason. |
@@ -48,6 +52,7 @@ used in a normative document.
 | **DORA metrics** | Lead time, deployment frequency, change failure rate, and failed deployment recovery time. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
+| **Enforcer register** | The `enforcer` field of each registry rule in `mycelia.yaml`: the guard and guard rule that blocks it, or `instruction only` ([guard-design.md](docs/20-control/guard-design.md) §8). |
 | **Eligible work item** | An open work item that the runtime may run at its autonomy level, that no other run holds a lease on, and that no human has paused; it is runnable when it has no open question. |
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
@@ -57,6 +62,7 @@ used in a normative document.
 | **Feature flag** | A runtime switch that enables or disables behavior without a new release. It needs an owner and an expiry. |
 | **File format** | The serialization and layout of an artifact: YAML, JSON, JSONL, Markdown, or Git. |
 | **Escalation** | Moving a blocked decision to an owner with a precise question, options, consequences, and the evidence already collected. |
+| **Escalation chain** | The ordered list of notification targets a runtime tries when a `blocked` notification is not acknowledged before its expiry (`MYC-EXE-009`). |
 | **Evidence manifest** | A machine-readable definition of done: required evidence, thresholds, producers, verifiers, and freshness rules. |
 | **Failure taxonomy** | The classification of failures and the allowed response, retry limit, and terminal state for each class. |
 | **Finding** | A review observation with a severity, a summary, and an optional file and line reference. |
@@ -86,6 +92,7 @@ used in a normative document.
 | **Lease** | The exclusive claim a run holds on its work item, so only one run is active per work item (`MYC-EXE-004`). |
 | **Merge queue** | A serialized integration path that runs CI on the merged result before the change reaches `main`. |
 | **Meta-check** | A check over a guard that fails when a rule in the effective rule set has no canary or bypass corpus (`MYC-CTL-005`). |
+| **Loosening** | Any change that lets through an input a guard blocked before: removing or narrowing a rule, adding an exemption, raising a limit, lowering a severity, or disabling or soft-failing a check (`MYC-CTL-006`). |
 | **Migration (dependency)** | A dependency update that crosses a major version or cannot be read as semantic versioning; its own work item with a plan and rollback (`MYC-CTL-007`). |
 | **Model routing** | Choosing a model or provider by risk tier, cost, capability, or availability. |
 | **Mutation testing** | A technique that introduces small faults into the code and checks whether the tests fail; the mutation score measures test strength. |
@@ -95,6 +102,7 @@ used in a normative document.
 | **Postmortem** | A blameless review of an incident: timeline, impact, causes, response, and actions. |
 | **Profile** | A named control set: minimal, standard, or high-assurance. |
 | **Progress** | A merged change, or a work item that ends `accepted` or `rejected`. Reports, comments, status updates, heartbeats, and notifications are not progress (`MYC-EXE-015`). |
+| **No-progress guard** | The runtime guard that counts consecutive work cycles with no progress and, at the configured `noProgressLimit`, stops starting runs and notifies the owner (`MYC-EXE-015`). |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
 | **Open question** | A question recorded by a `blocked` work item that has no recorded owner answer. |
@@ -113,6 +121,8 @@ used in a normative document.
 | **Red teaming** | Adversarial testing that attempts to bypass policy, exfiltrate data, or abuse a tool. |
 | **Release gate** | The set of evidence, security, provenance, and rollback checks that must pass before a release. |
 | **Release record** | The auditable record of a release: version, commit, gates, rollback, decision, and timestamp. |
+| **Reference runtime** | The one implementation of the runtime contract kept in `runtime/` in this repository from `v2.1.0`. Where it disagrees with the specification, the specification wins ([ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md)). |
+| **Replacement evidence** | The evidence a named skip rule requires in place of a skipped verification layer; the layer is recorded as `skipped`, never as `pass` (`MYC-ASR-005`). |
 | **Rollback** | The tested path back to the previous state: revert, feature flag off, previous artifact, or data restore. |
 | **Run state** | The durable record of a run: current state, attempt, commit, budget, checkpoints, and terminal state. |
 | **Runtime contract** | The capabilities Mycelia requires from OpenCode, how each maps to a primitive, and what must be built around it. |
@@ -143,6 +153,7 @@ used in a normative document.
 | **Trace** | An append-only event record of actions, tool calls, decisions, evidence, and cost. |
 | **Unit economics** | The cost and value of one unit of delivery, usually one accepted change. |
 | **Verification stack** | The layered checks (static, unit, integration, end-to-end, mutation, security, performance, migration, docs, schema) that produce evidence. |
+| **Verification tier** | Where and over what scope required checks run: the fast gate, the full gate, or N-1 compatibility ([verification-stack.md](docs/40-assurance/verification-stack.md) §12). |
 | **WIP limit** | A cap on the number of concurrent work items or runs, used to bound queue time and review load. |
 | **Work cycle** | One pass of the runtime over its work items, started by the scheduler or an operator; it has an outcome record but no terminal state. |
 | **Work item** | The unit of work: goal, acceptance criteria, non-goals, constraints, risk tier, and required evidence. |

@@ -1,6 +1,6 @@
 # Audit
 
-Status: v1.0.0 audit
+Status: v2.0.0 audit
 
 ## 1. Purpose
 
@@ -11,8 +11,9 @@ dispositions, and the limitations.
 ## 2. Scope and method
 
 The audit covers the specification, the schemas, the examples, the OpenCode
-configuration, and the repository workflow. It does not cover a runtime
-implementation, because none is included.
+configuration, the conformance fixtures, and the repository workflow. It does
+not cover a runtime implementation, because none is included yet; the reference
+runtime is planned in `runtime/` from `v2.1.0`.
 
 Method:
 
@@ -32,7 +33,10 @@ Method:
 | Actionlint | Pass |
 | OpenCode config schema | Pass |
 | Schema meta-validation | Pass |
-| Example validation | Pass |
+| Example validation (35 schemas) | Pass |
+| Conformance fixture meta-check (25 fixtures) | Pass |
+| Worked-example record check | Pass |
+| Traceability: every requirement ID in a row (50) | Complete |
 | 12 original areas crosswalk | Complete |
 | Tier 1 and Tier 2 keyword crosswalk | Complete |
 | External framework crosswalk | Complete, informative |
@@ -45,12 +49,12 @@ Method:
 | `AUD-01` | Medium | `gh pr merge` reports a false branch-policy error on this ruleset | Fixed: the REST merge fallback is documented in `change-lifecycle.md` |
 | `AUD-02` | Low | A low-severity `katex` advisory is in the dev dependency tree | Accepted: transitive, upstream; monitor Dependabot |
 | `AUD-03` | Low | Planned documents were linked before they existed, failing the link check | Fixed: use code spans until the file exists; the link check caught it |
-| `AUD-04` | Medium | No reference implementation is included | Accepted: the repository is a specification, not a runtime |
-| `AUD-05` | Medium | No external human review of the specification | Open: schedule before `v1.0.0` or after a reference implementation |
+| `AUD-04` | Medium | No reference implementation is included | Accepted: the reference runtime and the executable conformance kit are planned in `runtime/` from `v2.1.0` ([ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md)); until then the ceiling for any repository is L1 |
+| `AUD-05` | Medium | No external human review of the specification | Open: schedule after the reference runtime exists |
 | `AUD-06` | Medium | No production evidence | Accepted: the repository does not run a factory |
 | `AUD-07` | Low | Some thresholds are illustrative and configurable | Accepted: the manifest records the actual value |
 | `AUD-08` | Low | The EU AI Act mapping is informative | Accepted: it is not legal advice |
-| `AUD-09` | Medium | OpenCode version drift can change behavior | Watch: the conformance checklist and the version review |
+| `AUD-09` | Medium | OpenCode version drift can change behavior | Watch: `OC-01` sets the floor at 2.4.0 ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md)); the tested version is stated in [SCOPE.md](SCOPE.md) |
 | `AUD-10` | Medium | The model provider is a trust boundary | Accepted: documented in the threat model and the system context |
 | `AUD-11` | Medium | Approval fatigue is mitigated, not eliminated | Accepted: sampling, metrics, and audit |
 | `AUD-12` | Medium | Trace and evidence storage depend on the implementation | Accepted: the runtime contract defines the requirement |
@@ -60,6 +64,9 @@ Method:
 | `AUD-16` | Low | No runtime trace or metrics for the spec repository | Accepted: the CI and git history are the trace |
 | `AUD-17` | Medium | No external adversarial execution | Open: requires a reference implementation |
 | `AUD-18` | Low | The self-assessment is not independent | Open: an independent assessor is required for a conformance claim |
+| `AUD-19` | Medium | The conformance kit contract has fixtures but no implementation; the fixture `given` sub-objects are loosely typed | Open: implement and tighten with the reference runtime in `v2.1.0` |
+| `AUD-20` | Low | `TraceEvent` has no notification event type; notifications, replies, and answers are recorded as `state` events | Open: the notification record is the primary record; consider a dedicated type in `v2.1.0` |
+| `AUD-21` | Medium | The stated OpenCode floor (2.4.0) was newer than the tested version (2.2.6) | Fixed: tested with OpenCode 2.4.2 before the `v2.0.0` release |
 
 ## 5. Adversarial review
 
@@ -108,7 +115,8 @@ This repository is assessed with its own model.
 | `CTL-24` | 1 | No metrics or evaluations for this repository |
 
 **Ceiling: L0.** The L1 gate requires `CTL-13` at 2 or higher; it is 1 because
-this repository is a specification, not a running factory. The result is
+this repository is a specification, not a running factory. L2 would also need
+`MYC-CORE-013` evidence, which this repository does not have. The result is
 honest by design. A reference implementation is needed before the repository
 itself can claim L1 or above.
 
@@ -117,7 +125,7 @@ The self-assessment demonstrates the method, not a conformance claim.
 ## 7. Limitations
 
 - The specification is not a certification.
-- No reference implementation is included.
+- No reference runtime or executable conformance kit is included yet.
 - No external human review has been completed.
 - No production evidence exists.
 - No legal review has been completed.
@@ -130,8 +138,8 @@ The self-assessment demonstrates the method, not a conformance claim.
 
 ## 8. Next audit
 
-- After the `v1.0.0` freeze.
-- After a reference implementation exists.
+- After the reference runtime and the executable conformance kit exist
+  (`v2.1.0`).
 - After an incident or a near miss.
 - Quarterly, with the concern radar.
 - After a major OpenCode or framework change.

@@ -106,8 +106,10 @@ docs/
 
 ## Status
 
-`v1.0.0` is the first stable specification release. The normative documents,
-schemas, conformance profiles, and readiness assessment are available.
+`v2.0.0` is the current specification release. The normative documents, the
+runtime contract, the conformance kit contract and fixtures, schemas,
+conformance profiles, and readiness assessment are available. The reference
+runtime follows from `v2.1.0`.
 
 The repository itself is assessed at L0 because it is a specification, not a
 running factory. See [AUDIT.md](../AUDIT.md).
@@ -119,6 +121,7 @@ running factory. See [AUDIT.md](../AUDIT.md).
 - [GLOSSARY](../GLOSSARY.md) — shared terminology
 - [AUDIT](../AUDIT.md) — audit method, findings, and limitations
 - [TRACEABILITY](../TRACEABILITY.md) — requirements, controls, schemas
-- [CONFORMANCE](../CONFORMANCE.md) — v1.0.0 scope, claims, limitations
+- [CONFORMANCE](../CONFORMANCE.md) — v2.0.0 scope, claims, limitations
+- [CHANGELOG](../CHANGELOG.md) — release notes and migration
 - [AGENTS](../AGENTS.md) — operating contract for agents
 - [CONTRIBUTING](../CONTRIBUTING.md) — human contribution guide

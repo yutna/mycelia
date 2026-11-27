@@ -7,7 +7,11 @@ project covers, what it does not, and what it claims.
 
 ## Current release
 
-`v1.0.0`, the first stable specification release. This is not a certification.
+`v2.0.0`. It makes the runtime contract normative, adds the conformance kit
+contract and fixtures, and moves the scope boundary
+([ADR-0001](docs/00-foundations/decisions/0001-scope-boundary.md)). It ships no
+runtime code. This is not a certification. The changes and the migration from
+`v1.0.0` are in [CHANGELOG.md](CHANGELOG.md).
 
 ## Purpose
 
@@ -116,5 +120,6 @@ specification use a major version.
 
 - [README.md](README.md) — project identity and map
 - [GLOSSARY.md](GLOSSARY.md) — shared terminology
+- [CHANGELOG.md](CHANGELOG.md) — release notes and migration
 - [AGENTS.md](AGENTS.md) — operating contract for agents
 - [docs/README.md](docs/README.md) — reading paths and section map
