@@ -84,16 +84,45 @@
               "type": {
                 "enum": [
                   "merged-change",
-                  "closed-issue"
+                  "work-item-ended"
                 ]
               },
               "ref": {
                 "type": "string",
                 "minLength": 1
+              },
+              "outcome": {
+                "enum": [
+                  "accepted",
+                  "rejected"
+                ]
               }
-            }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "work-item-ended"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "outcome"
+                  ]
+                },
+                "else": {
+                  "not": {
+                    "required": [
+                      "outcome"
+                    ]
+                  }
+                }
+              }
+            ]
           },
-          "description": "Only merged changes and closed issues count as progress."
+          "description": "Only a merged change or a work item that ended accepted or rejected counts as progress (failure-and-ambiguity.md section 10)."
         },
         "runIDs": {
           "type": "array",
@@ -105,11 +134,11 @@
         "noProgressCount": {
           "type": "integer",
           "minimum": 0,
-          "description": "Consecutive no-progress cycles after this one; resets on progress."
+          "description": "Consecutive no-progress cycles, including this one; resets on progress."
         },
         "noProgressLimit": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 1
         },
         "guardFired": {
           "type": "boolean"
@@ -225,13 +254,50 @@
               "summarySent"
             ],
             "properties": {
+              "openQuestionIDs": {
+                "minItems": 1
+              },
               "summaryKey": {
+                "required": [
+                  "repository",
+                  "target"
+                ],
                 "properties": {
                   "action": {
                     "const": "blocked-summary"
                   }
                 }
               }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "idle"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progressItems": {
+                "maxItems": 0
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "openQuestionIDs"
+                  ]
+                },
+                {
+                  "required": [
+                    "summaryKey"
+                  ]
+                }
+              ]
             }
           }
         }

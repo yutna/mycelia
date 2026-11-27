@@ -27,6 +27,13 @@ for f in conformance/fixtures/*.yaml; do
     echo "metadata.id '$id' does not match file $f"; status=1
   fi
 done
+# The checks below read flow-style lists; a block-style evidence or profiles
+# list would escape them, so it fails.
+block=$(grep -nE '^ *(evidence|profiles): *$' conformance/fixtures/*.yaml || true)
+if [ -n "$block" ]; then
+  echo "evidence and profiles must be flow-style lists ([a, b]):"; echo "$block"; status=1
+fi
+
 # Every record kind in expect.evidence is the kind of a schema in schemas/.
 kinds=$(cat schemas/*.schema.json | tr -d ' \n' | grep -oE '"kind":\{"const":"[A-Za-z]+"\}' \
   | sed 's/.*"const":"//; s/"}//' | sort -u)

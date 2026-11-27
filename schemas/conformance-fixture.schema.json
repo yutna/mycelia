@@ -304,7 +304,7 @@
             "R4",
             "migration"
           ],
-          "description": "The minimum risk tier the runtime proposes (MYC-CTL-007)."
+          "description": "The minimum risk tier the runtime proposes (MYC-CTL-007); migration means a DependencyTierRecord with migration true, at least R2."
         }
       }
     }

@@ -143,7 +143,8 @@ Terms:
   checks they affect. It is versioned, and its version is part of the
   evidence, so the selection can be reproduced (§3).
 - A **skip rule** is a named rule that lets a layer not run for a change and
-  names the evidence that replaces it.
+  names the evidence that replaces it. A **skip record** is an evidence record
+  with the result `skipped`, the rule name, and the replacement evidence.
 - The **reference runner** is the pinned runner image or container of §10. Gate
   durations are measured from job start on it, not from the push, so queue
   wait is not counted.

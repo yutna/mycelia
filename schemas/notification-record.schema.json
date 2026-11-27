@@ -42,7 +42,6 @@
       "additionalProperties": false,
       "required": [
         "type",
-        "questionIDs",
         "adapter",
         "target",
         "escalationStep",
@@ -68,8 +67,7 @@
             "type": "string",
             "minLength": 1
           },
-          "minItems": 1,
-          "description": "Open questions the notification carries."
+          "description": "Open questions the notification carries; empty for a guard notice."
         },
         "adapter": {
           "type": "string",
@@ -211,6 +209,34 @@
           "if": {
             "properties": {
               "type": {
+                "const": "blocked"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "workItemID",
+              "questionIDs",
+              "expiresAt"
+            ],
+            "properties": {
+              "questionIDs": {
+                "minItems": 1
+              },
+              "idempotencyKey": {
+                "required": [
+                  "workItemID",
+                  "commit",
+                  "target"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "blocked-summary"
               }
             }
@@ -221,16 +247,51 @@
                 "workItemID"
               ]
             },
+            "required": [
+              "questionIDs"
+            ],
             "properties": {
               "escalationStep": {
                 "const": 0
+              },
+              "questionIDs": {
+                "minItems": 1
+              },
+              "idempotencyKey": {
+                "required": [
+                  "repository",
+                  "target"
+                ],
+                "properties": {
+                  "action": {
+                    "const": "blocked-summary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "guard-fired"
               }
             }
           },
-          "else": {
-            "required": [
-              "workItemID"
-            ]
+          "then": {
+            "not": {
+              "required": [
+                "workItemID"
+              ]
+            },
+            "properties": {
+              "idempotencyKey": {
+                "required": [
+                  "repository"
+                ]
+              }
+            }
           }
         }
       ]

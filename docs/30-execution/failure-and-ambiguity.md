@@ -372,8 +372,10 @@ in [SPEC.md](../../SPEC.md) §5. The records they name are schemas in
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
 - **Evidence:** Owner answer record with the stated-change flag, linked to the
   question and to the new run's first checkpoint; work item version in the
-  checkpoints ([owner-answer-record](../../schemas/owner-answer-record.schema.json), [reply-record](../../schemas/reply-record.schema.json),
-  `workItemVersion` in [run-state](../../schemas/run-state.schema.json)).
+  checkpoints
+  ([owner-answer-record](../../schemas/owner-answer-record.schema.json),
+  [reply-record](../../schemas/reply-record.schema.json), `workItemVersion` in
+  [run-state](../../schemas/run-state.schema.json)).
 - **Verification:** Fixture `answer-resume`: block a run,
   send an acknowledgement, then a reply from a person without the decision
   right, then an owner answer; check that only the last clears the block and
@@ -455,8 +457,9 @@ in [SPEC.md](../../SPEC.md) §5. The records they name are schemas in
   review keep the loop moving without trusting a weak model's judgment.
 - **Applies to:** L2-L4; R0-R2 only.
 - **Evidence:** Recorded decision records in the trace and the pull request,
-  with the fence results ([recorded-decision](../../schemas/recorded-decision.schema.json)); the review record that checks
-  them.
+  with the fence results
+  ([recorded-decision](../../schemas/recorded-decision.schema.json)); the review
+  record that checks them.
 - **Verification:** Fixture `recorded-decision`: an R3 work
   item, a modified protected file, a work item without path-glob
   `affectedAreas`, evidence from an older commit, no configured limit, and a

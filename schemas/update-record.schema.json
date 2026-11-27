@@ -185,6 +185,23 @@
       "allOf": [
         {
           "if": {
+            "required": [
+              "toCommit"
+            ]
+          },
+          "then": {
+            "required": [
+              "method",
+              "fromCommit",
+              "fromMergeBase",
+              "toMergeBase",
+              "idempotencyKey",
+              "conflict"
+            ]
+          }
+        },
+        {
+          "if": {
             "properties": {
               "staleness": {
                 "properties": {

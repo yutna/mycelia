@@ -47,7 +47,6 @@
         "question",
         "options",
         "choice",
-        "evidence",
         "fences",
         "outcome"
       ],
@@ -121,31 +120,36 @@
             "riskTier": {
               "enum": [
                 "pass",
-                "fail"
+                "fail",
+                "not-checked"
               ]
             },
             "workItemUnchanged": {
               "enum": [
                 "pass",
-                "fail"
+                "fail",
+                "not-checked"
               ]
             },
             "affectedAreas": {
               "enum": [
                 "pass",
-                "fail"
+                "fail",
+                "not-checked"
               ]
             },
             "evidenceAtCommit": {
               "enum": [
                 "pass",
-                "fail"
+                "fail",
+                "not-checked"
               ]
             },
             "underLimit": {
               "enum": [
                 "pass",
-                "fail"
+                "fail",
+                "not-checked"
               ]
             }
           },
@@ -193,6 +197,41 @@
         }
       },
       "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "recorded"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "evidence"
+            ],
+            "properties": {
+              "fences": {
+                "properties": {
+                  "riskTier": {
+                    "const": "pass"
+                  },
+                  "workItemUnchanged": {
+                    "const": "pass"
+                  },
+                  "affectedAreas": {
+                    "const": "pass"
+                  },
+                  "evidenceAtCommit": {
+                    "const": "pass"
+                  },
+                  "underLimit": {
+                    "const": "pass"
+                  }
+                }
+              }
+            }
+          }
+        },
         {
           "if": {
             "anyOf": [

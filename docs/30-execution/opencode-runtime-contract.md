@@ -248,7 +248,8 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** Execution is at least once. Without keys, a retry creates
   duplicate pull requests, comments, or releases.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Idempotency records with their keys ([idempotency-record](../../schemas/idempotency-record.schema.json)).
+- **Evidence:** Idempotency records with their keys
+  ([idempotency-record](../../schemas/idempotency-record.schema.json)).
 - **Verification:** Fixtures `resume` and `retry-limit`: replay a step and check
   that no duplicate effect exists.
 - **Failure mode:** The work item is `blocked` when a duplicate effect is
@@ -454,7 +455,8 @@ L3, R3 changes still need human acceptance.
 - **Rationale:** Configuration on a shared host changes the agent's
   instructions, tools, and permissions without any repository change.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Runtime environment record ([runtime-environment-record](../../schemas/runtime-environment-record.schema.json));
+- **Evidence:** Runtime environment record
+  ([runtime-environment-record](../../schemas/runtime-environment-record.schema.json));
   loaded agents, skills, and plugins listed in the trace.
 - **Verification:** Fixture `host-isolation`: place marker
   skills in the host's global OpenCode configuration and in `~/.claude`; neither
