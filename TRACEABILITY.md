@@ -29,7 +29,8 @@ examples.
 
 ### Runtime requirements
 
-These refine `MYC-CORE-013`. A conformant runtime meets all of them.
+These refine `MYC-CORE-013`; `MYC-EXE-015` to `MYC-EXE-018` also refine
+`MYC-CORE-008`. A conformant runtime meets all of them.
 
 | Requirement | Specification | Evidence | Control |
 | --- | --- | --- | --- |
@@ -47,6 +48,10 @@ These refine `MYC-CORE-013`. A conformant runtime meets all of them.
 | `MYC-EXE-012` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Durable trace and gap records | `CTL-23` |
 | `MYC-EXE-013` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Policy load check | `CTL-10` |
 | `MYC-EXE-014` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Runtime environment record | `CTL-09` |
+| `MYC-EXE-015` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Work cycle outcome records | `CTL-14` |
+| `MYC-EXE-016` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Blocked-only cycle record and notification key | `CTL-14` |
+| `MYC-EXE-017` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Owner answer record | `CTL-14` |
+| `MYC-EXE-018` | [failure protocol](docs/30-execution/failure-and-ambiguity.md) §11 | Recorded configuration defects | `CTL-14` |
 
 ## 3. Assessment controls
 

@@ -170,6 +170,11 @@ included. They apply from L2, because `MYC-CORE-013` requires a conformant
 runtime from L2. Each requirement uses the fields in
 [SPEC.md](../../SPEC.md) §5.
 
+`MYC-EXE-015` to `MYC-EXE-018` (progress, blocked-only preflight, owner answer
+and resume, and guards over prompts) are defined in
+[failure-and-ambiguity.md](failure-and-ambiguity.md) §11 and bind every
+conformant runtime in the same way.
+
 Values such as the heartbeat interval, the stale-run threshold, and the
 acknowledgement expiry are not fixed by this document. The repository MUST
 configure them; the `mycelia.yaml` runtime section is added in
@@ -352,7 +357,7 @@ L3, R3 changes still need human acceptance.
   acknowledgement, and check the escalation.
 - **Failure mode:** Ceiling lowered to L1 when no adapter is configured. How the
   owner's answer is recorded and how the run resumes is defined in
-  [#104](https://github.com/yutna/mycelia/issues/104).
+  `MYC-EXE-017`.
 
 ### `MYC-EXE-010` No waiting approvals in headless runs
 

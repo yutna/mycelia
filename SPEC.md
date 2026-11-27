@@ -40,7 +40,8 @@ Conformance is claimed per profile, not globally.
   [runtime contract](docs/30-execution/opencode-runtime-contract.md) that runs
   the loop. It passes the conformance kit for the profile it claims. A
   repository at L2 or higher MUST run on one (`MYC-CORE-013`). The runtime
-  requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7.
+  requirements are `MYC-EXE-001` to `MYC-EXE-014` in the runtime contract §7
+  and `MYC-EXE-015` to `MYC-EXE-018` in failure-and-ambiguity.md §11.
   The conformance kit contract is added during `v2.0.0`.
 
 A repository that cannot produce evidence for a control does not conform at
@@ -190,7 +191,9 @@ failure, not a pass. This invariant is the core of the reliability contract in
 Runtime requirements refine `MYC-CORE-013`. They are `MYC-EXE-001` to
 `MYC-EXE-014` in the
 [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7, with
-the required wrappers in §6.
+the required wrappers in §6, and `MYC-EXE-015` to `MYC-EXE-018` in
+[failure-and-ambiguity.md](docs/30-execution/failure-and-ambiguity.md) §11,
+which also refine `MYC-CORE-008`.
 
 ### Failure modes
 

@@ -136,8 +136,13 @@ A `blocked` run reports:
 - the evidence already collected
 - the work already completed
 
-The answer is recorded in the trace and becomes part of the work item. The next
-run starts from the blocked checkpoint with the answer in context.
+The answer is recorded in the trace and becomes part of the work item. The
+`blocked` run stays terminal (invariant 6): the owner answer authorizes a new
+run that starts from the blocked checkpoint with the answer in context. An
+acknowledgement alone does not clear the block. A report or a notification is
+not progress, and a work cycle in which every work item is blocked ends once,
+with one summary notification. The requirements are `MYC-EXE-015` to
+`MYC-EXE-018` in [failure-and-ambiguity.md](failure-and-ambiguity.md) §10-§11.
 
 ## 11. OpenCode mapping
 
@@ -147,7 +152,7 @@ run starts from the blocked checkpoint with the answer in context.
 | Continue a run | `--session <id>` or `--continue` |
 | Orchestrate | `opencode serve` plus the session API |
 | Stop | `session.interrupt`, kill switch |
-| Wait | `session.wait` |
+| Wait for a session | `session.idle` and `session.execution.*` events (no wait call in the API) |
 | Checkpoint | Run state file plus trace event |
 | Context recovery | Sessions, compaction, snapshots |
 | Concurrency | Worktrees, subagents |
@@ -193,7 +198,7 @@ run starts from the blocked checkpoint with the answer in context.
 - [work-intake.md](../10-context/work-intake.md) — work item contract
 - [evidence-manifest.md](../20-control/evidence-manifest.md) — definition of done
 - [budgets-and-kill-switch.md](../20-control/budgets-and-kill-switch.md) — limits
-- `failure-and-ambiguity.md` — failure protocol (planned)
-- `multi-agent-concurrency.md` — concurrency (planned)
-- `opencode-runtime-contract.md` — runtime contract (planned)
+- [failure-and-ambiguity.md](failure-and-ambiguity.md) — failure protocol
+- [multi-agent-concurrency.md](multi-agent-concurrency.md) — concurrency
+- [opencode-runtime-contract.md](opencode-runtime-contract.md) — runtime contract
 - [docs/README.md](../README.md) — documentation map
