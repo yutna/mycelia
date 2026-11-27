@@ -188,11 +188,11 @@ configuration:
 
 ### `MYC-ASR-002` Full gate
 
-- **Statement:** The full gate MUST run every layer the risk matrix requires
-  over the whole repository on the default branch at the configured schedule,
-  on release branches and release candidates, and in the merge queue for R3
-  and R4. It MUST also run, once per head commit when the pull request is
-  marked ready and in the merge queue, on a pull request that changes the
+- **Statement:** The full gate MUST run every automated layer the risk matrix
+  requires over the whole repository on the default branch at the configured
+  schedule, on release branches and release candidates, and in the merge queue
+  for R3 and R4. It MUST also run, once per head commit when the pull request
+  is marked ready and in the merge queue, on a pull request that changes the
   build, CI configuration, a lockfile, the toolchain, shared test
   infrastructure, the selection map, or the skip rules. When the full gate
   fails, after the flake check of §4, on a check that the fast gate did not
@@ -257,10 +257,10 @@ configuration:
   layer is missing. Adding or changing a skip rule is a guard loosening
   ([guard-design.md](../20-control/guard-design.md) `MYC-CTL-006`, human
   approval) and MUST NOT apply in the pull request that adds or changes it. A
-  skip rule's path globs MUST have look-alike fixtures (`MYC-CTL-002`). These MUST NOT be
-  skipped: the secret scan, red-line guard canaries, the test-diff guard on a
-  changed test ([test-integrity.md](test-integrity.md) §4), and any layer for
-  R3 or R4. A skip is not a quarantine: a quarantined check is a time-bound
+  skip rule's path globs MUST have look-alike fixtures (`MYC-CTL-002`). These
+  MUST NOT be skipped: the secret scan, red-line guard canaries, the test-diff
+  guard on a changed test ([test-integrity.md](test-integrity.md) §4), and any
+  layer for R3 or R4. A skip is not a quarantine: a quarantined check is a time-bound
   exception and is reported as `blocked` (§4). Carrying evidence from an
   earlier commit is a base-freshness question, defined in #107.
 - **Rationale:** Skipping by rule makes the shortcut auditable; skipping by
