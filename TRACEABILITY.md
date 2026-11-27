@@ -37,7 +37,7 @@ These refine `MYC-CORE-013`. A conformant runtime meets all of them.
 | `MYC-EXE-002` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Resume trace | `CTL-13` |
 | `MYC-EXE-003` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Side-effect keys | `CTL-13` |
 | `MYC-EXE-004` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Lease and worktree record | `CTL-16` |
-| `MYC-EXE-005` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Heartbeat | `CTL-13` |
+| `MYC-EXE-005` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Run start and heartbeat | `CTL-13` |
 | `MYC-EXE-006` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Stale-run event | `CTL-13` |
 | `MYC-EXE-007` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Budget ledger | `CTL-15` |
 | `MYC-EXE-008` | [runtime contract](docs/30-execution/opencode-runtime-contract.md) §7 | Kill-switch drill | `CTL-15` |

@@ -192,7 +192,8 @@ Terms used in this section:
 The risk tiers a runtime runs are bounded by the autonomy matrix in
 [autonomy-levels.md](../00-foundations/autonomy-levels.md) §4. "All risk tiers
 the runtime runs" in the requirements below does not widen that matrix: at L2,
-for example, the runtime runs R0-R2 only, and R3 and R4 stay with humans.
+for example, the runtime runs R0-R2 only, and R3 and R4 stay with humans; at
+L3, R3 changes still need human acceptance.
 
 ### `MYC-EXE-001` Durable run state and checkpoints
 
@@ -263,9 +264,10 @@ for example, the runtime runs R0-R2 only, and R3 and R4 stay with humans.
 ### `MYC-EXE-005` Run start and heartbeat
 
 - **Statement:** At L3 and L4, a scheduler outside the OpenCode session MUST
-  start runs. At L2, a run MAY instead be started by an operator command; once
-  started, it MUST run the loop to a terminal state or a checkpoint without a
-  person driving each prompt. At every level, an active run MUST write a
+  start runs. At L2, a run MAY instead be started by an operator command, and
+  the runtime MUST record that start in the trace; once started, it MUST run
+  the loop to a terminal state or a checkpoint without a person driving each
+  prompt. At every level, an active run MUST write a
   heartbeat to the run state at the configured interval.
 - **Rationale:** A run that stops writing heartbeats cannot be told apart from
   a slow one without a heartbeat. L2 keeps a human supervising, so one operator
