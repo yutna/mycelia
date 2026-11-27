@@ -196,6 +196,9 @@ starts no run and sends at most one summary notification. The requirements are `
 
 - Schema: [schemas/run-state.schema.json](../../schemas/run-state.schema.json)
 - Example: [examples/run-state.example.yaml](../../examples/run-state.example.yaml)
+- Related records: [idempotency-record](../../schemas/idempotency-record.schema.json),
+  [budget-ledger](../../schemas/budget-ledger.schema.json),
+  [work-cycle-record](../../schemas/work-cycle-record.schema.json)
 
 ## 15. Related documents
 

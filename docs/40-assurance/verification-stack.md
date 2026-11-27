@@ -148,8 +148,8 @@ Terms:
   durations are measured from job start on it, not from the push, so queue
   wait is not counted.
 
-Defaults (fields added in #109); a repository MAY change them in its
-configuration:
+Defaults; a repository MAY change them in the `verification` section of
+`mycelia.yaml` ([mycelia](../../schemas/mycelia.schema.json)), where it also lists its skip rules:
 
 | Setting | Default |
 | --- | --- |
@@ -178,7 +178,7 @@ configuration:
   iterations and invites people and agents to bypass slow checks.
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
 - **Evidence:** Fast gate results with the selection map version, the selected
-  checks, and the duration (fields added in #109).
+  checks, and the duration (the `gate` object in [evidence](../../schemas/evidence.schema.json)).
 - **Verification:** Fixture `fast-gate`: an empty selection for a required
   layer runs the whole layer, and a selection that cannot be computed runs the
   full gate. Assessor sample of fast gate selections against the selection
@@ -205,8 +205,9 @@ configuration:
 - **Rationale:** Affected-only selection is only as good as its map. The full
   gate catches what the map misses and turns each miss into a fixed map.
 - **Applies to:** L2-L4; all risk tiers. Recommended at L1.
-- **Evidence:** Full gate results with their trigger; selection-map defect
-  records with their fixtures.
+- **Evidence:** Full gate results with their trigger (`gate.trigger` in
+  [evidence](../../schemas/evidence.schema.json)); selection-map defect records with their fixtures
+  ([selection-map-defect](../../schemas/selection-map-defect.schema.json)).
 - **Verification:** Fixture `selection-map-miss`: a full gate failure on an
   unselected check is recorded as a selection-map defect. Assessor check of the
   schedule and the triggers; audit sample of selection-map defects.
@@ -243,7 +244,8 @@ configuration:
 - **Rationale:** A change that needs many full runs is thrashing or hiding a
   flake; more runs cost time without adding evidence.
 - **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Full-gate run counts in the budget ledger.
+- **Evidence:** Full-gate run counts in the budget ledger
+  ([budget-ledger](../../schemas/budget-ledger.schema.json)).
 - **Verification:** Fixture `full-gate-budget`: request one run over the
   maximum; it does not start and the loop run ends `aborted`; a merge queue
   rebuild caused by another entry does not count.
@@ -272,8 +274,8 @@ configuration:
 - **Rationale:** Skipping by rule makes the shortcut auditable; skipping by
   judgment makes it a bypass.
 - **Applies to:** L2-L4; all risk tiers.
-- **Evidence:** Skip records with rule name and replacement evidence (`skipped`
-  status added in #109).
+- **Evidence:** Evidence records with the result `skipped`, the rule name, and
+  the replacement evidence ([evidence](../../schemas/evidence.schema.json)).
 - **Verification:** Fixture `skip-rule`: a skip without replacement evidence
   blocks the change, and a skip rule added in the same pull request does not
   apply. Assessor check of the configured skip rules; audit sample of skip

@@ -99,7 +99,8 @@ Terms:
 - The **change patch** is the diff from the merge base to the branch head. Its
   **patch identity** is `git patch-id --stable` of that diff.
 
-Defaults (fields added in #109):
+Defaults (`maxBranchAge` and `maxBaseUpdates` in the `mycelia.yaml` runtime
+section, [mycelia schema](../../schemas/mycelia.schema.json)):
 
 | Setting | Default |
 | --- | --- |
@@ -127,8 +128,8 @@ Defaults (fields added in #109):
 - **Rationale:** A stale base made a release check fail with "release already
   exists" on a dependency change that was fine; only an update was needed.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Staleness decision with its reason; update record with its key;
-  gate results before and after the update.
+- **Evidence:** Update record with the staleness decision, its reasons, and the
+  update key ([update-record](../../schemas/update-record.schema.json)); gate results before and after the update.
 - **Verification:** Fixture `stale-base`: fail a gate on a
   stale base; check that the runtime updates and re-runs before classifying.
 - **Failure mode:** The work item is `blocked` when the update cannot be made;
@@ -158,7 +159,7 @@ Defaults (fields added in #109):
   update cost a full cycle; carrying results without proof lets a base change
   break the change unseen.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Carried result records (fields added in #109); re-run results
+- **Evidence:** Carried result records ([carried-result](../../schemas/carried-result.schema.json)); re-run results
   for the base delta.
 - **Verification:** Fixture `carry-over`: update a base
   with a delta that touches one selected input; check that exactly the
