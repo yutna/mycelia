@@ -25,7 +25,7 @@ Facts from the OpenCode study in
 - The Claude Agent provider exists from 2.2.3. Its `configDir` setting, which
   moves a session to the next account when one reaches its usage limit, exists
   from 2.4.0. Running Claude-model heads on more than one account needs it.
-- OpenCode 2.4.0 to 2.4.2 also fix Claude Agent process leaks and model renames.
+- OpenCode 2.4.0 also fixes Claude Agent process leaks and model renames.
 - The OpenCode on the maintainer's server is 2.2.6. Upgrading it touches other
   projects on the same host and needs a separate, planned window.
 
@@ -75,12 +75,15 @@ OpenCode client:
      `d78a95f03cb8bfefadb13ef487d23bc74d7a9fc5`;
    - packs `core` and `typescript` from the upstream `plugins/` folder;
    - copied to `runtime/.opencode/skills/`, with the version, commit, and MIT
-     notice recorded next to them when they are vendored in `v2.1.0`.
+     notice recorded next to them when they are vendored in `v2.1.0`. OpenCode
+     finds project skills on the path from the repository root to the working
+     directory, so the runtime either runs OpenCode inside `runtime/` or lists
+     the folder in the `skills` configuration.
 
    The skills are advice. Where they conflict with this specification or the
    runtime's own written conventions, those win.
-3. The **minimum OpenCode version is 2.4.0**. A repository that claims L2 or
-   higher runs OpenCode 2.4.0 or newer.
+3. The **minimum OpenCode version is 2.4.0** for every repository that uses
+   Mycelia. The `OC-01` check tests it.
 4. The runtime's OpenCode client is generated from the `openapi.json` of the
    **tagged OpenCode release** it pins, not from a development branch. A
    published `@opencode/client` of the same version may be used instead.
