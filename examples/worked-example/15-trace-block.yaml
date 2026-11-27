@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-201-BLOCK
+  createdAt: 2026-12-01T09:20:00Z
+spec:
+  traceID: trace-200
+  spanID: evt-201-block
+  runID: RUN-201
+  workItemID: MYC-200
+  eventType: state
+  actor:
+    role: implementer
+    policyVersion: "1.2.0"
+  action: "transition:implementing->blocked"
+  result: blocked
+  timestamp: 2026-12-01T09:20:00Z
+  attributes:
+    questionID: Q-200-1
+    commit: a1c3e5f7091b2d4f6a8c0e1f3a5c7e9b1d3f5a7c
+    checkpoint: "RUN-201#4"

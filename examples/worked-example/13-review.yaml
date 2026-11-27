@@ -1,0 +1,24 @@
+apiVersion: mycelia/v1
+kind: ReviewRecord
+metadata:
+  id: REV-201
+  createdAt: 2026-12-01T11:58:00Z
+spec:
+  commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+  reviewer: reviewer-agent
+  role: reviewer
+  independence: independent-model
+  dimensions:
+    correctness: pass
+    scope: pass
+    testQuality: pass
+    security: pass
+    readability: pass
+    reversibility: pass
+    evidence: pass
+    performance: not-applicable
+    observability: not-applicable
+    docs: pass
+  findings: []
+  decision: approve
+  notes: Half-up rounding matches ANS-201; a test pins a half-cent case against the PDF total.

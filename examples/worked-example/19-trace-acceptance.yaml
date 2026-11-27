@@ -1,0 +1,20 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-202-ACCEPT
+  createdAt: 2026-12-01T12:08:00Z
+spec:
+  traceID: trace-200
+  spanID: evt-202-accept
+  runID: RUN-202
+  workItemID: MYC-200
+  eventType: acceptance
+  actor:
+    role: human-owner
+    policyVersion: "1.2.0"
+  action: accept
+  result: ok
+  timestamp: 2026-12-01T12:08:00Z
+  attributes:
+    acceptance: ACC-201
+    commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8

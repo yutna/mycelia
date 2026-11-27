@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: AcceptanceRecord
+metadata:
+  id: ACC-201
+  createdAt: 2026-12-01T12:08:00Z
+spec:
+  workItemID: MYC-200
+  commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+  riskTier: R2
+  decision: accept
+  acceptor: ledger-owner
+  role: human-owner
+  evidenceReviewed:
+    - EVD-200-UNIT
+    - EVD-200-INTEG
+    - REV-201
+    - ANS-201
+  rollbackReviewed: true
+  conditions: []
+  notes: "L2: the agent does not merge; the owner accepts. A work item that was blocked is an exception the owner handles."
+  timestamp: 2026-12-01T12:08:00Z

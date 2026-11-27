@@ -1,0 +1,22 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-202-ANSWER
+  createdAt: 2026-12-01T11:00:00Z
+spec:
+  traceID: trace-200
+  spanID: evt-202-answer
+  runID: RUN-202
+  workItemID: MYC-200
+  eventType: state
+  actor:
+    role: runtime
+    policyVersion: "1.2.0"
+  action: owner-answer-recorded
+  result: ok
+  timestamp: 2026-12-01T11:00:00Z
+  attributes:
+    answer: ANS-201
+    questionID: Q-200-1
+    statesChange: "false"
+    resumesFrom: "RUN-201#4"

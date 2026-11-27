@@ -1,0 +1,13 @@
+apiVersion: mycelia/v1
+kind: ReplyRecord
+metadata:
+  id: RPL-201
+  createdAt: 2026-12-01T10:30:00Z
+spec:
+  workItemID: MYC-200
+  questionID: Q-200-1
+  author: support-agent
+  at: 2026-12-01T10:30:00Z
+  text: "Customers compare with the PDF, so half up seems right to me."
+  clearsBlock: false
+  traceEvent: EVT-201-REPLY

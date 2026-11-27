@@ -74,6 +74,11 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         },
+        "openQuestions": {
+          "type": "array",
+          "description": "Questions recorded under the ambiguity protocol (failure-and-ambiguity.md section 5) and their answers (MYC-EXE-017).",
+          "items": { "$ref": "#/$defs/question" }
+        },
         "links": {
           "type": "array",
           "items": { "type": "string", "format": "uri" }
@@ -98,6 +103,44 @@
     }
   },
   "$defs": {
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "options", "askedAt", "runID", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["option", "consequence"],
+            "properties": {
+              "option": { "type": "string", "minLength": 1 },
+              "consequence": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "recommendation": { "type": "string", "minLength": 1 },
+        "askedAt": { "type": "string", "format": "date-time" },
+        "runID": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["open", "answered", "withdrawn"] },
+        "answerRef": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The OwnerAnswerRecord that answered the question."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "answered" } } },
+          "then": { "required": ["answerRef"] },
+          "else": { "not": { "required": ["answerRef"] } }
+        }
+      ]
+    },
     "evidence": {
       "type": "object",
       "additionalProperties": false,

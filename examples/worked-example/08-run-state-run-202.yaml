@@ -1,0 +1,117 @@
+apiVersion: mycelia/v1
+kind: RunState
+metadata:
+  id: RUN-202
+  createdAt: 2026-12-01T11:05:00Z
+  updatedAt: 2026-12-01T12:16:00Z
+spec:
+  workItemID: MYC-200
+  state: accepted
+  attempt: 1
+  commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+  branch: feat/200-statement-csv
+  role: integrator
+  model: opencode-go/deepseek-v4.1-flash
+  policyVersion: "1.2.0"
+  startedBy: operator
+  lease:
+    acquiredAt: 2026-12-01T11:05:00Z
+    worktree: .worktrees/200-statement-csv
+    releasedAt: 2026-12-01T12:16:00Z
+    releaseReason: terminal
+  heartbeat:
+    interval: PT1M
+    lastAt: 2026-12-01T12:16:00Z
+  budgetLedgerRef: LDG-200
+  budget:
+    steps: 14
+    tokens: 190000
+    costUSD: 0.95
+  checkpoints:
+    - state: implementing
+      at: 2026-12-01T11:05:00Z
+      commit: a1c3e5f7091b2d4f6a8c0e1f3a5c7e9b1d3f5a7c
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: implementer
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 0
+        tokens: 0
+        costUSD: 0
+      note: "Resumed from RUN-201#4 with ANS-201 in context; commit, branch, work item version, and policy match."
+    - state: verifying
+      at: 2026-12-01T11:35:00Z
+      commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: verifier
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 8
+        tokens: 110000
+        costUSD: 0.55
+      note: Change complete; manifest running.
+    - state: reviewing
+      at: 2026-12-01T11:50:00Z
+      commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: reviewer
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 11
+        tokens: 150000
+        costUSD: 0.75
+      evidenceRefs:
+        - EVD-200-UNIT
+        - EVD-200-INTEG
+      note: Evidence present at the head commit.
+    - state: accepting
+      at: 2026-12-01T12:00:00Z
+      commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: integrator
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 13
+        tokens: 180000
+        costUSD: 0.9
+      note: Independent review approved (REV-201).
+    - state: merging
+      at: 2026-12-01T12:10:00Z
+      commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: integrator
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 14
+        tokens: 190000
+        costUSD: 0.95
+      note: Owner accepted (ACC-201).
+    - state: accepted
+      at: 2026-12-01T12:15:00Z
+      commit: b2d4f6a8c0e1f3a5c7e9b1d3f5a7c9e0b2d4f6a8
+      branch: feat/200-statement-csv
+      workItemVersion: "sha256:9d41c0b7e2a35f68"
+      role: integrator
+      model: opencode-go/deepseek-v4.1-flash
+      policyVersion: "1.2.0"
+      budgetConsumed:
+        steps: 14
+        tokens: 190000
+        costUSD: 0.95
+      traceEvent: EVT-202-ACCEPTED
+      note: Squash merged as c3e5a7c.
+  terminalState: accepted
+  evidenceRefs:
+    - EVD-200-UNIT
+    - EVD-200-INTEG
+  traceRef: trace/run-202.jsonl

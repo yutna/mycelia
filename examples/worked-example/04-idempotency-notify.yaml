@@ -1,0 +1,19 @@
+apiVersion: mycelia/v1
+kind: IdempotencyRecord
+metadata:
+  id: IDK-201
+  createdAt: 2026-12-01T09:21:00Z
+spec:
+  key:
+    workItemID: MYC-200
+    commit: a1c3e5f7091b2d4f6a8c0e1f3a5c7e9b1d3f5a7c
+    action: notify
+    target: ledger-owner-step-0
+  keyHash: "sha256:1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f"
+  effect: notification
+  runID: RUN-201
+  status: done
+  recordedAt: 2026-12-01T09:21:00Z
+  completedAt: 2026-12-01T09:21:02Z
+  result: "https://github.com/acme/ledger-service/issues/200#issuecomment-9001"
+  repeats: 0

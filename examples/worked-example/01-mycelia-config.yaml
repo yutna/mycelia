@@ -1,0 +1,43 @@
+apiVersion: mycelia/v1
+kind: MyceliaConfig
+metadata:
+  name: ledger-service
+  repository: acme/ledger-service
+  createdAt: 2026-11-30T09:00:00Z
+  owner: ledger-owner
+spec:
+  profile: standard
+  autonomy:
+    ceiling: L2
+    default: L2
+  runtime:
+    name: opencode
+    version: "2.4.2"
+    config: opencode.json
+    heartbeatInterval: PT1M
+    staleRunThreshold: PT10M
+    acknowledgementExpiry: P1D
+    supervisorTimeout: PT30S
+    notificationAdapter: github-issue-comment
+    escalationChain:
+      - ledger-owner
+      - platform-lead
+    noProgressLimit: 3
+    recordedDecisionLimit: 0
+    maxBaseUpdates: 3
+    maxBranchAge: P7D
+  riskTiers:
+    R0: Docs and formatting.
+    R1: Tests and tooling.
+    R2: Normal feature or fix.
+    R3: "Money movement, auth, schema."
+    R4: "Production credentials, destructive migrations."
+  evidenceManifest: .mycelia/evidence-manifest.yaml
+  budgets:
+    maxCostUSD: 10
+    maxTokens: 1500000
+    maxSteps: 40
+    maxConcurrency: 2
+  observability:
+    traceSink: trace/
+    retentionDays: 90

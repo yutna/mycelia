@@ -1,0 +1,35 @@
+apiVersion: mycelia/v1
+kind: BudgetLedger
+metadata:
+  id: LDG-200
+  createdAt: 2026-12-01T09:00:00Z
+spec:
+  workItemID: MYC-200
+  limits:
+    steps: 40
+    tokens: 1500000
+    costUSD: 10
+    fullGateRuns: 3
+    baseUpdates: 3
+  totals:
+    steps: 23
+    tokens: 310000
+    costUSD: 1.55
+    fullGateRuns: 0
+    baseUpdates: 0
+  entries:
+    - runID: RUN-201
+      at: 2026-12-01T09:20:00Z
+      type: usage
+      steps: 9
+      tokens: 120000
+      costUSD: 0.6
+      ref: trace/run-201.jsonl
+    - runID: RUN-202
+      at: 2026-12-01T12:15:00Z
+      type: usage
+      steps: 14
+      tokens: 190000
+      costUSD: 0.95
+      ref: trace/run-202.jsonl
+  exhausted: false
