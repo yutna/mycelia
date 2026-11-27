@@ -231,7 +231,9 @@ Terms:
   work item whose last run ended `blocked` stays eligible until it is closed.
 - An **open question** is a question recorded by a `blocked` work item under
   §5 that has no recorded owner answer. An eligible work item is **runnable**
-  when it has no open question.
+  when it has no open question. Every `blocked` end records a question
+  ([autonomous-loop.md](autonomous-loop.md) §3); a `blocked` end without one is
+  a defect, leaves the work item runnable, and makes its cycle "No progress".
 - **Progress** is a merged change, or a work item that ends `accepted` or
   `rejected` (for an issue tracker: the issue is closed with that outcome). A
   report, comment, status update, label change, heartbeat, notification, or
@@ -332,12 +334,14 @@ defined by the conformance kit contract.
   starts from the blocked checkpoint with the answer in context, through the
   resume checks of `MYC-EXE-002`. The new run MUST start at `intake` when the
   answer record states a change, or when the goal, acceptance criteria, risk
-  tier, or data class in the work item differs from the blocked checkpoint.
+  tier, or data class in the work item differs from the work item version
+  recorded in the blocked checkpoint.
 - **Rationale:** An answer that lives only in a chat or a comment cannot be
   audited, and a block cleared by an acknowledgement resumes on a guess.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Owner answer record linked to the question and to the new run's
-  first checkpoint (field added in #109).
+- **Evidence:** Owner answer record with the stated-change flag, linked to the
+  question and to the new run's first checkpoint; work item version in the
+  checkpoints (fields added in #109).
 - **Verification:** Fixture `answer-resume` (proposed for #108): block a run,
   send an acknowledgement, then a reply from a person without the decision
   right, then an owner answer; check that only the last clears the block and

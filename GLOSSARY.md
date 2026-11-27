@@ -126,6 +126,6 @@ used in a normative document.
 | **Unit economics** | The cost and value of one unit of delivery, usually one accepted change. |
 | **Verification stack** | The layered checks (static, unit, integration, end-to-end, mutation, security, performance, migration, docs, schema) that produce evidence. |
 | **WIP limit** | A cap on the number of concurrent work items or runs, used to bound queue time and review load. |
-| **Work cycle** | One pass of the runtime over the eligible work items, started by the scheduler or an operator; it has an outcome record but no terminal state. |
+| **Work cycle** | One pass of the runtime over its work items, started by the scheduler or an operator; it has an outcome record but no terminal state. |
 | **Work item** | The unit of work: goal, acceptance criteria, non-goals, constraints, risk tier, and required evidence. |
 | **Worktree** | An isolated Git working tree used to run concurrent work without collisions. |

@@ -80,6 +80,7 @@ A checkpoint records:
 
 - state and timestamp
 - commit and branch
+- work item version (a revision or content hash)
 - role, model, and policy version
 - budget consumed
 - evidence references
