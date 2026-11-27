@@ -54,4 +54,5 @@ run = [
   "pipx run check-jsonschema --schemafile schemas/carried-result.schema.json examples/carried-result.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/dependency-tier-record.schema.json examples/dependency-tier-record.example.yaml",
   "pipx run check-jsonschema --schemafile schemas/conformance-fixture.schema.json conformance/fixtures/*.yaml",
+  "bash scripts/check-worked-example.sh",
 ]

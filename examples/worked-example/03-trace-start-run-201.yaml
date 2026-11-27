@@ -1,0 +1,20 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-201-START
+  createdAt: 2026-12-01T09:00:00Z
+spec:
+  traceID: trace-200
+  spanID: evt-201-start
+  runID: RUN-201
+  workItemID: MYC-200
+  eventType: session
+  actor:
+    role: operator
+    policyVersion: "1.2.0"
+  action: operator-start
+  result: ok
+  timestamp: 2026-12-01T09:00:00Z
+  attributes:
+    lease: acquired
+    worktree: .worktrees/200-statement-csv

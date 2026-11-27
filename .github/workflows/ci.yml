@@ -237,6 +237,8 @@ jobs:
           conformance/fixtures/*.yaml
       - name: Check fixture names
         run: bash scripts/check-fixture-names.sh
+      - name: Validate worked example records
+        run: bash scripts/check-worked-example.sh
   # ci-ok is the one required check: add every job above to its needs.
   ci-ok:
     if: always()

@@ -1,0 +1,17 @@
+apiVersion: mycelia/v1
+kind: OwnerAnswerRecord
+metadata:
+  id: ANS-201
+  createdAt: 2026-12-01T11:00:00Z
+spec:
+  workItemID: MYC-200
+  questionID: Q-200-1
+  answerer: ledger-owner
+  answeredAt: 2026-12-01T11:00:00Z
+  answer: "Round half up, as recommended. This does not change the goal or the acceptance criteria."
+  statesChange: false
+  blockedRunID: RUN-201
+  blockedCheckpoint: "RUN-201#4"
+  newRunID: RUN-202
+  newRunFirstCheckpoint: "RUN-202#1"
+  traceEvent: EVT-201-ANSWER

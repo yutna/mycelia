@@ -1,0 +1,49 @@
+apiVersion: mycelia/v1
+kind: WorkItem
+metadata:
+  id: MYC-200
+  title: Export monthly statements as CSV
+  createdAt: 2026-12-01T08:30:00Z
+  owner: ledger-owner
+spec:
+  goal: "Export a customer's monthly statement as CSV from the statements page."
+  acceptanceCriteria:
+    - "A Download CSV button on the statements page returns the month's transactions."
+    - Totals in the CSV match the PDF statement for the same month.
+    - The export is covered by unit and integration tests.
+  nonGoals:
+    - Do not change how balances are computed.
+    - Do not add other export formats.
+  constraints:
+    - Amounts are shown in the account currency with two decimals.
+  riskTier: R2
+  autonomyLevel: L2
+  dataClass: confidential
+  affectedAreas:
+    - "src/statements/**"
+    - "test/statements/**"
+  evidence:
+    - type: unit-test
+      required: true
+      verifier: ci
+    - type: integration-test
+      required: true
+      verifier: ci
+    - type: review
+      required: true
+      verifier: reviewer
+  rollback: Revert the squash commit; the button is behind no data migration.
+  openQuestions:
+    - id: Q-200-1
+      question: How should the CSV round amounts that have more than two decimals after currency conversion?
+      options:
+        - option: Round half up
+          consequence: Matches the PDF statement; totals can differ from the ledger by one cent.
+        - option: Round half to even
+          consequence: Matches the ledger internals; CSV totals can differ from the PDF statement.
+      recommendation: "Round half up, so the CSV matches the PDF statement customers already receive."
+      owner: ledger-owner
+      askedAt: 2026-12-01T09:20:00Z
+      runID: RUN-201
+      status: answered
+      answerRef: ANS-201

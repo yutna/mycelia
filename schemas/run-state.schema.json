@@ -121,7 +121,7 @@
               "workItemVersion": {
                 "type": "string",
                 "minLength": 1,
-                "description": "Work item revision or content hash (MYC-EXE-017, MYC-EXE-019 fence 2)."
+                "description": "Revision or content hash of the work item's contract fields (goal, acceptance criteria, non-goals, constraints, risk tier, data class, affected areas); recording open questions and answers does not change it (MYC-EXE-017, MYC-EXE-019 fence 2)."
               },
               "role": { "type": "string", "minLength": 1 },
               "model": { "type": "string" },

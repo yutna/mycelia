@@ -1,0 +1,20 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-201-REPLY
+  createdAt: 2026-12-01T10:30:00Z
+spec:
+  traceID: trace-200
+  spanID: evt-201-reply
+  runID: RUN-201
+  workItemID: MYC-200
+  eventType: state
+  actor:
+    role: runtime
+    policyVersion: "1.2.0"
+  action: reply-recorded
+  result: ok
+  timestamp: 2026-12-01T10:30:00Z
+  attributes:
+    reply: RPL-201
+    clearsBlock: "false"

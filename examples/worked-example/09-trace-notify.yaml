@@ -1,0 +1,21 @@
+apiVersion: mycelia/v1
+kind: TraceEvent
+metadata:
+  id: EVT-201-NOTIFY
+  createdAt: 2026-12-01T09:21:02Z
+spec:
+  traceID: trace-200
+  spanID: evt-201-notify
+  runID: RUN-201
+  workItemID: MYC-200
+  eventType: state
+  actor:
+    role: runtime
+    policyVersion: "1.2.0"
+  action: notify
+  result: ok
+  timestamp: 2026-12-01T09:21:02Z
+  attributes:
+    notification: NTF-201
+    idempotencyRecord: IDK-201
+    target: ledger-owner

@@ -1,0 +1,18 @@
+apiVersion: mycelia/v1
+kind: IdempotencyRecord
+metadata:
+  id: IDK-200
+  createdAt: 2026-12-01T09:10:00Z
+spec:
+  key:
+    workItemID: MYC-200
+    commit: 4b1e0f2a9c7d3e5f6a8b0c1d2e3f405162738495
+    action: branch
+  keyHash: "sha256:0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a"
+  effect: branch
+  runID: RUN-201
+  status: done
+  recordedAt: 2026-12-01T09:10:00Z
+  completedAt: 2026-12-01T09:10:01Z
+  result: feat/200-statement-csv
+  repeats: 0
