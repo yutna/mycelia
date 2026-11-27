@@ -6,7 +6,8 @@ Normative language: RFC 2119 and RFC 8174
 
 Requirement IDs: `MYC-<AREA>-###`
 
-Runtime: OpenCode V2, tested with version 2.2.6 or newer
+Runtime: OpenCode V2, version 2.4.0 or newer; last tested with 2.2.6, 2.4.x test
+pending ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md))
 
 ## 1. Purpose
 

@@ -17,7 +17,9 @@ is done, and how to tell what the repository still lacks.
 
 ## In scope
 
-- OpenCode V2 as the only harness, tested with version 2.2.6 or newer.
+- OpenCode V2 as the only harness, version 2.4.0 or newer
+  ([ADR-0002](docs/00-foundations/decisions/0002-runtime-stack.md)). This
+  release was tested with 2.2.6; the 2.4.x test happens before `v2.0.0`.
 - Role and permission contracts expressed through OpenCode agents, permissions,
   and policies.
 - Policy-as-code, evidence manifests, and decision rights.

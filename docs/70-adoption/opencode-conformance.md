@@ -17,7 +17,7 @@ commit, and the result. A failed check is a gap, not a warning.
 
 | ID | Check | Method | Pass criterion |
 | --- | --- | --- | --- |
-| `OC-01` | Version | `opencode --version` | 2.2.6 or newer |
+| `OC-01` | Version | `opencode --version` | 2.4.0 or newer ([ADR-0002](../00-foundations/decisions/0002-runtime-stack.md)) |
 | `OC-02` | Config schema | Validate `opencode.json` | Schema validation passes |
 | `OC-03` | Default agent | Read `default_agent` | The agent exists and is primary |
 | `OC-04` | Custom agents | `opencode api get /api/agent` | Every role is listed |
