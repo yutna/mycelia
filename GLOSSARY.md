@@ -18,7 +18,7 @@ used in a normative document.
 | **Agent harness** | The runtime loop that wraps a model: context assembly, tool calls, permissions, state, and evidence. In Mycelia this is the OpenCode server and CLI. |
 | **Autonomy ceiling** | The highest autonomy level a repository can safely run at, given its weakest blocking control. |
 | **Autonomy level** | One of L0 manual, L1 assisted, L2 supervised, L3 autonomous, or L4 unattended. L4 still requires humans for policy, high-risk decisions, and incident command. |
-| **Blocked-only preflight** | The check, before a work cycle starts any run, that ends the cycle once with one summary notification when every eligible work item has an open question (`MYC-EXE-016`). |
+| **Blocked-only preflight** | The check, before a work cycle starts any run, that finds eligible work items but none runnable; the cycle then starts no run and sends at most one summary notification (`MYC-EXE-016`). |
 | **Break-glass** | Emergency access for an incident or critical fix. It is time-bound, owned, recorded, and cannot disable the trace. |
 | **Brownfield** | An existing repository with legacy code, checks, and ownership that must be adopted incrementally. |
 | **Budget** | A limit on tokens, cost, time, steps, tool calls, CI minutes, concurrency, or storage for a run, role, or repository. |
@@ -43,6 +43,7 @@ used in a normative document.
 | **DORA metrics** | Lead time, deployment frequency, change failure rate, and failed deployment recovery time. |
 | **Durable execution** | A run that survives a restart by checkpointing state and resuming from the last valid transition. |
 | **Egress** | Outbound network traffic from the sandbox. It is denied by default and allowed only through an allowlist. |
+| **Eligible work item** | An open work item that the runtime may run at its autonomy level, that no other run holds a lease on, and that no human has paused; it is runnable when it has no open question. |
 | **Error budget** | The allowed amount of failure before an SLO is violated; burning it triggers action. |
 | **Evaluation suite** | A set of tasks and metrics used to compare a change against a baseline. |
 | **Exception** | A time-bound, owned deviation from a rule, with a compensating control and an expiry. |
@@ -84,8 +85,8 @@ used in a normative document.
 | **Progress** | A merged change, or a work item that ends `accepted` or `rejected`. Reports, comments, status updates, heartbeats, and notifications are not progress (`MYC-EXE-015`). |
 | **Mycelia** | The specification and OpenCode profile in this repository. |
 | **No silent success** | The invariant that a work item cannot reach `accepted` without satisfying its evidence manifest. |
-| **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
 | **Open question** | A question recorded by a `blocked` work item that has no recorded owner answer. |
+| **OpenCode profile** | The repository configuration in `opencode.json` plus the agents, commands, and skills under `.opencode/`. |
 | **Owner answer** | The reply to an open question from a person with the decision right, recorded in the trace and the work item; an acknowledgement is not an answer (`MYC-EXE-017`). |
 | **Policy-as-code** | Machine-enforced rules that a prompt cannot override. In OpenCode these are `policies`, which are stricter than `permissions`. |
 | **Provenance** | The record of which agent, model, prompt, policy, and rule version produced an artifact. |

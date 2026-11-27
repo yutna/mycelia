@@ -238,9 +238,12 @@ L3, R3 changes still need human acceptance.
   [autonomous-loop.md](autonomous-loop.md) §8. When one action has several
   targets or rounds (for example each escalation step of `MYC-EXE-009`), the
   action part MUST name the target or round. A repeat with the same key MUST
-  return the original result and MUST NOT repeat the effect. For an effect the
-  target cannot deduplicate (for example email), the runtime MUST record the key
-  before it sends and MUST NOT send when the record exists.
+  return the original result and MUST NOT repeat the effect. An effect that
+  belongs to no single work item (for example the summary notification of
+  `MYC-EXE-016`) uses the repository in place of the work item and commit, so
+  the key stays the same across work cycles. For an effect the target cannot
+  deduplicate (for example email), the runtime MUST record the key before it
+  sends and MUST NOT send when the record exists.
 - **Rationale:** Execution is at least once. Without keys, a retry creates
   duplicate pull requests, comments, or releases.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.

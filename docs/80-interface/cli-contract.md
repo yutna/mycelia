@@ -63,7 +63,8 @@ that a Mycelia implementation must provide.
 | `5` | Internal error |
 | `6` | Conformance failure |
 
-A blocked run exits `3`, never `0`. A policy denial exits `1`, never `0`.
+A blocked run exits `3`, never `0`. A work cycle that ends blocked-only or
+newly blocked (`MYC-EXE-016`) exits `3`. A policy denial exits `1`, never `0`.
 
 ## 6. Output
 
