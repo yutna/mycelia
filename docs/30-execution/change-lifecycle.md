@@ -31,7 +31,8 @@ observation. It also records the tooling quirks that a new clone will hit.
 - Keep the branch short-lived.
 - Commit in Conventional Commits form.
 - Do not commit secrets, generated artifacts, or unrelated changes.
-- Rebase on `main` before the merge queue.
+- Update the branch from `main` before the merge queue by merging `main` into
+  it (§8); a force push is a red line.
 
 ## 4. Draft pull request
 
@@ -92,7 +93,9 @@ update.
 Terms:
 
 - The **base delta** is the set of paths changed on the default branch between
-  the merge base the evidence was produced on and the current default branch.
+  the merge base the evidence was produced on and the merge base at the new
+  head. A merge base is `git merge-base <default branch> <head>`; when there is
+  more than one, nothing carries.
 - The **change patch** is the diff from the merge base to the branch head. Its
   **patch identity** is `git patch-id --stable` of that diff.
 
@@ -101,6 +104,7 @@ Defaults (fields added in #109):
 | Setting | Default |
 | --- | --- |
 | Maximum branch age since the merge base | 7 days |
+| Maximum runtime base updates per work item | 3 |
 
 ### `MYC-EXE-020` Stale base
 
@@ -113,9 +117,12 @@ Defaults (fields added in #109):
   MUST update the branch and re-run the gate before it classifies the failure;
   the failure on the stale base is not evidence against the change. The
   runtime updates a branch by merging the default branch into it, without a
-  force push, under an idempotency key (`MYC-EXE-003`). A re-run after an
-  update the runtime made does not count against the full-gate budget
-  (`MYC-ASR-004`). A merge conflict follows the merge-conflict class
+  force push, under an idempotency key (`MYC-EXE-003`). Each runtime update
+  MUST count against the configured maximum in the durable budget ledger
+  (`MYC-EXE-007`); an update that would exceed it MUST NOT start, and the loop
+  run ends `aborted` as budget exhaustion. A re-run after an update the runtime
+  made does not count against the full-gate budget (`MYC-ASR-004`). A merge
+  conflict follows the merge-conflict class
   ([failure-and-ambiguity.md](failure-and-ambiguity.md) §2).
 - **Rationale:** A stale base made a release check fail with "release already
   exists" on a dependency change that was fine; only an update was needed.
@@ -132,18 +139,21 @@ Defaults (fields added in #109):
 
 - **Statement:** Evidence is tied to the current commit. After a base update
   without a conflict, the run returns to `verifying`, not `implementing`. An
-  automated check result MAY be carried from the earlier commit only when the
-  patch identity at both commits is equal, the selection map computes a
-  selection for the base delta, and the check is not selected for the base
-  delta; every check selected for the base delta MUST re-run. When either side
-  changed a lockfile, a frozen install MUST pass at the new head before any
-  result carries. When no selection map exists or it cannot compute a
-  selection for the base delta, nothing carries. Skip records
-  (`MYC-ASR-005`) are re-evaluated at the new head. A review record carries
-  only when the patch identity is equal; otherwise a new review is needed.
-  Human acceptance for R3 and R4 MUST NOT carry. The merge queue still runs its
-  gate on the merged result. A carried result MUST record the earlier commit,
-  the new commit, both patch identities, and the selection map version.
+  automated check result MAY be carried from the earlier commit only when all
+  of these hold: the patch identity at both commits is equal; each commit has
+  exactly one merge base; the selection map at the new head computes a
+  selection for the base delta and does not select the check; and the base
+  delta touches no path in the change patch, no full-gate trigger path of
+  `MYC-ASR-002` (build, CI configuration, lockfiles, toolchain, shared test
+  infrastructure, the selection map, the skip rules), and no guard
+  configuration. Every check selected for the base delta MUST re-run. When
+  any condition fails, nothing carries. Skip records (`MYC-ASR-005`) are
+  re-evaluated at the new head. A review record carries only when the patch
+  identity is equal; otherwise a new review is needed. Acceptance at R0-R2 is a
+  gate decision and is evaluated again at the new head; human acceptance for
+  R3 and R4 MUST NOT carry. The merge queue still runs its gate on the merged
+  result. A carried result MUST record the earlier and new commits, both merge
+  bases, both patch identities, and the selection map version.
 - **Rationale:** Re-running every check after every base update makes each
   update cost a full cycle; carrying results without proof lets a base change
   break the change unseen.
@@ -153,7 +163,8 @@ Defaults (fields added in #109):
 - **Verification:** Fixture `carry-over` (proposed for #108): update a base
   with a delta that touches one selected input; check that exactly the
   selected checks re-run and the rest carry with their records; repeat with a
-  changed patch identity and check that nothing carries.
+  changed patch identity, a delta that touches a trigger path or a path in the
+  change patch, and more than one merge base, and check that nothing carries.
 - **Failure mode:** A carried result without its record is missing evidence and
   the work item is `blocked`; ceiling lowered to L1 when results carry without
   the conditions.

@@ -21,8 +21,8 @@ ambiguity needs a precise question, not a guess.
 | Budget exhaustion | Any state | Stop | 0 | `aborted` |
 | Transient tool failure | Any state | Retry with backoff | 3 | `aborted` or `blocked` |
 | Model or provider failure | Any state | Retry or fall back | 2 | `aborted` |
-| Merge conflict | Merging | Rebase or re-implement | 2 | `blocked` |
-| Stale base | Verify or merging | Update the branch and re-run (`MYC-EXE-020`) | 1 | Merge conflict or product test failure |
+| Merge conflict | Merging | Update the branch from the default branch or re-implement | 2 | `blocked` |
+| Stale base | Verify | Update the branch and re-run (`MYC-EXE-020`) | 1 | Merge conflict or product test failure |
 | Breaking dependency update | Verify | Stop; propose a migration work item (`MYC-CTL-007`) | 0 | `rejected` |
 | Security finding | Verify or review | Reject and open an incident | 0 | `rejected` |
 | Missing or stale evidence | Verify | Reproduce or ask | 0 | `blocked` |
@@ -83,8 +83,8 @@ policy allows that route.
 
 ### Merge conflict
 
-The base branch changed. Rebase or re-implement, up to two times. If the
-conflict is semantic, ask.
+The base branch changed. Update the branch by merging the default branch, or
+re-implement, up to two times. If the conflict is semantic, ask.
 
 ### Stale base
 
@@ -94,9 +94,10 @@ a failure after the update is classified on its own.
 
 ### Breaking dependency update
 
-A dependency update fails a gate because the dependency changed its API. It is
-not retried as a product failure: the update is `rejected` and a migration work
-item is proposed (`MYC-CTL-007`).
+A dependency update fails a compile, type, or test check while its change patch
+touches only dependency manifests and lockfiles. It is not retried as a product
+failure: the update is `rejected` and a migration work item is proposed
+(`MYC-CTL-007`).
 
 ### Security finding
 

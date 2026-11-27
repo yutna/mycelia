@@ -53,9 +53,11 @@ it never falls through to `accepted`.
 | `verifying` | `rejected` | Required evidence failed |
 | `verifying` | `blocked` | Evidence or verifier missing |
 | `reviewing` | `accepting` | No blocking findings |
+| `reviewing` | `verifying` | Base update without a conflict (`MYC-EXE-021`) |
 | `reviewing` | `rejected` | Blocking finding |
 | `reviewing` | `blocked` | A recorded decision is rejected (`MYC-EXE-019`) |
 | `accepting` | `merging` | Approval recorded |
+| `accepting` | `verifying` | Base update without a conflict (`MYC-EXE-021`) |
 | `accepting` | `blocked` | Approval missing |
 | `accepting` | `blocked` | A recorded decision is rejected (`MYC-EXE-019`) |
 | `merging` | `observing` | Merge gate pass |

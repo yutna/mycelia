@@ -260,9 +260,11 @@ configuration:
   skip rule's path globs MUST have look-alike fixtures (`MYC-CTL-002`). These
   MUST NOT be skipped: the secret scan, red-line guard canaries, the test-diff
   guard on a changed test ([test-integrity.md](test-integrity.md) §4), and any
-  layer for R3 or R4. A skip is not a quarantine: a quarantined check is a time-bound
-  exception and is reported as `blocked` (§4). Carrying evidence from an
-  earlier commit is a base-freshness question, defined in #107.
+  layer for R3 or R4. A skip is not a quarantine: a quarantined check is a
+  time-bound exception and is reported as `blocked` (§4). Carrying evidence
+  from an earlier commit follows `MYC-EXE-021`
+  ([change-lifecycle.md](../30-execution/change-lifecycle.md) §8); skip records
+  are re-evaluated at the new head.
 - **Rationale:** Skipping by rule makes the shortcut auditable; skipping by
   judgment makes it a bypass.
 - **Applies to:** L2-L4; all risk tiers.

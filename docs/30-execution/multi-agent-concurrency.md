@@ -84,7 +84,8 @@ exceeded is a capacity problem.
 - Keep branches short-lived.
 - Prefer small pull requests that merge within a day.
 - Use feature flags for incomplete work instead of a long-lived branch.
-- Rebase on `main` before the merge queue.
+- Update the branch from `main` before the merge queue by merging `main` into
+  it ([change-lifecycle.md](change-lifecycle.md) §8).
 - Delete the branch after the merge.
 
 ## 9. Handoffs

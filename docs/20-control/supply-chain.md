@@ -189,7 +189,7 @@ Defaults (fields added in #109):
 | Setting | Default |
 | --- | --- |
 | Test-only packages (R1 updates) | None |
-| R3 package categories | Authentication, cryptography, payments, database drivers, infrastructure |
+| R3 packages | A repository list of package names or patterns, seeded from these categories: authentication, cryptography, payments, database drivers, infrastructure |
 
 ### `MYC-CTL-007` Dependency update risk tier
 
@@ -205,13 +205,18 @@ Defaults (fields added in #109):
      least R2, in its own work item with a migration plan and its rollback.
   4. A new direct dependency: at least R2, and the package passes the
      allowlist review (§5).
-  5. A package in a category the repository lists as R3: at least R3, which a
-     human confirms
-     ([decision-rights.md](decision-rights.md) §2).
+  5. A package on the repository's R3 list: at least R3, which a human
+     confirms ([decision-rights.md](decision-rights.md) §2).
 
-  When a dependency update fails a gate because the dependency changed its
-  API, the update MUST NOT be retried as a product failure: it ends `rejected`
-  and the runtime proposes a migration work item
+  Adding a package to the test-only list or removing one from the R3 list
+  lowers a tier: it is a guard loosening
+  ([guard-design.md](guard-design.md) `MYC-CTL-006`, human approval) and MUST
+  NOT apply in the pull request that makes it.
+
+  When a dependency update whose change patch touches only dependency
+  manifests and lockfiles fails a compile, type, or test check, the update
+  MUST NOT be retried as a product failure: it ends `rejected` and the runtime
+  proposes a migration work item
   ([failure-and-ambiguity.md](../30-execution/failure-and-ambiguity.md) §2).
   Updates opened by a bot follow the same rules.
 - **Rationale:** A major upgrade that needed an API migration was treated as a
@@ -223,9 +228,8 @@ Defaults (fields added in #109):
 - **Verification:** Fixture `dependency-tier` (proposed for #108): one update
   per rule above; check the proposed tier and, for a failing major update, the
   `rejected` outcome and the proposed migration.
-- **Failure mode:** The work item is `blocked` until the tier is confirmed when
-  the version change cannot be read; ceiling lowered to L1 when dependency
-  updates bypass the rules.
+- **Failure mode:** The work item is `blocked` until a human confirms an R3
+  tier; ceiling lowered to L1 when dependency updates bypass the rules.
 
 ## 13. Verification
 
