@@ -163,7 +163,10 @@ without the required gates).
 - **Statement:** A meta-check MUST run in CI on every change to a guard, its
   configuration, or its fixtures. It MUST read the rule inventory from the
   effective rule set (for OpenCode policies, the statements that pass the load
-  check in §6), not from a hand-written list or the configuration file alone.
+  check in §6; for a linter, its own list of enabled rules, such as RuboCop
+  `--show-cops`; for permissions, the resolved rules of each role; for a plugin
+  guard, the hooks of each `active` plugin), not from a hand-written list or
+  the configuration file alone.
   It MUST fail when a rule has no guard canary, no bypass corpus, or a missing
   form without a recorded reason, and when a fixture names a rule that is not
   in the effective rule set.
@@ -207,7 +210,7 @@ without the required gates).
 | CI check | A failing status, with the rule name in the machine-readable output. |
 | OpenCode policy | For each statement, a probe action that only that statement denies, denied with `Blocked by configuration policy`. The error does not name the statement, so one probe per statement identifies it. |
 | OpenCode permission rule | For each role's effective permission set, the probe evaluates to `deny`, not `ask` or `allow`. |
-| Plugin guard | The hook throws and the tool call is blocked, and the plugin is `active` in the plugin list (a plugin that failed to load blocks nothing). |
+| Plugin guard | The hook throws and the tool call is blocked, and the plugin's `state.status` is `active` in `ctx.plugin.list()` or `opencode plugin list` (reference notes, plugin migration page; a plugin that failed to load blocks nothing). |
 | Runtime guard | The expected trace event and outcome, for example a "No progress" count. |
 
 The Mycelia CLI uses its own status codes
@@ -218,7 +221,9 @@ steps; any failure stops the run before the first prompt:
 
 1. Validate every red-line statement against the configuration schema before
    the server starts.
-2. After start, check the server log: no statement may have been dropped.
+2. After start, check the server log: no statement may have been dropped. The
+   log location and the warning text are pinned with the OpenCode version
+   (`MYC-EXE-014` runtime environment record).
 3. Run the probe of every red-line statement; each must be denied as the table
    above states.
 
