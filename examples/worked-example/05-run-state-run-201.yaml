@@ -31,7 +31,6 @@ spec:
     - state: intake
       at: 2026-12-01T09:00:00Z
       commit: 4b1e0f2a9c7d3e5f6a8b0c1d2e3f405162738495
-      branch: feat/200-statement-csv
       workItemVersion: "sha256:9d41c0b7e2a35f68"
       role: planner
       model: opencode-go/deepseek-v4.1-flash
@@ -44,7 +43,6 @@ spec:
     - state: planned
       at: 2026-12-01T09:05:00Z
       commit: 4b1e0f2a9c7d3e5f6a8b0c1d2e3f405162738495
-      branch: feat/200-statement-csv
       workItemVersion: "sha256:9d41c0b7e2a35f68"
       role: planner
       model: opencode-go/deepseek-v4.1-flash
