@@ -62,7 +62,7 @@ used in a normative document.
 | **Factory** | The whole system: repository, agents, policies, CI, evidence, humans, and traces. |
 | **Gate** | A check that must pass before a state transition such as merge, release, or autonomy promotion. |
 | **Handoff** | An artifact-mediated transfer of work between roles, with inputs, outputs, evidence, and open questions. |
-| **Headless run** | A run with no person at the OpenCode client, such as a run started by the scheduler. Not the same as L4 unattended. |
+| **Headless run** | A run with no person at the OpenCode client, such as a run started by the scheduler or by an operator command that does not stay attached. Not the same as L4 unattended. |
 | **Heartbeat** | A timestamp an active run writes to its run state at a configured interval, so the runtime can tell a live run from a stale one. |
 | **Human in command (HIC)** | A human owns policy, accountability, and incident command at every autonomy level. |
 | **Human in the loop (HITL)** | A human approves a specific action before it happens. |

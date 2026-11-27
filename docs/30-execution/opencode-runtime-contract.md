@@ -143,7 +143,7 @@ change between OpenCode versions.
 | Durable run state | Sessions hold history; no workflow engine | Run state store with checkpoints outside the session | `MYC-EXE-001`, `MYC-EXE-002` |
 | Exactly-once side effects | None for external effects | Idempotency keys | `MYC-EXE-003` |
 | One run per work item | Sessions and worktrees; no lock | Exclusive lease and one worktree per run | `MYC-EXE-004` |
-| Scheduling and liveness | No stable scheduler | Scheduler, heartbeat, stale-run detection | `MYC-EXE-005`, `MYC-EXE-006` |
+| Scheduling and liveness | No stable scheduler | Scheduler (L3-L4), heartbeat, stale-run detection | `MYC-EXE-005`, `MYC-EXE-006` |
 | Budget and stop | Agent `steps`, `session.interrupt`, usage limits | Durable budget ledger and kill switch | `MYC-EXE-007`, `MYC-EXE-008` |
 | Human handoff | `ask` and the `question` tool wait for a connected client | Notification adapter; no waiting approvals | `MYC-EXE-009`, `MYC-EXE-010` |
 | Evidence | Event stream, session diff, session export | Evidence collector | `MYC-EXE-011` |
@@ -185,8 +185,14 @@ Terms used in this section:
   MAY also check at each tool call, but no requirement depends on a per-tool
   hook.
 - A **headless run** is a run with no person at the OpenCode client: any run
-  started by the scheduler (`MYC-EXE-005`) or by another process.
+  started by the scheduler (`MYC-EXE-005`), by an operator command that does not
+  stay attached to the client, or by another process.
 - A **lease** is the exclusive claim a run holds on its work item.
+
+The risk tiers a runtime runs are bounded by the autonomy matrix in
+[autonomy-levels.md](../00-foundations/autonomy-levels.md) §4. "All risk tiers
+the runtime runs" in the requirements below does not widen that matrix: at L2,
+for example, the runtime runs R0-R2 only, and R3 and R4 stay with humans.
 
 ### `MYC-EXE-001` Durable run state and checkpoints
 
@@ -254,20 +260,25 @@ Terms used in this section:
   item's state is unchanged.
 - **Failure mode:** Ceiling lowered to L1 when the lease is not enforced.
 
-### `MYC-EXE-005` Scheduler and heartbeat
+### `MYC-EXE-005` Run start and heartbeat
 
-- **Statement:** A scheduler outside the OpenCode session MUST start runs. An
-  active run MUST write a heartbeat to the run state at the configured
-  interval.
+- **Statement:** At L3 and L4, a scheduler outside the OpenCode session MUST
+  start runs. At L2, a run MAY instead be started by an operator command; once
+  started, it MUST run the loop to a terminal state or a checkpoint without a
+  person driving each prompt. At every level, an active run MUST write a
+  heartbeat to the run state at the configured interval.
 - **Rationale:** A run that stops writing heartbeats cannot be told apart from
-  a slow one without a heartbeat. A loop that only runs while a person drives
-  each prompt is L1, not L2.
+  a slow one without a heartbeat. L2 keeps a human supervising, so one operator
+  start per run is enough; L3 and L4 need runs to start without a person. A
+  loop that only runs while a person drives each prompt is L1, not L2.
 - **Applies to:** L2-L4; all risk tiers the runtime runs.
-- **Evidence:** Scheduler configuration; heartbeat timestamps in the run state
-  (field added in #109).
-- **Verification:** Audit sample of heartbeat gaps against the configured
-  interval.
-- **Failure mode:** Ceiling lowered to L1.
+- **Evidence:** Scheduler configuration (L3-L4) or the operator start record in
+  the trace (L2); heartbeat timestamps in the run state (field added in #109).
+- **Verification:** Audit sample of run starts against the level; audit sample
+  of heartbeat gaps against the configured interval.
+- **Failure mode:** Ceiling lowered to L2 when runs at L3 or L4 are not started
+  by a scheduler; ceiling lowered to L1 when heartbeats are missing or a person
+  drives each prompt.
 
 ### `MYC-EXE-006` Stale-run detection and restart
 
